@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Author Login | Growwbooks</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" type="image/jpeg" href="images/growwpark_logo.jpg">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        /* =========================================
+           CORE STYLES & VARIABLES
+           ========================================= */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        /* 🚨 STRICT NO SCROLL LOCK 🚨 */
+        html, body { 
+            height: 100vh !important; 
+            width: 100vw !important;
+            overflow: hidden !important; /* ABSOLUTE LOCK ON SCROLLING */
+            font-family: 'Inter', sans-serif; 
+            margin: 0;
+            padding: 0;
+        }
+
+        /* === GROWWBOOKS THEME VARIABLES === */
+        :root {
+            --bg-color: #f8f8f9;
+            --text-main: #000000;
+            --text-muted: #555555;
+            --accent-color: #dc2626; /* Red */
+            --accent-hover: #b91c1c; /* Darker Red */
+            --border-color: #e5e5e5;
+            --card-bg: #ffffff;
+            --input-bg: #f9fafb;
+            --radius: 16px;
+            --shadow: 0 20px 40px -10px rgba(0,0,0,0.1);
+        }
+
+        /* DARK MODE VARIABLES */
+        body.dark-mode {
+            --bg-color: #0a0a0a;
+            --text-main: #ffffff;
+            --text-muted: #a3a3a3;
+            --border-color: #262626;
+            --card-bg: #141414;
+            --input-bg: #1a1a1a;
+            --shadow: 0 20px 40px -10px rgba(0,0,0,0.5);
+        }
+
+        body { 
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            transition: background-color 0.3s, color 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        /* Subtle Background Decoration */
+        body::before {
+            content: ''; position: absolute; top: -10%; left: -10%;
+            width: 50vw; height: 50vw; background: radial-gradient(circle, rgba(220, 38, 38, 0.05) 0%, transparent 70%);
+            border-radius: 50%; z-index: 0; pointer-events: none;
+        }
+        body.dark-mode::before { background: radial-gradient(circle, rgba(220, 38, 38, 0.15) 0%, transparent 70%); }
+
+        /* RTL SUPPORT */
+        [dir="rtl"] { text-align: right; }
+        [dir="rtl"] .ml-2 { margin-left: 0; margin-right: 0.5rem; }
+        [dir="rtl"] .mr-3 { margin-left: 0.75rem; margin-right: 0; }
+        [dir="rtl"] .input-icon { left: auto; right: 16px; }
+        [dir="rtl"] .input-field { padding: clamp(10px, 2vh, 14px) 44px clamp(10px, 2vh, 14px) 16px !important; }
+
+        /* LOGIN CARD - Uses vh units to shrink instead of scroll */
+        .login-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: clamp(1.2rem, 3.5vh, 2.5rem) 2rem;
+            width: 90%;
+            max-width: 420px;
+            box-shadow: var(--shadow);
+            display: flex;
+            flex-direction: column;
+            gap: clamp(10px, 2vh, 20px); 
+            position: relative;
+            z-index: 10;
+            overflow: hidden !important; /* STRICT NO INNER SCROLL */
+        }
+
+        /* HEADERS */
+        .auth-logo { text-align: center; margin-bottom: 4px; }
+        .auth-header { text-align: center; }
+        .auth-header h2 { font-size: clamp(1.2rem, 3vh, 1.5rem); font-weight: 800; color: var(--accent-color); margin-bottom: 2px; letter-spacing: -0.5px; }
+        .auth-header p { font-size: clamp(0.8rem, 2vh, 0.95rem); color: var(--text-muted); margin: 0; }
+
+        /* FORM */
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: clamp(8px, 1.5vh, 14px); 
+            margin: 0;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: clamp(2px, 1vh, 6px);
+        }
+        
+        .form-group label { font-size: 0.85rem; font-weight: 700; color: var(--text-main); margin: 0; }
+        
+        .input-wrapper { position: relative; }
+        .input-icon { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 1rem; transition: color 0.3s; }
+        
+        .input-field {
+            width: 100%;
+            padding: clamp(10px, 1.8vh, 12px) 16px clamp(10px, 1.8vh, 12px) 44px;
+            border: 1px solid var(--border-color);
+            background: var(--input-bg);
+            color: var(--text-main);
+            border-radius: 8px;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+            margin: 0;
+        }
+        .input-field:focus { 
+            outline: none; 
+            border-color: var(--accent-color); 
+            box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1); 
+            background: var(--card-bg); 
+        }
+        .input-field:focus + .input-icon, 
+        .input-field:focus ~ .input-icon { 
+            color: var(--accent-color); 
+        }
+
+        .utility-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 0;
+            padding: 0 4px;
+        }
+
+        /* BUTTONS */
+        .auth-btn {
+            width: 100%; 
+            padding: clamp(12px, 2.5vh, 14px);
+            background: var(--accent-color);
+            color: white; border: none; border-radius: 8px;
+            font-size: 0.95rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px;
+            cursor: pointer; transition: all 0.2s;
+            margin-top: clamp(2px, 1vh, 8px);
+            box-shadow: 0 4px 12px rgba(220, 38, 38, 0.2);
+        }
+        .auth-btn:hover { background: var(--accent-hover); transform: translateY(-2px); box-shadow: 0 6px 15px rgba(220, 38, 38, 0.3); }
+
+        /* DIVIDER */
+        .divider { text-align: center; position: relative; margin: 0; }
+        .divider::before { content: ''; position: absolute; left: 0; top: 50%; width: 100%; height: 1px; background: var(--border-color); }
+        .divider span { position: relative; background: var(--card-bg); padding: 0 16px; color: var(--text-muted); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+
+        /* SOCIALS */
+        .social-login { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(8px, 1.5vh, 12px); }
+        .social-btn {
+            padding: clamp(8px, 1.5vh, 10px); border: 1px solid var(--border-color); border-radius: 8px; background: var(--card-bg);
+            font-size: 0.9rem; font-weight: 600; color: var(--text-main);
+            cursor: pointer; transition: all 0.2s;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+        }
+        .social-btn:hover { border-color: var(--text-main); background: var(--input-bg); }
+
+        /* FOOTER LINKS */
+        .login-link { text-align: center; font-size: clamp(0.85rem, 2vh, 0.9rem); color: var(--text-muted); }
+        .login-link a { color: var(--accent-color); font-weight: 700; text-decoration: none; transition: color 0.2s; }
+        .login-link a:hover { color: var(--accent-hover); text-decoration: underline; }
+
+        /* BOTTOM CONTROLS (Theme/RTL) */
+        .bottom-controls {
+            padding-top: clamp(8px, 2vh, 16px);
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .toggle { width: 44px; height: 24px; background: var(--border-color); border-radius: 20px; position: relative; cursor: pointer; transition: 0.3s; flex-shrink: 0; }
+        .toggle::before { content: ''; position: absolute; width: 18px; height: 18px; background: white; border-radius: 50%; top: 3px; left: 3px; transition: 0.3s; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+        body.dark-mode .toggle { background: var(--accent-color); border-color: transparent; }
+        body.dark-mode .toggle::before { left: 23px; background: var(--text-main); }
+        
+        .btn-text { font-size: 0.75rem; font-weight: 800; color: var(--text-muted); background: transparent; border: 1px solid var(--border-color); padding: 6px 14px; border-radius: 8px; cursor: pointer; transition: 0.2s; text-transform: uppercase; letter-spacing: 1px; }
+        .btn-text:hover { border-color: var(--accent-color); color: var(--accent-color); }
+
+        /* =========================================
+           📱 ULTRA-COMPACT MOBILE OPTIMIZATIONS 
+           (For iPhone SE / 360px width or 1024x600 screens)
+           Ensures NO overflow on tight displays
+           ========================================= */
+        @media (max-width: 400px), (max-height: 750px) {
+            .login-card { padding: 1rem 1.5rem !important; gap: 12px !important; width: 92%; }
+            .auth-logo { margin-bottom: 0 !important; }
+            
+            /* Shrink logo but maintain exact HTML structure styling */
+            .auth-logo a { font-size: 1.25rem !important; line-height: 1.2 !important; }
+            
+            .auth-header h2 { font-size: 1.1rem !important; margin-bottom: 0 !important; }
+            .auth-header p { display: none !important; } /* Hide subtitle to save vertical space */
+            
+            form { gap: 10px !important; }
+            .form-group { gap: 4px !important; }
+            .form-group label { font-size: 0.75rem !important; margin: 0 !important; }
+            
+            .input-field { padding: 8px 12px 8px 36px !important; font-size: 0.85rem !important; border-radius: 6px !important; height: 38px !important; }
+            .input-icon { font-size: 0.85rem !important; left: 12px !important; }
+            
+            [dir="rtl"] .input-field { padding: 8px 36px 8px 12px !important; }
+            [dir="rtl"] .input-icon { right: 12px !important; left: auto !important; }
+            
+            .utility-row { margin: 0 !important; }
+            .utility-row span { font-size: 0.7rem !important; }
+            .utility-row a { font-size: 0.7rem !important; }
+            
+            .auth-btn { height: 38px !important; padding: 0 !important; display: flex; align-items: center; justify-content: center; font-size: 0.85rem !important; margin-top: 2px !important; border-radius: 6px !important; }
+            
+            .divider { margin: 0 !important; }
+            .divider span { font-size: 0.65rem !important; padding: 0 8px !important; }
+            
+            .social-login { gap: 8px !important; }
+            .social-btn { height: 38px !important; padding: 0 !important; font-size: 0.8rem !important; border-radius: 6px !important; }
+            
+            .login-link { font-size: 0.75rem !important; margin-bottom: 0 !important;}
+            
+            .bottom-controls { padding-top: 10px !important; gap: 16px !important; }
+            .toggle { width: 36px !important; height: 20px !important; }
+            .toggle::before { width: 14px !important; height: 14px !important; top: 3px !important; left: 3px !important; }
+            body.dark-mode .toggle::before { left: 19px !important; }
+            .btn-text { font-size: 0.65rem !important; padding: 4px 10px !important; }
+        }
+
+        /* 🚨 EXTREME COMPACT MODE (e.g. 1024x600 landscape) */
+        @media (max-height: 620px) {
+            .login-card { gap: 8px !important; padding: 12px 20px !important; }
+            form { gap: 8px !important; }
+            .form-group { gap: 2px !important; }
+            .input-field { padding: 6px 10px 6px 32px !important; font-size: 0.8rem !important; height: 34px !important; }
+            .input-icon { left: 10px !important; font-size: 0.8rem !important; }
+            [dir="rtl"] .input-field { padding: 6px 32px 6px 10px !important; }
+            [dir="rtl"] .input-icon { right: 10px !important; left: auto !important; }
+            .auth-btn { height: 34px !important; }
+            .social-btn { height: 34px !important; }
+            
+            /* Hide bottom controls to guarantee the registration form fits without scrolling */
+            .bottom-controls { display: none !important; } 
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-card">
+
+        <div class="auth-logo">
+            <a href="index.html" class="text-2xl font-black tracking-tighter" style="color: var(--text-main); text-decoration: none;">
+                Growwbooks
+            </a>
+        </div>
+
+        <div class="auth-header">
+            <h2>Welcome Back</h2>
+            <p>Log in to access your author workspace.</p>
+        </div>
+
+        <form id="login-form">
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <div class="input-wrapper">
+                    <input type="email" id="email" class="input-field" placeholder="author@example.com" required>
+                    <i class="fas fa-envelope input-icon"></i>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <div class="input-wrapper">
+                    <input type="password" id="password" class="input-field" placeholder="Enter your password" required>
+                    <i class="fas fa-lock input-icon"></i>
+                </div>
+            </div>
+
+            <div class="utility-row flex-wrap sm:flex-nowrap gap-2">
+                <label class="flex items-center cursor-pointer truncate">
+                    <input type="checkbox" class="w-4 h-4 rounded border-gray-300 text-red-600 focus:ring-red-500 bg-gray-100 cursor-pointer flex-shrink-0">
+                    <span class="ml-2 text-sm font-medium truncate" style="color: var(--text-muted);">Remember me</span>
+                </label>
+                <a href="#" class="text-sm font-bold transition hover:underline whitespace-nowrap" style="color: var(--accent-color);">Forgot Password?</a>
+            </div>
+
+            <button type="submit" class="auth-btn">Sign In <i class="fas fa-arrow-right ml-2"></i></button>
+        </form>
+
+        <div class="divider"><span>OR CONTINUE WITH</span></div>
+
+        <div class="social-login">
+            <button class="social-btn" type="button"><i class="fab fa-google text-red-500"></i> Google</button>
+            <button class="social-btn" type="button"><i class="fab fa-apple"></i> Apple</button>
+        </div>
+
+        <div class="login-link">
+            Not an author yet? <a href="register.html">Create an Account</a>
+        </div>
+
+        <div class="bottom-controls">
+            <div class="flex items-center gap-3" style="cursor: pointer;" onclick="document.getElementById('theme-toggle').click()">
+                <i class="fas fa-sun text-sm" style="color: var(--text-muted);"></i>
+                <div class="toggle" id="theme-toggle"></div>
+                <i class="fas fa-moon text-sm" style="color: var(--text-muted);"></i>
+            </div>
+            <button id="rtl-toggle" class="btn-text">RTL Mode</button>
+        </div>
+
+    </div>
+
+    <script>
+        // --- THEME LOGIC ---
+        const themeToggle = document.getElementById('theme-toggle');
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        
+        if (savedTheme === 'dark') {
+            document.body.classList.add('dark-mode');
+            themeToggle.classList.add('active');
+        }
+
+        themeToggle.onclick = (e) => {
+            e.stopPropagation(); 
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            themeToggle.classList.toggle('active', isDark);
+        };
+
+        // --- RTL LOGIC ---
+        const rtlToggle = document.getElementById('rtl-toggle');
+        const savedDir = localStorage.getItem('dir') || 'ltr';
+        
+        if (savedDir === 'rtl') {
+            document.documentElement.dir = 'rtl';
+            rtlToggle.innerText = "LTR MODE";
+        }
+
+        rtlToggle.onclick = () => {
+            const isRTL = document.documentElement.dir === 'rtl';
+            document.documentElement.dir = isRTL ? 'ltr' : 'rtl';
+            localStorage.setItem('dir', isRTL ? 'ltr' : 'rtl');
+            rtlToggle.innerText = isRTL ? 'RTL MODE' : 'LTR MODE';
+        };
+
+        // --- FORM SUBMISSION ---
+        document.getElementById('login-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            // Redirects to user dashboard after successful "login"
+            window.location.href = 'user.html';
+        });
+
+        // Social Buttons Alert
+        document.querySelectorAll('.social-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                alert('SSO Login integration required.');
+            });
+        });
+    </script>
+</body>
+</html>

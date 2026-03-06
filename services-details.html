@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service Details | Growwbooks - Professional Book Editing Services</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" type="image/jpeg" href="images/growwpark_logo.jpg">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        /* === RESET & CORE === */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; overflow-x: hidden; }
+        
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: var(--bg-color); 
+            color: var(--text-main); 
+            transition: background-color 0.3s, color 0.3s;
+            overflow-x: hidden;
+        }
+
+        /* === THEME VARIABLES (Red, Black, White) === */
+        :root {
+            --bg-color: #ffffff;
+            --bg-secondary: #f4f4f5; 
+            --bg-card: #ffffff; 
+            --text-main: #000000;
+            --text-muted: #555555;
+            --accent-color: #dc2626; 
+            --accent-dark: #991b1b; 
+            --border-color: #e5e5e5;
+            --nav-bg: rgba(255, 255, 255, 0.98);
+            --drawer-bg: #000000;
+            --drawer-text: #ffffff;
+        }
+
+        /* DARK MODE */
+        body.dark-mode {
+            --bg-color: #0a0a0a;
+            --bg-secondary: #171717;
+            --bg-card: #171717; 
+            --text-main: #ffffff;
+            --text-muted: #a3a3a3;
+            --accent-color: #ef4444; 
+            --accent-dark: #b91c1c; 
+            --border-color: #262626;
+            --nav-bg: rgba(10, 10, 10, 0.98);
+        }
+
+        /* RTL SUPPORT */
+        [dir="rtl"] { text-align: right; }
+        [dir="rtl"] .ml-auto { margin-right: auto; margin-left: 0; }
+        [dir="rtl"] .mr-auto { margin-left: auto; margin-right: 0; }
+        [dir="rtl"] .pl-4 { padding-right: 1rem; padding-left: 0; }
+        [dir="rtl"] .fa-arrow-right { transform: rotate(180deg); }
+
+        /* === REDESIGNED NAVBAR === */
+        .navbar { 
+            position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
+            background: var(--nav-bg); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border-color); 
+            padding: 16px 0; transition: all 0.3s ease;
+        }
+        
+        /* Editorial Underline Links */
+        .nav-link { 
+            padding: 4px 0; 
+            color: var(--text-main); 
+            text-decoration: none; 
+            font-size: 13px; 
+            font-weight: 700; 
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s; 
+            display: inline-flex; 
+            align-items: center; 
+            gap: 6px; 
+            cursor: pointer;
+            position: relative;
+        }
+        .nav-link::after {
+            content: ''; position: absolute; bottom: -4px; left: 0; width: 0%; height: 2px;
+            background-color: var(--accent-color); transition: width 0.3s ease;
+        }
+        .nav-link:hover::after, .nav-link.active::after { width: 100%; }
+        .nav-link:hover, .nav-link.active { color: var(--accent-color); }
+        
+        .dropdown { position: relative; display: flex; align-items: center; height: 100%; }
+        .dropdown-menu { position: absolute; top: 100%; left: 0; margin-top: 15px; opacity: 0; visibility: hidden; transform: translateY(10px); transition: all 0.2s ease; z-index: 100; }
+        .dropdown-inner { background: var(--bg-card); border: 1px solid var(--border-color); border-top: 3px solid var(--accent-color); min-width: 220px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); padding: 12px 0; }
+        .dropdown:hover .dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+        .dropdown-item { display: block; padding: 12px 24px; color: var(--text-main); text-decoration: none; font-size: 13px; font-weight: 600; text-transform: uppercase; transition: all 0.2s; }
+        .dropdown-item:hover { background: var(--bg-secondary); color: var(--accent-color); padding-left: 30px; }
+
+        /* PILL TOGGLE */
+        .theme-toggle-pill { width: 56px; height: 28px; background: var(--bg-secondary); border-radius: 30px; position: relative; cursor: pointer; display: flex; align-items: center; justify-content: space-between; padding: 0 6px; border: 1px solid var(--border-color); }
+        .theme-toggle-pill i { font-size: 11px; z-index: 1; }
+        .theme-toggle-pill .fa-sun { color: #f59e0b; }
+        .theme-toggle-pill .fa-moon { color: #999; }
+        .theme-toggle-pill .thumb { position: absolute; top: 2px; left: 2px; width: 22px; height: 22px; background: white; border-radius: 50%; transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1); box-shadow: 0 2px 4px rgba(0,0,0,0.2); z-index: 2; }
+        body.dark-mode .theme-toggle-pill .thumb { transform: translateX(28px); background: #333; }
+
+        /* BUTTONS */
+        .btn { padding: 12px 28px; font-weight: 800; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; transition: all 0.3s; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; }
+        .btn-solid { background: var(--accent-color); color: white; border: 2px solid var(--accent-color); }
+        .btn-solid:hover { background: var(--accent-dark); border-color: var(--accent-dark); color: white; transform: translateY(-2px); }
+        .btn-outline { border: 2px solid var(--text-main); color: var(--text-main); background: transparent; }
+        .btn-outline:hover { background: var(--text-main); color: var(--bg-color); transform: translateY(-2px); }
+
+        /* === DRAWER === */
+        .drawer { position: fixed; top: 0; right: -100%; width: 100%; max-width: 320px; height: 100vh; background: var(--drawer-bg); z-index: 1000; transition: right 0.3s; padding: 30px; color: var(--drawer-text); overflow-y: auto; }
+        .drawer.active { right: 0; }
+        [dir="rtl"] .drawer { right: auto; left: -100%; transition: left 0.3s; }
+        [dir="rtl"] .drawer.active { left: 0; }
+        .drawer-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); display: none; z-index: 999; }
+        .drawer-overlay.active { display: block; }
+        .drawer-link { display: block; padding: 14px 0; color: #a3a3a3; text-decoration: none; font-size: 16px; font-weight: 600; border-bottom: 1px solid #262626; transition: 0.2s; }
+        .drawer-link:hover { color: var(--accent-color); padding-left: 8px; border-color: var(--accent-color); }
+        .hamburger { width: 24px; height: 18px; display: flex; flex-direction: column; justify-content: space-between; cursor: pointer; }
+        .hamburger span { width: 100%; height: 2px; background: var(--text-main); transition: 0.3s; }
+        
+        /* Mobile Switch */
+        .toggle { width: 44px; height: 24px; background: #333; border-radius: 20px; position: relative; cursor: pointer; transition: all 0.3s; }
+        .toggle::before { content: ''; position: absolute; width: 16px; height: 16px; background: white; border-radius: 50%; top: 4px; left: 4px; transition: left 0.3s; }
+        .toggle.active { background: var(--accent-color); }
+        .toggle.active::before { left: 24px; }
+
+        /* FOOTER */
+        footer { background: var(--bg-secondary); border-top: 1px solid var(--border-color); padding-top: 80px; }
+        footer h4 { color: var(--text-main); font-weight: 800; font-size: 1.1rem; margin-bottom: 24px; text-transform: uppercase; letter-spacing: 1px;} 
+        footer a, footer li, footer span { color: var(--text-muted); text-decoration: none; transition: all 0.3s; font-size: 0.95rem; }
+        footer a:hover { color: var(--accent-color); }
+        .social-link-circle { width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--border-color); display: flex; align-items: center; justify-content: center; transition: all 0.3s; color: var(--text-main); background: var(--bg-card); }
+        .social-link-circle:hover { background: var(--accent-color); color: white; border-color: var(--accent-color); transform: translateY(-3px); }
+        .footer-bottom { border-top: 1px solid var(--border-color); padding: 24px 0; margin-top: 60px; }
+
+        /* CUSTOM DROP CAP FOR TEXT SECTIONS */
+        .drop-cap::first-letter {
+            float: left;
+            font-size: 4rem;
+            line-height: 0.8;
+            padding-right: 0.5rem;
+            font-weight: 900;
+            color: var(--accent-color);
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="max-w-7xl mx-auto px-6 w-full flex items-center justify-between">
+            <a href="index.html" class="text-2xl font-black tracking-tighter" style="color: var(--text-main); text-decoration: none;">
+                Growwbooks
+            </a>
+            
+            <div class="hidden xl:flex items-center gap-8">
+                <div class="dropdown">
+                    <div class="nav-link">Home <i class="fas fa-chevron-down text-[10px] ml-1"></i></div>
+                    <div class="dropdown-menu">
+                        <div class="dropdown-inner">
+                            <a href="index.html" class="dropdown-item">Home Page 1</a>
+                            <a href="home-2.html" class="dropdown-item">Home Page 2</a>
+                        </div>
+                    </div>
+                </div>
+                <a href="about.html" class="nav-link">About</a>
+                <a href="services.html" class="nav-link active">Services</a>
+                <a href="pricing.html" class="nav-link">Pricing</a>
+                <a href="blog.html" class="nav-link">Blog</a>
+                <a href="faq.html" class="nav-link">FAQ</a>
+                <a href="contact.html" class="nav-link">Contact</a>
+                <div class="dropdown">
+                    <div class="nav-link">Dashboard <i class="fas fa-chevron-down text-[10px] ml-1"></i></div>
+                    <div class="dropdown-menu">
+                        <div class="dropdown-inner">
+                            <a href="user.html" class="dropdown-item">Author Dashboard</a>
+                            <a href="admin.html" class="dropdown-item">Editor Dashboard</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hidden xl:flex items-center gap-5">
+                <a href="login.html" class="text-xs font-bold uppercase tracking-wide text-[var(--text-muted)] hover:text-[var(--accent-color)] transition-colors">Login</a>
+                <a href="register.html" class="btn btn-solid !py-2 !px-5 !text-xs">Register</a>
+                <div class="w-px h-5 bg-[var(--border-color)]"></div>
+                <button id="rtl-btn" class="text-xs font-bold text-[var(--text-muted)] hover:text-[var(--accent-color)] uppercase tracking-widest">RTL</button>
+                <div id="theme-toggle-desktop" class="theme-toggle-pill" title="Toggle Dark Mode">
+                    <i class="fas fa-sun"></i><i class="fas fa-moon"></i><div class="thumb"></div>
+                </div>
+            </div>
+
+            <button id="mobile-btn" class="xl:hidden p-2">
+                <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+            </button>
+        </div>
+    </nav>
+
+    <div class="drawer-overlay" id="drawer-overlay"></div>
+    <div class="drawer" id="drawer">
+        <div class="mb-8 flex justify-between items-center pb-4 border-b border-gray-800">
+            <h2 class="text-xl font-black text-white tracking-tighter"></h2>
+            <button id="close-drawer" class="text-gray-400 hover:text-white text-xl p-2"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="flex flex-col space-y-1">
+            <a href="index.html" class="drawer-link">Home Page 1</a>
+            <a href="home-2.html" class="drawer-link">Home Page 2</a>
+            <a href="about.html" class="drawer-link">About</a>
+            <a href="services.html" class="drawer-link" style="color: var(--accent-color);">Services</a>
+            <a href="pricing.html" class="drawer-link">Pricing</a>
+            <a href="blog.html" class="drawer-link">Blog</a>
+            <a href="faq.html" class="drawer-link">FAQ</a>
+            <a href="contact.html" class="drawer-link">Contact</a>
+            <div class="my-4 border-t border-gray-800"></div>
+            <a href="user.html" class="drawer-link">Author Dashboard</a>
+            <a href="admin.html" class="drawer-link">Editor Dashboard</a>
+        </div>
+        <div class="mt-8 pt-6 border-t border-gray-800">
+            <div class="flex items-center justify-between mb-5">
+                <span class="text-gray-300 font-medium text-sm uppercase tracking-wider">Dark Mode</span>
+                <div class="toggle" id="theme-toggle-mobile"></div>
+            </div>
+            <div class="flex items-center justify-between mb-8">
+                <span class="text-gray-300 font-medium text-sm uppercase tracking-wider">RTL Mode</span>
+                <button id="rtl-toggle-mobile" class="text-white font-bold border border-gray-600 px-3 py-1 text-xs hover:border-[var(--accent-color)]">SWITCH</button>
+            </div>
+            <a href="login.html" class="btn w-full text-center block mb-3 border border-gray-600 text-white hover:bg-gray-800">Login</a>
+            <a href="register.html" class="btn btn-solid w-full text-center block">Register</a>
+        </div>
+    </div>
+
+    <section class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 bg-[var(--bg-color)] border-b border-[var(--border-color)]">
+        <div class="absolute inset-0 opacity-[0.03] dark:opacity-[0.05] pointer-events-none" style="background-image: radial-gradient(var(--text-main) 1px, transparent 1px); background-size: 24px 24px;"></div>
+        
+        <div class="max-w-7xl mx-auto px-6 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <div class="lg:col-span-7 text-left">
+                    <div class="inline-flex items-center gap-2 px-3 py-1.5 bg-[var(--bg-secondary)] border border-[var(--border-color)] mb-6">
+                        <span class="flex h-2 w-2 rounded-full bg-[var(--accent-color)]"></span>
+                        <span class="text-xs font-bold tracking-widest uppercase text-[var(--text-main)]">Service Details</span>
+                    </div>
+                    
+                    <h1 class="text-5xl md:text-6xl lg:text-7xl font-black leading-[1.1] mb-6 text-[var(--text-main)] tracking-tighter">
+                        Developmental Editing.<br>
+                        <span class="text-[var(--accent-color)] relative inline-block mt-2">
+                            The Big Picture.
+                            
+                        </span>
+                    </h1>
+                    
+                    <p class="text-[var(--text-muted)] text-lg lg:text-xl leading-relaxed mb-10 max-w-xl font-medium">
+                        A comprehensive structural review of your manuscript. We analyze plot holes, character arcs, pacing, and overall thematic resonance to ensure your story works at a fundamental level before you worry about the commas.
+                    </p>
+                    
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <a href="pricing.html" class="btn btn-solid shadow-xl shadow-red-900/20">Get a Quote</a>
+                        <a href="services.html" class="btn btn-outline">Back to Services</a>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-5 relative hidden lg:block group">
+                    <div class="absolute inset-0 bg-[var(--text-main)] translate-x-4 translate-y-4 transition-transform duration-500 group-hover:translate-x-6 group-hover:translate-y-6"></div>
+                    <img src="images/pexels-pixabay-415078.jpg" alt="Service Detail Focus" class="relative z-10 w-full h-[500px] object-cover border border-[var(--border-color)] transition-all duration-700">
+                    
+                    <div class="absolute -left-10 bottom-10 z-20 bg-[var(--bg-card)] p-4 border border-[var(--border-color)] shadow-xl flex items-center gap-4">
+                        <div class="w-12 h-12 bg-[var(--accent-color)] flex items-center justify-center text-white text-xl">
+                            <i class="fas fa-search-plus"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm font-bold text-[var(--text-main)]">In-Depth Analysis</p>
+                            <p class="text-xs text-[var(--text-muted)] uppercase tracking-wide">Macro-level focus</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section class="py-20 bg-[var(--bg-color)]">
+        <div class="max-w-4xl mx-auto px-6">
+            <div class="mb-10 text-center">
+                <span class="text-[var(--accent-color)] font-bold text-sm tracking-widest uppercase mb-2 block">Phase One</span>
+                <h2 class="text-3xl md:text-5xl font-black text-[var(--text-main)] tracking-tighter">Understanding the Blueprint</h2>
+            </div>
+            
+            <div class="prose prose-lg max-w-none text-[var(--text-muted)] space-y-6 leading-loose">
+                <p class="drop-cap text-xl text-[var(--text-main)] font-medium">
+                    Developmental editing is the architectural phase of the book-building process. Unlike line editing, which focuses on the beauty of individual sentences, or proofreading, which hunts down typographical errors, developmental editing takes a massive step back to look at the manuscript as a whole. It is the process of examining the foundational pillars of your story to ensure they can support the weight of your narrative. 
+                </p>
+                <p>
+                    Think of your manuscript like a house. If the foundation is cracked, it doesn't matter how beautiful the curtains are or what color you paint the walls; the house is eventually going to collapse. In writing, a cracked foundation manifests as gaping plot holes, inconsistent character motivations, sagging middle pacing, and unbelievable climaxes. A developmental editor is the master architect who comes in, inspects the blueprints, and tells you exactly which load-bearing walls need to be moved to save the structure.
+                </p>
+                
+                <div class="bg-[var(--bg-secondary)] border-l-4 border-[var(--accent-color)] p-8 my-10 italic text-[var(--text-main)] font-medium text-xl shadow-sm">
+                    "A great developmental editor doesn't just tell you what is broken; they help you uncover the tools you already possess to fix it, preserving your unique voice in the process."
+                </div>
+
+                <p>
+                    During this deep-dive process, our editors will read your manuscript multiple times. They are not looking for misplaced commas; they are looking at the emotional resonance of your protagonist's journey. They are tracking the rising tension of your plot points to ensure the reader is constantly engaged. They are evaluating your world-building to guarantee that the rules you establish in chapter one are still being strictly followed in chapter thirty.
+                </p>
+                <p>
+                    By the end of a developmental edit, an author should feel completely confident that their story makes logical, emotional, and structural sense. It is often the most grueling phase of the revision process, requiring significant rewrites, deleted scenes, and newly drafted chapters. However, it is also the most rewarding phase, as it is here that a rough draft truly transforms into a compelling, unforgettable book.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-20 bg-[var(--bg-secondary)] border-y border-[var(--border-color)]">
+        <div class="max-w-4xl mx-auto px-6">
+            <div class="mb-10 text-center">
+                <span class="text-[var(--accent-color)] font-bold text-sm tracking-widest uppercase mb-2 block">The Process</span>
+                <h2 class="text-3xl md:text-5xl font-black text-[var(--text-main)] tracking-tighter">How We Analyze Your Story</h2>
+            </div>
+            
+            <div class="prose prose-lg max-w-none text-[var(--text-muted)] space-y-6 leading-loose">
+                <p>
+                    Our methodology for developmental editing is highly structured and deeply collaborative. We understand that handing your manuscript over to a stranger is a vulnerable experience, which is why we approach every story with profound respect for the author's original intent. We do not try to hijack your narrative; our goal is to help you tell *your* story in the most effective way possible.
+                </p>
+                
+                <h3 class="text-2xl font-bold text-[var(--text-main)] mt-12 mb-6">The Editorial Letter</h3>
+                <p>
+                    The cornerstone of our developmental editing service is the comprehensive Editorial Letter. This is a robust, multi-page document (often ranging from 10 to 20 pages) that serves as your revision roadmap. Rather than overwhelming you with scattered margin notes, the editorial letter organizes our feedback into clear, actionable categories. 
+                </p>
+
+                <div class="bg-[var(--bg-card)] p-8 border border-[var(--border-color)] shadow-sm my-8 rounded-lg">
+                    <h4 class="text-xl font-bold text-[var(--text-main)] mb-4 border-b border-[var(--border-color)] pb-2">What is included in the Editorial Letter?</h4>
+                    <ul class="space-y-4">
+                        <li class="flex items-start gap-3">
+                            <i class="fas fa-check-circle text-[var(--accent-color)] mt-1.5"></i>
+                            <div>
+                                <strong class="text-[var(--text-main)]">Plot and Pacing Analysis:</strong> We identify where the story drags, where the tension drops, and whether the climax feels earned and satisfying.
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i class="fas fa-check-circle text-[var(--accent-color)] mt-1.5"></i>
+                            <div>
+                                <strong class="text-[var(--text-main)]">Character Arc Evaluation:</strong> We analyze your protagonist's goals, motivations, and conflicts (GMC) to ensure they are active participants in the narrative rather than passive observers.
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i class="fas fa-check-circle text-[var(--accent-color)] mt-1.5"></i>
+                            <div>
+                                <strong class="text-[var(--text-main)]">World-Building and Setting:</strong> We verify that the environment feels immersive and that the internal logic of your world (whether it's high fantasy or a contemporary thriller) remains consistent.
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i class="fas fa-check-circle text-[var(--accent-color)] mt-1.5"></i>
+                            <div>
+                                <strong class="text-[var(--text-main)]">Theme and Resonance:</strong> We help clarify the underlying message of your book, ensuring that the thematic elements are woven naturally into the plot rather than feeling forced.
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <p>
+                    Alongside the editorial letter, you will receive an annotated version of your manuscript. Using the "Track Changes" and commenting features in Microsoft Word, the editor will leave in-text reactions, point out specific examples of the macro-issues discussed in the letter, and suggest areas where a scene could start later or end sooner. 
+                </p>
+                <p>
+                    Once the materials are delivered, we don't just abandon you to the revision process. Your package includes a dedicated consultation session (via the client dashboard messaging system or an optional video call) to discuss the feedback, brainstorm solutions, and map out your next draft.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-20 bg-[var(--bg-color)]">
+        <div class="max-w-4xl mx-auto px-6">
+            <div class="mb-10 text-center">
+                <span class="text-[var(--accent-color)] font-bold text-sm tracking-widest uppercase mb-2 block">Target Audience</span>
+                <h2 class="text-3xl md:text-5xl font-black text-[var(--text-main)] tracking-tighter">Who Benefits from this Service?</h2>
+            </div>
+            
+            <div class="prose prose-lg max-w-none text-[var(--text-muted)] space-y-6 leading-loose">
+                <p>
+                    A common misconception in the publishing industry is that only novice writers need developmental editing. In reality, even the most seasoned, multi-published, bestselling authors rely heavily on developmental editors. When an author spends months or years immersed in a single universe, they lose their objectivity. They suffer from "the curse of knowledge," assuming the reader understands certain plot nuances simply because the author knows them in their head.
+                </p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 my-10">
+                    <div class="p-6 bg-[var(--bg-secondary)] border-t-4 border-[var(--accent-color)]">
+                        <h4 class="text-xl font-bold text-[var(--text-main)] mb-2">First-Time Authors</h4>
+                        <p class="text-sm">If you have just finished your very first manuscript, a developmental edit is an invaluable masterclass in creative writing. It will illuminate structural blind spots you didn't know existed and teach you advanced storytelling mechanics that will improve all your future books.</p>
+                    </div>
+                    <div class="p-6 bg-[var(--bg-secondary)] border-t-4 border-[var(--text-main)]">
+                        <h4 class="text-xl font-bold text-[var(--text-main)] mb-2">Veteran Writers</h4>
+                        <p class="text-sm">For experienced authors facing "writer's block" on a stubborn draft, or those transitioning into a brand new genre, a developmental edit provides a highly skilled sounding board to help untangle complex narrative knots and realign the story's trajectory.</p>
+                    </div>
+                </div>
+
+                <p>
+                    This service is heavily recommended for authors preparing to self-publish. In the traditional publishing route, an acquiring editor at a publishing house handles the developmental edit. Indie authors must hire this role out themselves to ensure their book meets the market's high standards. A beautifully formatted book with a stunning cover will still fail to garner good reviews if the plot is riddled with inconsistencies and the protagonist is unlikable.
+                </p>
+                <p>
+                    Furthermore, authors planning to query literary agents can utilize developmental editing to ensure their manuscript is in top-tier shape before entering the highly competitive querying trenches. Agents are inundated with submissions; a structurally sound, perfectly paced manuscript stands out immediately from the slush pile.
+                </p>
+                
+                <div class="mt-12 text-center p-10 border border-[var(--border-color)] bg-[var(--bg-card)] shadow-2xl rounded-xl">
+                    <h3 class="text-2xl font-black text-[var(--text-main)] mb-4">Ready to assess your foundation?</h3>
+                    <p class="mb-6 text-[var(--text-muted)]">Upload your manuscript securely through our client portal to receive a custom timeframe and pricing quote for a full developmental edit.</p>
+                    <a href="contact.html" class="btn btn-solid !px-10 !py-4 shadow-xl shadow-red-900/20 text-sm">Start Your Project</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-24 bg-[var(--bg-secondary)] border-t border-[var(--border-color)]">
+        <div class="max-w-7xl mx-auto px-6">
+            
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <span class="text-[var(--accent-color)] font-bold text-sm tracking-widest uppercase mb-2 block">The Visuals</span>
+                <h2 class="text-4xl md:text-5xl font-black text-[var(--text-main)] tracking-tighter mb-4">Inside the Editing Process</h2>
+                <p class="text-[var(--text-muted)] text-lg">A glimpse into the spaces, tools, and meticulous focus that goes into polishing a full-length manuscript.</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 auto-rows-[250px]">
+                
+                <figure class="relative group overflow-hidden sm:row-span-2 rounded-lg shadow-md border border-[var(--border-color)]">
+                    <img src="images/pexels-victor-150585-448835.jpg" alt="Vintage Typewriter" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <figcaption class="absolute bottom-0 left-0 w-full p-6 translate-y-4 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300">
+                        <span class="text-[var(--accent-color)] font-bold text-xs uppercase tracking-widest block mb-1">The Craft</span>
+                        <h3 class="text-white font-bold text-xl">Respecting the Origins</h3>
+                        <p class="text-gray-300 text-sm mt-2 hidden sm:block">Every manuscript begins with a raw idea. We honor the drafting process.</p>
+                    </figcaption>
+                </figure>
+
+                <figure class="relative group overflow-hidden rounded-lg shadow-md border border-[var(--border-color)]">
+                    <img src="images/pexels-cottonbro-4855435.jpg" alt="Editing Notes" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <figcaption class="absolute bottom-0 left-0 w-full p-5 translate-y-4 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300">
+                        <span class="text-[var(--accent-color)] font-bold text-xs uppercase tracking-widest block mb-1">Methodology</span>
+                        <h3 class="text-white font-bold text-lg">Red Pen Markups</h3>
+                    </figcaption>
+                </figure>
+
+                <figure class="relative group overflow-hidden rounded-lg shadow-md border border-[var(--border-color)]">
+                    <img src="images/pexels-suzyhazelwood-1204743.jpg" alt="Desk Environment" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <figcaption class="absolute bottom-0 left-0 w-full p-5 translate-y-4 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300">
+                        <span class="text-[var(--accent-color)] font-bold text-xs uppercase tracking-widest block mb-1">Focus</span>
+                        <h3 class="text-white font-bold text-lg">The Editor's Desk</h3>
+                    </figcaption>
+                </figure>
+
+                <figure class="relative group overflow-hidden lg:col-span-2 rounded-lg shadow-md border border-[var(--border-color)]">
+                    <img src="images/pexels-chrisluengas-14344970.jpg" alt="Library Infrastructure" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <figcaption class="absolute bottom-0 left-0 w-full p-6 translate-y-4 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300">
+                        <span class="text-[var(--accent-color)] font-bold text-xs uppercase tracking-widest block mb-1">Knowledge</span>
+                        <h3 class="text-white font-bold text-xl">Extensive Research</h3>
+                        <p class="text-gray-300 text-sm mt-2 hidden sm:block">Fact-checking and genre-trop research is fundamental to our developmental process.</p>
+                    </figcaption>
+                </figure>
+
+                <figure class="relative group overflow-hidden rounded-lg shadow-md border border-[var(--border-color)]">
+                    <img src="images/pexels-pixabay-267586.jpg" alt="Open Book Pages" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <figcaption class="absolute bottom-0 left-0 w-full p-5 translate-y-4 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300">
+                        <span class="text-[var(--accent-color)] font-bold text-xs uppercase tracking-widest block mb-1">Result</span>
+                        <h3 class="text-white font-bold text-lg">The Final Polish</h3>
+                    </figcaption>
+                </figure>
+
+                <figure class="relative group overflow-hidden rounded-lg shadow-md border border-[var(--border-color)]">
+                    <img src="images/pexels-suzyhazelwood-1130980.jpg" alt="Thriller Novel Focus" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <figcaption class="absolute bottom-0 left-0 w-full p-5 translate-y-4 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300">
+                        <span class="text-[var(--accent-color)] font-bold text-xs uppercase tracking-widest block mb-1">Genre Specific</span>
+                        <h3 class="text-white font-bold text-lg">Tension Building</h3>
+                    </figcaption>
+                </figure>
+
+                <figure class="relative group overflow-hidden rounded-lg shadow-md border border-[var(--border-color)]">
+                    <img src="images/pexels-abby-chung-371167-1106468.jpg" alt="Editor Reading" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <figcaption class="absolute bottom-0 left-0 w-full p-5 translate-y-4 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300">
+                        <span class="text-[var(--accent-color)] font-bold text-xs uppercase tracking-widest block mb-1">The Team</span>
+                        <h3 class="text-white font-bold text-lg">Dedicated Readers</h3>
+                    </figcaption>
+                </figure>
+
+                
+
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-10 pt-4">
+                <div class="lg:col-span-4">
+                    <a href="index.html" class="text-2xl font-black tracking-tighter mb-6 block" style="color: var(--text-main); text-decoration: none;">
+                        Growwbooks
+                    </a>
+                    <p class="opacity-80 leading-relaxed text-sm mb-6 max-w-sm" style="color: var(--text-muted);">Dedicated to perfecting the written word. We provide comprehensive editing, formatting, and manuscript development for authors across all genres.</p>
+                    <div class="flex space-x-3">
+                        <a href="#" class="social-link-circle"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="social-link-circle"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link-circle"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                
+                <div class="lg:col-span-8">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+                        <div>
+                            <h4>Our Services</h4>
+                            <ul class="space-y-3">
+                                <li><a href="services.html">Developmental Editing</a></li>
+                                <li><a href="services.html">Line & Copy Editing</a></li>
+                                <li><a href="services.html">Proofreading</a></li>
+                                <li><a href="pricing.html">Pricing Packages</a></li>
+                                <li><a href="about.html">About</a></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4>Author Portal</h4>
+                            <ul class="space-y-3">
+                                <li><a href="user.html">Track Manuscript</a></li>
+                                <li><a href="user.html">Sign Contracts</a></li>
+                                <li><a href="login.html">Author Login</a></li>
+                                <li><a href="register.html">Create Account</a></li>
+                                <li><a href="contact.html">Submit a Sample</a></li>
+                            </ul>
+                        </div>
+                        <div class="sm:col-span-2 md:col-span-1">
+                            <h4>Get in Touch</h4>
+                            <ul class="space-y-3 text-[var(--text-muted)] text-sm">
+                                <li class="flex items-start"><i class="fas fa-map-marker-alt mt-1 mr-3 shrink-0" style="color: var(--accent-color);"></i><span>100 Publishing Row<br>New York, NY 10012</span></li>
+                                <li class="flex items-center"><i class="fas fa-phone mr-3 shrink-0" style="color: var(--accent-color);"></i><a href="tel:+15551234567" class="break-all">+1 (555) 123-4567</a></li>
+                                <li class="flex items-center"><i class="fas fa-envelope mr-3 shrink-0" style="color: var(--accent-color);"></i><a href="mailto:hello@Growwbooks.com" class="break-all">hello@Growwbooks.com</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom flex flex-col md:flex-row justify-between items-center text-sm gap-4">
+                <p style="color: var(--text-muted);">&copy; 2026 Growwbooks Services. All rights reserved.</p>
+                <div class="flex flex-wrap justify-center gap-4 sm:gap-6">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const mobileBtn = document.getElementById('mobile-btn'); 
+        const drawer = document.getElementById('drawer'); 
+        const drawerOverlay = document.getElementById('drawer-overlay'); 
+        const closeDrawer = document.getElementById('close-drawer'); 
+        
+        function toggleDrawer() { 
+            drawer.classList.toggle('active'); 
+            drawerOverlay.classList.toggle('active'); 
+        }
+        
+        mobileBtn.onclick = toggleDrawer; 
+        closeDrawer.onclick = toggleDrawer; 
+        drawerOverlay.onclick = toggleDrawer;
+        
+        const themeDesktop = document.getElementById('theme-toggle-desktop');
+        const themeMobile = document.getElementById('theme-toggle-mobile'); 
+        const theme = localStorage.getItem('theme') || 'light';
+
+        function updateThemeUI(isDark) {
+            if (isDark) {
+                document.body.classList.add('dark-mode'); 
+                themeMobile.classList.add('active');
+            } else {
+                document.body.classList.remove('dark-mode');
+                themeMobile.classList.remove('active');
+            }
+        }
+        
+        updateThemeUI(theme === 'dark');
+        
+        function toggleTheme() { 
+            const isDark = !document.body.classList.contains('dark-mode');
+            updateThemeUI(isDark);
+            localStorage.setItem('theme', isDark ? 'dark' : 'light'); 
+        }
+        
+        themeDesktop.onclick = toggleTheme; 
+        themeMobile.onclick = toggleTheme;
+        
+        const rtlBtn = document.getElementById('rtl-btn'); 
+        const rtlMobile = document.getElementById('rtl-toggle-mobile'); 
+        const dir = localStorage.getItem('dir') || 'ltr';
+        
+        if (dir === 'rtl') { 
+            document.documentElement.dir = 'rtl'; 
+            rtlMobile.innerText = "LTR"; 
+            rtlBtn.innerText = "LTR";
+        }
+        
+        function toggleRTL() { 
+            const isRTL = document.documentElement.dir === 'rtl'; 
+            document.documentElement.dir = isRTL ? 'ltr' : 'rtl'; 
+            localStorage.setItem('dir', isRTL ? 'ltr' : 'rtl'); 
+            rtlMobile.innerText = isRTL ? 'SWITCH' : 'LTR'; 
+            rtlBtn.innerText = isRTL ? 'RTL' : 'LTR';
+        }
+        
+        rtlBtn.onclick = toggleRTL; 
+        rtlMobile.onclick = toggleRTL;
+    </script>
+</body>
+</html>

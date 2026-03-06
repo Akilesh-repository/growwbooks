@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home 2 | Growwbooks - Professional Book Editing</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" type="image/jpeg" href="images/growwpark_logo.jpg">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        /* === RESET & CORE === */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; overflow-x: hidden; }
+        
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: var(--bg-color); 
+            color: var(--text-main); 
+            transition: background-color 0.3s, color 0.3s;
+            overflow-x: hidden;
+        }
+
+        /* === THEME VARIABLES (Red, Black, White) === */
+        :root {
+            --bg-color: #ffffff;
+            --bg-secondary: #f4f4f5; 
+            --bg-card: #ffffff; 
+            --text-main: #000000;
+            --text-muted: #555555;
+            --accent-color: #dc2626; 
+            --accent-dark: #991b1b; 
+            --border-color: #e5e5e5;
+            --nav-bg: rgba(255, 255, 255, 0.98);
+            --drawer-bg: #000000;
+            --drawer-text: #ffffff;
+        }
+
+        /* DARK MODE */
+        body.dark-mode {
+            --bg-color: #0a0a0a;
+            --bg-secondary: #171717;
+            --bg-card: #171717; 
+            --text-main: #ffffff;
+            --text-muted: #a3a3a3;
+            --accent-color: #ef4444; 
+            --accent-dark: #b91c1c; 
+            --border-color: #262626;
+            --nav-bg: rgba(10, 10, 10, 0.98);
+        }
+
+        /* RTL SUPPORT */
+        [dir="rtl"] { text-align: right; }
+        [dir="rtl"] .ml-auto { margin-right: auto; margin-left: 0; }
+        [dir="rtl"] .mr-auto { margin-left: auto; margin-right: 0; }
+        [dir="rtl"] .pl-4 { padding-right: 1rem; padding-left: 0; }
+        [dir="rtl"] .fa-arrow-right { transform: rotate(180deg); }
+
+        /* === REDESIGNED NAVBAR === */
+        .navbar { 
+            position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
+            background: var(--nav-bg); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border-color); 
+            padding: 16px 0; transition: all 0.3s ease;
+        }
+        
+        /* Editorial Underline Links */
+        .nav-link { 
+            padding: 4px 0; 
+            color: var(--text-main); 
+            text-decoration: none; 
+            font-size: 13px; 
+            font-weight: 700; 
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s; 
+            display: inline-flex; 
+            align-items: center; 
+            gap: 6px; 
+            cursor: pointer;
+            position: relative;
+        }
+        .nav-link::after {
+            content: ''; position: absolute; bottom: -4px; left: 0; width: 0%; height: 2px;
+            background-color: var(--accent-color); transition: width 0.3s ease;
+        }
+        .nav-link:hover::after, .nav-link.active::after { width: 100%; }
+        .nav-link:hover, .nav-link.active { color: var(--accent-color); }
+        
+        .dropdown { position: relative; display: flex; align-items: center; height: 100%; }
+        .dropdown-menu { position: absolute; top: 100%; left: 0; margin-top: 15px; opacity: 0; visibility: hidden; transform: translateY(10px); transition: all 0.2s ease; z-index: 100; }
+        .dropdown-inner { background: var(--bg-card); border: 1px solid var(--border-color); border-top: 3px solid var(--accent-color); min-width: 220px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); padding: 12px 0; }
+        .dropdown:hover .dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+        .dropdown-item { display: block; padding: 12px 24px; color: var(--text-main); text-decoration: none; font-size: 13px; font-weight: 600; text-transform: uppercase; transition: all 0.2s; }
+        .dropdown-item:hover { background: var(--bg-secondary); color: var(--accent-color); padding-left: 30px; }
+
+        /* PILL TOGGLE */
+        .theme-toggle-pill { width: 56px; height: 28px; background: var(--bg-secondary); border-radius: 30px; position: relative; cursor: pointer; display: flex; align-items: center; justify-content: space-between; padding: 0 6px; border: 1px solid var(--border-color); }
+        .theme-toggle-pill i { font-size: 11px; z-index: 1; }
+        .theme-toggle-pill .fa-sun { color: #f59e0b; }
+        .theme-toggle-pill .fa-moon { color: #999; }
+        .theme-toggle-pill .thumb { position: absolute; top: 2px; left: 2px; width: 22px; height: 22px; background: white; border-radius: 50%; transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1); box-shadow: 0 2px 4px rgba(0,0,0,0.2); z-index: 2; }
+        body.dark-mode .theme-toggle-pill .thumb { transform: translateX(28px); background: #333; }
+
+        /* BUTTONS */
+        .btn { padding: 12px 28px; font-weight: 800; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; transition: all 0.3s; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; }
+        .btn-solid { background: var(--accent-color); color: white; border: 2px solid var(--accent-color); }
+        .btn-solid:hover { background: var(--accent-dark); border-color: var(--accent-dark); color: white; transform: translateY(-2px); }
+        .btn-outline { border: 2px solid var(--text-main); color: var(--text-main); background: transparent; }
+        .btn-outline:hover { background: var(--text-main); color: var(--bg-color); transform: translateY(-2px); }
+
+        /* === DRAWER === */
+        .drawer { position: fixed; top: 0; right: -100%; width: 100%; max-width: 320px; height: 100vh; background: var(--drawer-bg); z-index: 1000; transition: right 0.3s; padding: 30px; color: var(--drawer-text); overflow-y: auto; }
+        .drawer.active { right: 0; }
+        [dir="rtl"] .drawer { right: auto; left: -100%; transition: left 0.3s; }
+        [dir="rtl"] .drawer.active { left: 0; }
+        .drawer-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); display: none; z-index: 999; }
+        .drawer-overlay.active { display: block; }
+        .drawer-link { display: block; padding: 14px 0; color: #a3a3a3; text-decoration: none; font-size: 16px; font-weight: 600; border-bottom: 1px solid #262626; transition: 0.2s; }
+        .drawer-link:hover { color: var(--accent-color); padding-left: 8px; border-color: var(--accent-color); }
+        .hamburger { width: 24px; height: 18px; display: flex; flex-direction: column; justify-content: space-between; cursor: pointer; }
+        .hamburger span { width: 100%; height: 2px; background: var(--text-main); transition: 0.3s; }
+        
+        /* Mobile Switch */
+        .toggle { width: 44px; height: 24px; background: #333; border-radius: 20px; position: relative; cursor: pointer; transition: all 0.3s; }
+        .toggle::before { content: ''; position: absolute; width: 16px; height: 16px; background: white; border-radius: 50%; top: 4px; left: 4px; transition: left 0.3s; }
+        .toggle.active { background: var(--accent-color); }
+        .toggle.active::before { left: 24px; }
+
+        /* CUSTOM UTILITIES FOR NEW SECTIONS */
+        .service-card { transition: all 0.3s ease; }
+        .service-card:hover { transform: translateY(-5px); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); border-color: var(--accent-color); }
+        
+        /* FOOTER */
+        footer { background: var(--bg-secondary); border-top: 1px solid var(--border-color); padding-top: 80px; }
+        footer h4 { color: var(--text-main); font-weight: 800; font-size: 1.1rem; margin-bottom: 24px; text-transform: uppercase; letter-spacing: 1px;} 
+        footer a, footer li, footer span { color: var(--text-muted); text-decoration: none; transition: all 0.3s; font-size: 0.95rem; }
+        footer a:hover { color: var(--accent-color); }
+        .social-link-circle { width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--border-color); display: flex; align-items: center; justify-content: center; transition: all 0.3s; color: var(--text-main); background: var(--bg-card); }
+        .social-link-circle:hover { background: var(--accent-color); color: white; border-color: var(--accent-color); transform: translateY(-3px); }
+        .footer-bottom { border-top: 1px solid var(--border-color); padding: 24px 0; margin-top: 60px; }
+
+        /* NEW HERO 2 STYLES */
+        .hero-2-bg {
+            background-image: url('images/pexels-cottonbro-4855435.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed; /* Parallax effect */
+        }
+        .glass-stats {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="max-w-7xl mx-auto px-6 w-full flex items-center justify-between">
+            <a href="index.html" class="text-2xl font-black tracking-tighter" style="color: var(--text-main); text-decoration: none;">
+                Growwbooks
+            </a>
+            
+            <div class="hidden xl:flex items-center gap-8">
+                <div class="dropdown">
+                    <div class="nav-link active">Home <i class="fas fa-chevron-down text-[10px] ml-1"></i></div>
+                    <div class="dropdown-menu">
+                        <div class="dropdown-inner">
+                            <a href="index.html" class="dropdown-item">Home Page 1</a>
+                            <a href="home-2.html" class="dropdown-item" style="color: var(--accent-color);">Home Page 2</a>
+                        </div>
+                    </div>
+                </div>
+                <a href="about.html" class="nav-link">About</a>
+                <a href="services.html" class="nav-link">Services</a>
+                <a href="pricing.html" class="nav-link">Pricing</a>
+                <a href="blog.html" class="nav-link">Blog</a>
+                <a href="faq.html" class="nav-link">FAQ</a>
+                <a href="contact.html" class="nav-link">Contact</a>
+                <div class="dropdown">
+                    <div class="nav-link">Dashboard <i class="fas fa-chevron-down text-[10px] ml-1"></i></div>
+                    <div class="dropdown-menu">
+                        <div class="dropdown-inner">
+                            <a href="user.html" class="dropdown-item">Author Dashboard</a>
+                            <a href="admin.html" class="dropdown-item">Editor Dashboard</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hidden xl:flex items-center gap-5">
+                <a href="login.html" class="text-xs font-bold uppercase tracking-wide text-[var(--text-muted)] hover:text-[var(--accent-color)] transition-colors">Login</a>
+                <a href="register.html" class="btn btn-solid !py-2 !px-5 !text-xs">Register</a>
+                
+                <div class="w-px h-5 bg-[var(--border-color)]"></div>
+                
+                <button id="rtl-btn" class="text-xs font-bold text-[var(--text-muted)] hover:text-[var(--accent-color)] uppercase tracking-widest">RTL</button>
+                <div id="theme-toggle-desktop" class="theme-toggle-pill" title="Toggle Dark Mode">
+                    <i class="fas fa-sun"></i><i class="fas fa-moon"></i><div class="thumb"></div>
+                </div>
+            </div>
+
+            <button id="mobile-btn" class="xl:hidden p-2">
+                <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+            </button>
+        </div>
+    </nav>
+
+    <div class="drawer-overlay" id="drawer-overlay"></div>
+    <div class="drawer" id="drawer">
+        <div class="mb-8 flex justify-between items-center pb-4 border-b border-gray-800">
+            <h2 class="text-xl font-black text-white tracking-tighter">
+                
+            </h2>
+            <button id="close-drawer" class="text-gray-400 hover:text-white text-xl p-2"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="flex flex-col space-y-1 text-left">
+            <a href="index.html" class="drawer-link">Home Page 1</a>
+            <a href="home-2.html" class="drawer-link" style="color: var(--accent-color);">Home Page 2</a>
+            <a href="about.html" class="drawer-link">About</a>
+            <a href="services.html" class="drawer-link">Services</a>
+            <a href="pricing.html" class="drawer-link">Pricing</a>
+            <a href="blog.html" class="drawer-link">Blog</a>
+            <a href="faq.html" class="drawer-link">FAQ</a>
+            <a href="contact.html" class="drawer-link">Contact</a>
+            <div class="my-4 border-t border-gray-800"></div>
+            <a href="user.html" class="drawer-link">Author Dashboard</a>
+            <a href="admin.html" class="drawer-link">Editor Dashboard</a>
+        </div>
+        <div class="mt-8 pt-6 border-t border-gray-800">
+            <div class="flex items-center justify-between mb-5">
+                <span class="text-gray-300 font-medium text-sm uppercase tracking-wider">Dark Mode</span>
+                <div class="toggle" id="theme-toggle-mobile"></div>
+            </div>
+            <div class="flex items-center justify-between mb-8">
+                <span class="text-gray-300 font-medium text-sm uppercase tracking-wider">RTL Mode</span>
+                <button id="rtl-toggle-mobile" class="text-white font-bold border border-gray-600 px-3 py-1 text-xs hover:border-[var(--accent-color)]">SWITCH</button>
+            </div>
+            <a href="login.html" class="btn w-full text-center block mb-3 border border-gray-600 text-white hover:bg-gray-800">Login</a>
+            <a href="register.html" class="btn btn-solid w-full text-center block">Register</a>
+        </div>
+    </div>
+
+    <section class="relative h-[90vh] min-h-[650px] flex items-center justify-center hero-2-bg">
+        <div class="absolute inset-0 bg-gradient-to-b from-black/80 via-black/60 to-[var(--bg-color)]"></div>
+        
+        <div class="relative z-10 max-w-4xl mx-auto px-6 text-center mt-12 flex flex-col items-center">
+            
+            <div class="inline-flex items-center justify-center gap-2 px-4 py-2 border border-white/20 rounded-full mb-8 glass-stats">
+                <span class="flex h-2.5 w-2.5 rounded-full bg-[var(--accent-color)] animate-pulse"></span>
+                <span class="text-xs font-bold tracking-widest uppercase text-white text-center">Elite Manuscript Editing</span>
+            </div>
+            
+            <h1 class="text-5xl md:text-6xl lg:text-7xl font-black leading-[1.1] mb-6 text-white tracking-tighter text-center">
+                Your Vision.<br>
+                <span class="text-[var(--accent-color)]">Our Precision.</span>
+            </h1>
+            
+            <p class="text-gray-300 text-lg lg:text-xl leading-relaxed mb-10 max-w-2xl mx-auto font-medium text-center">
+                Join thousands of authors who trust our traditional publishing expertise to transform their raw drafts into polished, bestselling masterpieces.
+            </p>
+            
+            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                <a href="contact.html" class="btn btn-solid shadow-2xl shadow-red-900/40 !px-10 !py-4 text-sm w-full sm:w-auto text-center">Submit Your Draft</a>
+                <a href="services.html" class="btn border-2 border-white text-white hover:bg-white hover:text-black transition-colors !px-10 !py-4 text-sm w-full sm:w-auto text-center">Explore Services</a>
+            </div>
+
+        </div>
+
+        <div class="absolute bottom-0 left-0 w-full transform translate-y-1/2 px-6 z-20 hidden md:block">
+            <div class="max-w-5xl mx-auto bg-[var(--bg-card)] border border-[var(--border-color)] shadow-2xl rounded-2xl p-8 flex justify-around items-center text-center">
+                <div class="flex flex-col items-center text-center">
+                    <h3 class="text-3xl font-black text-[var(--text-main)] mb-1">500+</h3>
+                    <p class="text-xs font-bold text-[var(--text-muted)] uppercase tracking-widest">Books Edited</p>
+                </div>
+                <div class="w-px h-12 bg-[var(--border-color)]"></div>
+                <div class="flex flex-col items-center text-center">
+                    <h3 class="text-3xl font-black text-[var(--text-main)] mb-1">50M+</h3>
+                    <p class="text-xs font-bold text-[var(--text-muted)] uppercase tracking-widest">Words Polished</p>
+                </div>
+                <div class="w-px h-12 bg-[var(--border-color)]"></div>
+                <div class="flex flex-col items-center text-center">
+                    <h3 class="text-3xl font-black text-[var(--text-main)] mb-1">100%</h3>
+                    <p class="text-xs font-bold text-[var(--text-muted)] uppercase tracking-widest">NDA Secure</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="h-24 md:h-32 bg-[var(--bg-color)]"></div>
+
+    <section class="py-16 bg-[var(--bg-color)] flex flex-col items-center">
+        <div class="max-w-7xl mx-auto px-6 w-full">
+            <div class="text-center max-w-2xl mx-auto mb-16 flex flex-col items-center">
+                <h2 class="text-3xl md:text-4xl font-black text-[var(--text-main)] tracking-tighter mb-4 text-center">Editing Without Compromise</h2>
+                <p class="text-[var(--text-muted)] text-lg text-center">We provide comprehensive solutions tailored for serious authors.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="p-8 border border-[var(--border-color)] bg-[var(--bg-secondary)] rounded-xl flex flex-col items-center text-center group hover:border-[var(--accent-color)] transition-colors">
+                    <i class="fas fa-layer-group text-3xl text-[var(--accent-color)] mb-6 group-hover:scale-110 transition-transform"></i>
+                    <h3 class="text-xl font-bold text-[var(--text-main)] mb-3 text-center">Developmental</h3>
+                    <p class="text-[var(--text-muted)] text-sm leading-relaxed mb-6 text-center">Big-picture structural analysis, pacing, and character arc refinement.</p>
+                    <a href="services.html" class="text-sm font-bold text-[var(--text-main)] uppercase tracking-widest group-hover:text-[var(--accent-color)] transition-colors text-center mt-auto">View Details <i class="fas fa-angle-right ml-1"></i></a>
+                </div>
+                <div class="p-8 border border-[var(--border-color)] bg-[var(--bg-secondary)] rounded-xl flex flex-col items-center text-center group hover:border-[var(--accent-color)] transition-colors">
+                    <i class="fas fa-pen-nib text-3xl text-[var(--accent-color)] mb-6 group-hover:scale-110 transition-transform"></i>
+                    <h3 class="text-xl font-bold text-[var(--text-main)] mb-3 text-center">Line Editing</h3>
+                    <p class="text-[var(--text-muted)] text-sm leading-relaxed mb-6 text-center">Sentence-level prose polishing for flow, syntax, and voice consistency.</p>
+                    <a href="services.html" class="text-sm font-bold text-[var(--text-main)] uppercase tracking-widest group-hover:text-[var(--accent-color)] transition-colors text-center mt-auto">View Details <i class="fas fa-angle-right ml-1"></i></a>
+                </div>
+                <div class="p-8 border border-[var(--border-color)] bg-[var(--bg-secondary)] rounded-xl flex flex-col items-center text-center group hover:border-[var(--accent-color)] transition-colors">
+                    <i class="fas fa-search text-3xl text-[var(--accent-color)] mb-6 group-hover:scale-110 transition-transform"></i>
+                    <h3 class="text-xl font-bold text-[var(--text-main)] mb-3 text-center">Proofreading</h3>
+                    <p class="text-[var(--text-muted)] text-sm leading-relaxed mb-6 text-center">The final sweep for typos, grammar, and formatting before publication.</p>
+                    <a href="services.html" class="text-sm font-bold text-[var(--text-main)] uppercase tracking-widest group-hover:text-[var(--accent-color)] transition-colors text-center mt-auto">View Details <i class="fas fa-angle-right ml-1"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-24 bg-[var(--bg-secondary)] border-t border-[var(--border-color)] flex flex-col items-center">
+        <div class="max-w-7xl mx-auto px-6 w-full">
+            <div class="text-center max-w-2xl mx-auto mb-16 flex flex-col items-center">
+                <span class="text-[var(--accent-color)] font-bold text-sm tracking-widest uppercase mb-2 block text-center">Success Stories</span>
+                <h2 class="text-3xl md:text-5xl font-black text-[var(--text-main)] tracking-tighter mb-4 text-center">Authors Who Trust Us</h2>
+                <p class="text-[var(--text-muted)] text-lg text-center">Hear from the writers who have transformed their drafts into published realities with our editorial team.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <div class="bg-[var(--bg-card)] border border-[var(--border-color)] p-8 rounded-xl shadow-lg relative group transition-all duration-300 hover:-translate-y-2 hover:border-[var(--accent-color)] flex flex-col items-center text-center">
+                    <i class="fas fa-quote-left absolute top-8 right-8 text-4xl text-[var(--border-color)] opacity-50 group-hover:text-[var(--accent-color)] group-hover:opacity-10 transition-colors"></i>
+                    <div class="flex items-center justify-center gap-1 text-[var(--accent-color)] text-sm mb-6 w-full">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                    <p class="text-[var(--text-muted)] leading-relaxed mb-8 italic relative z-10 text-sm md:text-base text-center">
+                        "The developmental edit I received completely altered the trajectory of my novel. My editor found plot holes I had been blind to for months and offered brilliant, actionable solutions that maintained my original voice."
+                    </p>
+                    <div class="flex flex-col items-center justify-center gap-4 mt-auto border-t border-[var(--border-color)] pt-6 w-full text-center">
+                        <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=150&q=80" alt="Eleanor Vance" class="w-12 h-12 rounded-full border-2 border-[var(--border-color)] object-cover">
+                        <div class="flex flex-col items-center text-center">
+                            <h4 class="font-bold text-[var(--text-main)] text-sm text-center">Eleanor Vance</h4>
+                            <p class="text-[10px] uppercase tracking-widest text-[var(--text-muted)] font-bold text-center">Sci-Fi Author</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-[var(--bg-card)] border border-[var(--border-color)] p-8 rounded-xl shadow-lg relative group transition-all duration-300 hover:-translate-y-2 hover:border-[var(--accent-color)] flex flex-col items-center text-center">
+                    <i class="fas fa-quote-left absolute top-8 right-8 text-4xl text-[var(--border-color)] opacity-50 group-hover:text-[var(--accent-color)] group-hover:opacity-10 transition-colors"></i>
+                    <div class="flex items-center justify-center gap-1 text-[var(--accent-color)] text-sm mb-6 w-full">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                    <p class="text-[var(--text-muted)] leading-relaxed mb-8 italic relative z-10 text-sm md:text-base text-center">
+                        "I was terrified to hand over my manuscript, but the team at Growwbooks treated it with such respect. The line editing was meticulous, catching repetitive crutch words while making my prose sing. Highly recommended."
+                    </p>
+                    <div class="flex flex-col items-center justify-center gap-4 mt-auto border-t border-[var(--border-color)] pt-6 w-full text-center">
+                        <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=150&q=80" alt="Marcus Reed" class="w-12 h-12 rounded-full border-2 border-[var(--border-color)] object-cover">
+                        <div class="flex flex-col items-center text-center">
+                            <h4 class="font-bold text-[var(--text-main)] text-sm text-center">Marcus Reed</h4>
+                            <p class="text-[10px] uppercase tracking-widest text-[var(--text-muted)] font-bold text-center">Thriller Novelist</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-[var(--bg-card)] border border-[var(--border-color)] p-8 rounded-xl shadow-lg relative group transition-all duration-300 hover:-translate-y-2 hover:border-[var(--accent-color)] flex flex-col items-center text-center">
+                    <i class="fas fa-quote-left absolute top-8 right-8 text-4xl text-[var(--border-color)] opacity-50 group-hover:text-[var(--accent-color)] group-hover:opacity-10 transition-colors"></i>
+                    <div class="flex items-center justify-center gap-1 text-[var(--accent-color)] text-sm mb-6 w-full">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                    </div>
+                    <p class="text-[var(--text-muted)] leading-relaxed mb-8 italic relative z-10 text-sm md:text-base text-center">
+                        "The author dashboard made tracking my project incredibly easy. Communication with my editor was seamless, and the final proofread caught dozens of formatting errors before I went to print. Worth every penny."
+                    </p>
+                    <div class="flex flex-col items-center justify-center gap-4 mt-auto border-t border-[var(--border-color)] pt-6 w-full text-center">
+                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80" alt="Rachel Adams" class="w-12 h-12 rounded-full border-2 border-[var(--border-color)] object-cover">
+                        <div class="flex flex-col items-center text-center">
+                            <h4 class="font-bold text-[var(--text-main)] text-sm text-center">Rachel Adams</h4>
+                            <p class="text-[10px] uppercase tracking-widest text-[var(--text-muted)] font-bold text-center">Indie Publisher</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section class="py-24 bg-[var(--bg-color)] border-t border-[var(--border-color)] flex flex-col items-center">
+        <div class="max-w-7xl mx-auto px-6 w-full">
+            <div class="text-center max-w-2xl mx-auto mb-16 flex flex-col items-center">
+                <span class="text-[var(--accent-color)] font-bold text-sm tracking-widest uppercase mb-2 block text-center">Clear Pricing</span>
+                <h2 class="text-3xl md:text-5xl font-black text-[var(--text-main)] tracking-tighter mb-4 text-center">Investment Tiers</h2>
+                <p class="text-[var(--text-muted)] text-lg text-center">No hidden fees or surprise charges. All rates are calculated strictly on a per-word basis depending on the service level.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch max-w-6xl mx-auto w-full">
+                
+                <div class="border border-[var(--border-color)] bg-[var(--bg-secondary)] p-8 rounded-xl flex flex-col items-center text-center h-full hover:border-[var(--text-main)] transition-colors w-full">
+                    <h3 class="text-xl font-bold text-[var(--text-main)] mb-2 text-center">Proofreading</h3>
+                    <p class="text-sm text-[var(--text-muted)] mb-6 text-center">Final polish before publication.</p>
+                    <div class="mb-8 text-center flex items-center justify-center gap-1 w-full">
+                        <span class="text-4xl font-black text-[var(--text-main)]">1.5¢</span>
+                        <span class="text-[var(--text-muted)] text-sm font-bold uppercase tracking-wider">/ word</span>
+                    </div>
+                    <ul class="space-y-4 mb-8 flex-grow w-full flex flex-col items-center text-center">
+                        <li class="flex items-center justify-center gap-3 text-sm text-[var(--text-muted)] w-full text-center"><i class="fas fa-check text-[var(--accent-color)]"></i> Typo & spelling correction</li>
+                        <li class="flex items-center justify-center gap-3 text-sm text-[var(--text-muted)] w-full text-center"><i class="fas fa-check text-[var(--accent-color)]"></i> Grammar & punctuation fix</li>
+                        <li class="flex items-center justify-center gap-3 text-sm text-[var(--text-muted)] w-full text-center"><i class="fas fa-check text-[var(--accent-color)]"></i> Formatting consistency</li>
+                        <li class="flex items-center justify-center gap-3 text-sm text-[var(--text-muted)] opacity-50 w-full text-center"><i class="fas fa-times text-[var(--border-color)]"></i> No structural changes</li>
+                    </ul>
+                    <a href="contact.html" class="btn btn-outline w-full mt-auto text-center justify-center">Get a Quote</a>
+                </div>
+
+                <div class="border-2 border-[var(--accent-color)] bg-[var(--bg-card)] p-8 rounded-xl flex flex-col items-center text-center h-full shadow-2xl relative transform md:-translate-y-4 w-full">
+                    <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-[var(--accent-color)] text-white text-[10px] font-bold uppercase tracking-widest px-4 py-1 rounded-full text-center whitespace-nowrap">
+                        Most Popular
+                    </div>
+                    <h3 class="text-xl font-bold text-[var(--text-main)] mb-2 mt-2 text-center">Line Editing</h3>
+                    <p class="text-sm text-[var(--text-muted)] mb-6 text-center">Deep sentence-level prose refinement.</p>
+                    <div class="mb-8 text-center flex items-center justify-center gap-1 w-full">
+                        <span class="text-4xl font-black text-[var(--text-main)]">3.5¢</span>
+                        <span class="text-[var(--text-muted)] text-sm font-bold uppercase tracking-wider">/ word</span>
+                    </div>
+                    <ul class="space-y-4 mb-8 flex-grow w-full flex flex-col items-center text-center">
+                        <li class="flex items-center justify-center gap-3 text-sm text-[var(--text-main)] font-medium w-full text-center"><i class="fas fa-check text-[var(--accent-color)]"></i> Everything in Proofreading</li>
+                        <li class="flex items-center justify-center gap-3 text-sm text-[var(--text-main)] font-medium w-full text-center"><i class="fas fa-check text-[var(--accent-color)]"></i> Sentence flow & pacing</li>
+                        <li class="flex items-center justify-center gap-3 text-sm text-[var(--text-main)] font-medium w-full text-center"><i class="fas fa-check text-[var(--accent-color)]"></i> Voice & tone consistency</li>
+                        <li class="flex items-center justify-center gap-3 text-sm text-[var(--text-main)] font-medium w-full text-center"><i class="fas fa-check text-[var(--accent-color)]"></i> Cliché & repetition removal</li>
+                    </ul>
+                    <a href="contact.html" class="btn btn-solid w-full mt-auto shadow-lg shadow-red-900/20 text-center justify-center">Get a Quote</a>
+                </div>
+
+                <div class="border border-[var(--border-color)] bg-[var(--bg-secondary)] p-8 rounded-xl flex flex-col items-center text-center h-full hover:border-[var(--text-main)] transition-colors w-full">
+                    <h3 class="text-xl font-bold text-[var(--text-main)] mb-2 text-center">Developmental</h3>
+                    <p class="text-sm text-[var(--text-muted)] mb-6 text-center">Big picture structural overhaul.</p>
+                    <div class="mb-8 text-center flex items-center justify-center gap-1 w-full">
+                        <span class="text-4xl font-black text-[var(--text-main)]">6.0¢</span>
+                        <span class="text-[var(--text-muted)] text-sm font-bold uppercase tracking-wider">/ word</span>
+                    </div>
+                    <ul class="space-y-4 mb-8 flex-grow w-full flex flex-col items-center text-center">
+                        <li class="flex items-center justify-center gap-3 text-sm text-[var(--text-muted)] w-full text-center"><i class="fas fa-check text-[var(--accent-color)]"></i> Plot hole & logic review</li>
+                        <li class="flex items-center justify-center gap-3 text-sm text-[var(--text-muted)] w-full text-center"><i class="fas fa-check text-[var(--accent-color)]"></i> Character arc analysis</li>
+                        <li class="flex items-center justify-center gap-3 text-sm text-[var(--text-muted)] w-full text-center"><i class="fas fa-check text-[var(--accent-color)]"></i> Pacing & tension critique</li>
+                        <li class="flex items-center justify-center gap-3 text-sm text-[var(--text-muted)] w-full text-center"><i class="fas fa-check text-[var(--accent-color)]"></i> Detailed editorial letter</li>
+                    </ul>
+                    <a href="contact.html" class="btn btn-outline w-full mt-auto text-center justify-center">Get a Quote</a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section class="py-24 bg-[var(--bg-secondary)] border-t border-[var(--border-color)] flex flex-col items-center">
+        <div class="max-w-7xl mx-auto px-6 w-full">
+            
+            <div class="text-center max-w-2xl mx-auto mb-16 flex flex-col items-center">
+                <span class="text-[var(--accent-color)] font-bold text-sm tracking-widest uppercase mb-2 block text-center">Our Experts</span>
+                <h2 class="text-3xl md:text-5xl font-black text-[var(--text-main)] tracking-tighter mb-4 text-center">Meet the Editors</h2>
+                <p class="text-[var(--text-muted)] text-lg mb-6 text-center">Our team is strictly composed of traditionally published authors and industry veterans who know what it takes to sell a book.</p>
+                <a href="about.html" class="btn btn-outline whitespace-nowrap justify-center text-center">Read Full Bios</a>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 w-full">
+                
+                <div class="group flex flex-col items-center text-center w-full">
+                    <div class="relative overflow-hidden rounded-xl aspect-[3/4] mb-4 border border-[var(--border-color)] bg-[var(--bg-color)] w-full">
+                        <img src="images/pexels-olly-733872 (1).jpg" alt="Sarah Jenkins" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-6 gap-4">
+                            <a href="#" class="w-8 h-8 rounded-full bg-white text-black flex items-center justify-center hover:bg-[var(--accent-color)] hover:text-white transition-colors"><i class="fab fa-linkedin-in text-sm"></i></a>
+                            <a href="#" class="w-8 h-8 rounded-full bg-white text-black flex items-center justify-center hover:bg-[var(--accent-color)] hover:text-white transition-colors"><i class="fas fa-envelope text-sm"></i></a>
+                        </div>
+                    </div>
+                    <h4 class="text-lg font-bold text-[var(--text-main)] mb-1 text-center w-full">Sarah Jenkins</h4>
+                    <p class="text-xs font-bold text-[var(--accent-color)] uppercase tracking-widest mb-2 text-center w-full">Head of Fiction</p>
+                    <p class="text-sm text-[var(--text-muted)] line-clamp-3 text-center w-full">Former Big Five editor specializing in Sci-Fi, Fantasy, and high-tension Thrillers.</p>
+                </div>
+
+                <div class="group flex flex-col items-center text-center w-full">
+                    <div class="relative overflow-hidden rounded-xl aspect-[3/4] mb-4 border border-[var(--border-color)] bg-[var(--bg-color)] w-full">
+                        <img src="images/pexels-danxavier-1239291 (1).jpg" alt="David Chen" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-6 gap-4">
+                            <a href="#" class="w-8 h-8 rounded-full bg-white text-black flex items-center justify-center hover:bg-[var(--accent-color)] hover:text-white transition-colors"><i class="fab fa-linkedin-in text-sm"></i></a>
+                            <a href="#" class="w-8 h-8 rounded-full bg-white text-black flex items-center justify-center hover:bg-[var(--accent-color)] hover:text-white transition-colors"><i class="fas fa-envelope text-sm"></i></a>
+                        </div>
+                    </div>
+                    <h4 class="text-lg font-bold text-[var(--text-main)] mb-1 text-center w-full">David Chen</h4>
+                    <p class="text-xs font-bold text-[var(--accent-color)] uppercase tracking-widest mb-2 text-center w-full">Senior Line Editor</p>
+                    <p class="text-sm text-[var(--text-muted)] line-clamp-3 text-center w-full">A master of prose and pacing. David ensures every sentence flows beautifully without losing the author's voice.</p>
+                </div>
+
+                <div class="group flex flex-col items-center text-center w-full">
+                    <div class="relative overflow-hidden rounded-xl aspect-[3/4] mb-4 border border-[var(--border-color)] bg-[var(--bg-color)] w-full">
+                        <img src="images/pexels-justin-shaifer-501272-1222271 (1).jpg" alt="Maria Gonzales" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-6 gap-4">
+                            <a href="#" class="w-8 h-8 rounded-full bg-white text-black flex items-center justify-center hover:bg-[var(--accent-color)] hover:text-white transition-colors"><i class="fab fa-linkedin-in text-sm"></i></a>
+                            <a href="#" class="w-8 h-8 rounded-full bg-white text-black flex items-center justify-center hover:bg-[var(--accent-color)] hover:text-white transition-colors"><i class="fas fa-envelope text-sm"></i></a>
+                        </div>
+                    </div>
+                    <h4 class="text-lg font-bold text-[var(--text-main)] mb-1 text-center w-full">Maria Gonzales</h4>
+                    <p class="text-xs font-bold text-[var(--accent-color)] uppercase tracking-widest mb-2 text-center w-full">Non-Fiction Specialist</p>
+                    <p class="text-sm text-[var(--text-muted)] line-clamp-3 text-center w-full">Specializing in memoirs, business books, and self-help. Maria structures real-world narratives for maximum impact.</p>
+                </div>
+
+                <div class="group flex flex-col items-center text-center w-full">
+                    <div class="relative overflow-hidden rounded-xl aspect-[3/4] mb-4 border border-[var(--border-color)] bg-[var(--bg-color)] flex flex-col items-center justify-center p-8 text-center cursor-pointer hover:bg-[var(--text-main)] group-hover:border-[var(--text-main)] transition-all w-full">
+                        <div class="flex flex-col items-center text-center w-full">
+                            <div class="w-16 h-16 rounded-full bg-[var(--bg-secondary)] text-[var(--text-main)] flex items-center justify-center text-xl mb-4 mx-auto group-hover:bg-[var(--accent-color)] group-hover:text-white transition-colors">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <h4 class="text-lg font-bold text-[var(--text-main)] group-hover:text-[var(--bg-color)] mb-2 text-center w-full">View Full Roster</h4>
+                            <p class="text-xs text-[var(--text-muted)] group-hover:text-gray-400 text-center w-full">Discover all 25+ editorial specialists.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section class="py-24 bg-[var(--bg-color)] border-t border-[var(--border-color)] flex flex-col items-center">
+        <div class="max-w-4xl mx-auto px-6 w-full">
+            <div class="text-center mb-16 flex flex-col items-center w-full">
+                <span class="text-[var(--accent-color)] font-bold text-sm tracking-widest uppercase mb-2 block text-center">Common Inquiries</span>
+                <h2 class="text-3xl md:text-5xl font-black text-[var(--text-main)] tracking-tighter mb-4 text-center">Frequently Asked Questions</h2>
+                <p class="text-[var(--text-muted)] text-lg text-center">Everything you need to know about About before we begin.</p>
+            </div>
+
+            <div class="space-y-4 w-full flex flex-col items-center">
+                
+                <div class="border border-[var(--border-color)] rounded-xl bg-[var(--bg-secondary)] overflow-hidden transition-all duration-300 hover:border-[var(--accent-color)] w-full flex flex-col items-center text-center">
+                    <button class="faq-toggle-btn w-full text-center p-6 flex justify-between items-center focus:outline-none relative h-full">
+                        <span class="font-bold text-[var(--text-main)] md:text-lg flex-grow text-center pr-12 w-full">Will my intellectual property be protected?</span>
+                        <div class="faq-icon-wrapper absolute right-6 w-8 h-8 rounded-full bg-[var(--bg-color)] flex items-center justify-center flex-shrink-0 border border-[var(--border-color)] transition-colors">
+                            <i class="fas fa-plus text-[var(--text-main)] text-sm transition-transform duration-300"></i>
+                        </div>
+                    </button>
+                    <div class="faq-content max-h-0 overflow-hidden transition-all duration-300 ease-in-out w-full flex flex-col items-center text-center">
+                        <div class="p-6 pt-0 text-[var(--text-muted)] text-sm md:text-base leading-relaxed border-t border-[var(--border-color)] mt-2 text-center w-full flex items-center justify-center">
+                            Absolutely. Your ideas are your own, and we fiercely protect them. Before any manuscript is uploaded to our secure dashboard, both parties sign a legally binding Non-Disclosure Agreement (NDA). You retain 100% of your copyright and future royalties.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="border border-[var(--border-color)] rounded-xl bg-[var(--bg-secondary)] overflow-hidden transition-all duration-300 hover:border-[var(--accent-color)] w-full flex flex-col items-center text-center">
+                    <button class="faq-toggle-btn w-full text-center p-6 flex justify-between items-center focus:outline-none relative h-full">
+                        <span class="font-bold text-[var(--text-main)] md:text-lg flex-grow text-center pr-12 w-full">Can I request a free sample edit?</span>
+                        <div class="faq-icon-wrapper absolute right-6 w-8 h-8 rounded-full bg-[var(--bg-color)] flex items-center justify-center flex-shrink-0 border border-[var(--border-color)] transition-colors">
+                            <i class="fas fa-plus text-[var(--text-main)] text-sm transition-transform duration-300"></i>
+                        </div>
+                    </button>
+                    <div class="faq-content max-h-0 overflow-hidden transition-all duration-300 ease-in-out w-full flex flex-col items-center text-center">
+                        <div class="p-6 pt-0 text-[var(--text-muted)] text-sm md:text-base leading-relaxed border-t border-[var(--border-color)] mt-2 text-center w-full flex items-center justify-center">
+                            Yes. We highly encourage authors to request a sample edit before committing to a full manuscript project. If your manuscript is over 50,000 words, we will edit your first 1,000 words entirely for free to ensure our editor's style aligns with your vision.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="border border-[var(--border-color)] rounded-xl bg-[var(--bg-secondary)] overflow-hidden transition-all duration-300 hover:border-[var(--accent-color)] w-full flex flex-col items-center text-center">
+                    <button class="faq-toggle-btn w-full text-center p-6 flex justify-between items-center focus:outline-none relative h-full">
+                        <span class="font-bold text-[var(--text-main)] md:text-lg flex-grow text-center pr-12 w-full">What happens if I disagree with an editor's suggestion?</span>
+                        <div class="faq-icon-wrapper absolute right-6 w-8 h-8 rounded-full bg-[var(--bg-color)] flex items-center justify-center flex-shrink-0 border border-[var(--border-color)] transition-colors">
+                            <i class="fas fa-plus text-[var(--text-main)] text-sm transition-transform duration-300"></i>
+                        </div>
+                    </button>
+                    <div class="faq-content max-h-0 overflow-hidden transition-all duration-300 ease-in-out w-full flex flex-col items-center text-center">
+                        <div class="p-6 pt-0 text-[var(--text-muted)] text-sm md:text-base leading-relaxed border-t border-[var(--border-color)] mt-2 text-center w-full flex items-center justify-center">
+                            It is entirely your book, and you have the final say. All of our structural and line edits are delivered as "suggestions" rather than forced changes using Microsoft Word's Track Changes feature. You can simply click "Reject Change" on any edit that you feel does not fit.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="border border-[var(--border-color)] rounded-xl bg-[var(--bg-secondary)] overflow-hidden transition-all duration-300 hover:border-[var(--accent-color)] w-full flex flex-col items-center text-center">
+                    <button class="faq-toggle-btn w-full text-center p-6 flex justify-between items-center focus:outline-none relative h-full">
+                        <span class="font-bold text-[var(--text-main)] md:text-lg flex-grow text-center pr-12 w-full">How long does a standard edit take?</span>
+                        <div class="faq-icon-wrapper absolute right-6 w-8 h-8 rounded-full bg-[var(--bg-color)] flex items-center justify-center flex-shrink-0 border border-[var(--border-color)] transition-colors">
+                            <i class="fas fa-plus text-[var(--text-main)] text-sm transition-transform duration-300"></i>
+                        </div>
+                    </button>
+                    <div class="faq-content max-h-0 overflow-hidden transition-all duration-300 ease-in-out w-full flex flex-col items-center text-center">
+                        <div class="p-6 pt-0 text-[var(--text-muted)] text-sm md:text-base leading-relaxed border-t border-[var(--border-color)] mt-2 text-center w-full flex items-center justify-center">
+                            Turnaround times depend strictly on the word count and the level of editing required. A standard 80,000-word novel typically takes 3 to 4 weeks for a developmental or line edit, and 1 to 2 weeks for a proofread. We establish a firm, guaranteed deadline before any contract is signed.
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            
+            <div class="mt-12 text-center w-full flex justify-center">
+                <a href="faq.html" class="btn btn-outline text-center justify-center">Read All FAQs</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="relative py-24 bg-black overflow-hidden flex flex-col items-center">
+        <div class="absolute inset-0 z-0">
+            <img src="images/pexels-pixabay-207662.jpg" alt="Library Background" class="w-full h-full object-cover opacity-40 mix-blend-multiply">
+            <div class="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-black/40"></div>
+        </div>
+        
+        <div class="relative z-10 max-w-4xl mx-auto px-6 text-center text-white flex flex-col items-center">
+            <span class="inline-block py-1 px-3 border border-[var(--accent-color)] text-[var(--accent-color)] text-xs font-bold uppercase tracking-widest mb-6 bg-black/50 backdrop-blur-sm text-center">
+                Ready to Publish?
+            </span>
+            <h2 class="text-4xl md:text-5xl lg:text-6xl font-black mb-6 tracking-tighter text-white text-center">Let's Polish Your Manuscript.</h2>
+            <p class="text-lg md:text-xl text-gray-300 mb-10 max-w-2xl mx-auto font-medium text-center">
+                Create a free account to access the client dashboard, submit your sample chapter, and get a customized quote from our editorial team within 24 hours.
+            </p>
+            
+            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center w-full">
+                <a href="register.html" class="btn btn-solid !px-10 !py-4 shadow-2xl shadow-red-900/30 w-full sm:w-auto text-sm text-center justify-center">
+                    Create Author Account
+                </a>
+                <a href="contact.html" class="btn border-2 border-white text-white hover:bg-white hover:text-black w-full sm:w-auto text-sm backdrop-blur-sm text-center justify-center">
+                    Contact Us
+                </a>
+            </div>
+            
+            <p class="mt-8 text-xs text-gray-500 uppercase tracking-widest font-semibold text-center w-full">Strict Confidentiality & NDA Compliant</p>
+        </div>
+    </section>
+
+    <footer>
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-10 pt-4 text-center">
+                
+                <div class="lg:col-span-4 flex flex-col items-center text-center">
+                    <a href="index.html" class="text-2xl font-black tracking-tighter mb-6 block" style="color: var(--text-main); text-decoration: none;">
+                        Growwbooks
+                    </a>
+                    <p class="opacity-80 leading-relaxed text-sm mb-6 max-w-sm text-center" style="color: var(--text-muted);">Dedicated to perfecting the written word. We provide comprehensive editing, formatting, and manuscript development for authors across all genres.</p>
+                    <div class="flex justify-center space-x-3 w-full">
+                        <a href="#" class="social-link-circle"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="social-link-circle"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link-circle"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                
+                <div class="lg:col-span-8 flex flex-col items-center w-full">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 w-full text-center">
+                        <div class="flex flex-col items-center w-full text-center">
+                            <h4 class="text-center w-full">Our Services</h4>
+                            <ul class="space-y-3 flex flex-col items-center w-full text-center">
+                                <li><a href="services.html">Developmental Editing</a></li>
+                                <li><a href="services.html">Line & Copy Editing</a></li>
+                                <li><a href="services.html">Proofreading</a></li>
+                                <li><a href="pricing.html">Pricing Packages</a></li>
+                                <li><a href="about.html">About</a></li>
+                            </ul>
+                        </div>
+                        <div class="flex flex-col items-center w-full text-center">
+                            <h4 class="text-center w-full">Author Portal</h4>
+                            <ul class="space-y-3 flex flex-col items-center w-full text-center">
+                                <li><a href="user.html">Track Manuscript</a></li>
+                                <li><a href="user.html">Sign Contracts</a></li>
+                                <li><a href="login.html">Author Login</a></li>
+                                <li><a href="register.html">Create Account</a></li>
+                                <li><a href="contact.html">Submit a Sample</a></li>
+                            </ul>
+                        </div>
+                        <div class="sm:col-span-2 md:col-span-1 flex flex-col items-center w-full text-center">
+                            <h4 class="text-center w-full">Get in Touch</h4>
+                            <ul class="space-y-3 text-[var(--text-muted)] text-sm flex flex-col items-center w-full text-center">
+                                <li class="flex flex-col items-center text-center"><i class="fas fa-map-marker-alt mb-2" style="color: var(--accent-color);"></i><span>100 Publishing Row<br>New York, NY 10012</span></li>
+                                <li class="flex flex-col items-center text-center mt-3"><i class="fas fa-phone mb-2" style="color: var(--accent-color);"></i><a href="tel:+15551234567" class="break-all">+1 (555) 123-4567</a></li>
+                                <li class="flex flex-col items-center text-center mt-3"><i class="fas fa-envelope mb-2" style="color: var(--accent-color);"></i><a href="mailto:hello@Growwbooks.com" class="break-all">hello@Growwbooks.com</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom flex flex-col justify-center items-center text-sm gap-4 text-center">
+                <p style="color: var(--text-muted); text-align: center;">&copy; 2026 Growwbooks Services. All rights reserved.</p>
+                <div class="flex flex-wrap justify-center gap-4 sm:gap-6 w-full text-center">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const mobileBtn = document.getElementById('mobile-btn'); 
+        const drawer = document.getElementById('drawer'); 
+        const drawerOverlay = document.getElementById('drawer-overlay'); 
+        const closeDrawer = document.getElementById('close-drawer'); 
+        
+        function toggleDrawer() { 
+            drawer.classList.toggle('active'); 
+            drawerOverlay.classList.toggle('active'); 
+        }
+        
+        mobileBtn.onclick = toggleDrawer; 
+        closeDrawer.onclick = toggleDrawer; 
+        drawerOverlay.onclick = toggleDrawer;
+        
+        const themeDesktop = document.getElementById('theme-toggle-desktop');
+        const themeMobile = document.getElementById('theme-toggle-mobile'); 
+        const theme = localStorage.getItem('theme') || 'light';
+
+        function updateThemeUI(isDark) {
+            if (isDark) {
+                document.body.classList.add('dark-mode'); 
+                themeMobile.classList.add('active');
+            } else {
+                document.body.classList.remove('dark-mode');
+                themeMobile.classList.remove('active');
+            }
+        }
+        
+        updateThemeUI(theme === 'dark');
+        
+        function toggleTheme() { 
+            const isDark = !document.body.classList.contains('dark-mode');
+            updateThemeUI(isDark);
+            localStorage.setItem('theme', isDark ? 'dark' : 'light'); 
+        }
+        
+        themeDesktop.onclick = toggleTheme; 
+        themeMobile.onclick = toggleTheme;
+        
+        const rtlBtn = document.getElementById('rtl-btn'); 
+        const rtlMobile = document.getElementById('rtl-toggle-mobile'); 
+        const dir = localStorage.getItem('dir') || 'ltr';
+        
+        if (dir === 'rtl') { 
+            document.documentElement.dir = 'rtl'; 
+            rtlMobile.innerText = "LTR"; 
+            rtlBtn.innerText = "LTR";
+        }
+        
+        function toggleRTL() { 
+            const isRTL = document.documentElement.dir === 'rtl'; 
+            document.documentElement.dir = isRTL ? 'ltr' : 'rtl'; 
+            localStorage.setItem('dir', isRTL ? 'ltr' : 'rtl'); 
+            rtlMobile.innerText = isRTL ? 'SWITCH' : 'LTR'; 
+            rtlBtn.innerText = isRTL ? 'RTL' : 'LTR';
+        }
+        
+        rtlBtn.onclick = toggleRTL; 
+        rtlMobile.onclick = toggleRTL;
+
+        // FAQ Accordion Javascript Logic
+        const faqBtns = document.querySelectorAll('.faq-toggle-btn');
+        faqBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const content = this.nextElementSibling;
+                const icon = this.querySelector('i');
+                const iconWrapper = this.querySelector('.faq-icon-wrapper');
+                
+                // Toggle current
+                if (content.style.maxHeight) {
+                    content.style.maxHeight = null;
+                    icon.classList.remove('rotate-180', 'fa-minus', 'text-white');
+                    icon.classList.add('fa-plus', 'text-[var(--text-main)]');
+                    iconWrapper.classList.remove('bg-[var(--accent-color)]', 'border-[var(--accent-color)]');
+                    iconWrapper.classList.add('bg-[var(--bg-color)]', 'border-[var(--border-color)]');
+                } else {
+                    // Close all others first
+                    document.querySelectorAll('.faq-content').forEach(otherContent => {
+                        otherContent.style.maxHeight = null;
+                        const otherBtn = otherContent.previousElementSibling;
+                        const otherIcon = otherBtn.querySelector('i');
+                        const otherIconWrapper = otherBtn.querySelector('.faq-icon-wrapper');
+                        
+                        otherIcon.classList.remove('rotate-180', 'fa-minus', 'text-white');
+                        otherIcon.classList.add('fa-plus', 'text-[var(--text-main)]');
+                        otherIconWrapper.classList.remove('bg-[var(--accent-color)]', 'border-[var(--accent-color)]');
+                        otherIconWrapper.classList.add('bg-[var(--bg-color)]', 'border-[var(--border-color)]');
+                    });
+                    
+                    // Open clicked
+                    content.style.maxHeight = content.scrollHeight + "px";
+                    icon.classList.remove('fa-plus', 'text-[var(--text-main)]');
+                    icon.classList.add('fa-minus', 'rotate-180', 'text-white');
+                    iconWrapper.classList.remove('bg-[var(--bg-color)]', 'border-[var(--border-color)]');
+                    iconWrapper.classList.add('bg-[var(--accent-color)]', 'border-[var(--accent-color)]');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
