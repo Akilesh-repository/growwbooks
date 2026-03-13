@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Author Dashboard | Growwbooks</title>
+    <title>Author Dashboard | BooksToday</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="icon" type="image/jpeg" href="images/growwpark_logo.jpg">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -134,6 +134,16 @@
             flex-grow: 1;
         }
 
+        /* SECTION TOGGLE ANIMATION */
+        .content-section {
+            transition: opacity 0.3s ease-in-out;
+            opacity: 1;
+        }
+        .content-section.hidden {
+            display: none;
+            opacity: 0;
+        }
+
         /* RESPONSIVE */
         @media (max-width: 1024px) {
             .sidebar { transform: translateX(-100%); }
@@ -162,6 +172,7 @@
 
         /* SIDEBAR NAVIGATION */
         .nav-item {
+            width: 100%;
             display: flex;
             align-items: center;
             padding: 14px 20px;
@@ -172,6 +183,10 @@
             border-radius: 8px; 
             margin-bottom: 4px;
             transition: all 0.2s;
+            cursor: pointer;
+            border: none;
+            background: transparent;
+            text-align: left;
         }
         
         .nav-item i { width: 24px; font-size: 1.1rem; text-align: center; margin-right: 14px; transition: transform 0.2s; }
@@ -285,30 +300,30 @@
     <aside class="sidebar" id="sidebar">
         <div class="mb-12 px-4">
             <a href="index.html" class="text-2xl font-black tracking-tighter block" style="color: var(--text-main); text-decoration: none;">
-                Growwbooks
+                BooksToday
             </a>
         </div>
         
         <nav class="flex-grow">
-            <p class="text-xs font-bold uppercase tracking-widest mb-3 px-4" style="color: var(--text-muted);">Workspace</p>
-            <a href="user.html" class="nav-item active"><i class="fas fa-columns"></i> Dashboard</a>
+            <p class="text-xs font-bold uppercase tracking-widest mb-3 px-4" style="color: var(--text-muted);">Main Menu</p>
             
-            <a href="#" class="nav-item">
+            <button class="nav-item active tab-btn" data-target="sec-overview"><i class="fas fa-columns"></i> Dashboard</button>
+            
+            <button class="nav-item tab-btn" data-target="sec-contracts">
                 <i class="fas fa-file-signature"></i> Contracts 
                 <span class="ml-auto bg-[var(--accent-color)] text-white text-[10px] px-2 py-0.5 rounded-full">1</span>
-            </a>
-            <a href="#" class="nav-item"><i class="fas fa-book-open"></i> Chapter Review</a>
-            <a href="#" class="nav-item">
+            </button>
+            
+            <button class="nav-item tab-btn" data-target="sec-chapters"><i class="fas fa-book-open"></i> Chapter Review</button>
+            
+            <button class="nav-item tab-btn" data-target="sec-messages">
                 <i class="fas fa-comments"></i> Messages 
                 <span class="ml-auto bg-[var(--border-color)] text-[var(--text-main)] text-[10px] px-2 py-0.5 rounded-full font-bold">2</span>
-            </a>
+            </button>
+
+            <button class="nav-item tab-btn" data-target="sec-settings"><i class="fas fa-user-edit"></i> Profile & Settings</button>
             
-            <p class="text-xs font-bold uppercase tracking-widest mt-10 mb-3 px-4" style="color: var(--text-muted);">Account</p>
-            <a href="#" class="nav-item"><i class="fas fa-file-invoice-dollar"></i> Billing & Invoices</a>
-            <a href="#" class="nav-item"><i class="fas fa-user-edit"></i> Profile Details</a>
-            <a href="contact.html" class="nav-item"><i class="fas fa-headset"></i> Support</a>
-            
-            <a href="login.html" class="nav-item mt-10 text-[var(--accent-color)] hover:bg-[var(--dash-bg)]">
+            <a href="login.html" class="nav-item mt-10 text-[var(--accent-color)] hover:bg-[var(--dash-bg)] !border-none" style="text-decoration: none;">
                 <i class="fas fa-sign-out-alt text-[var(--accent-color)]"></i> Log Out
             </a>
         </nav>
@@ -348,86 +363,174 @@
             </div>
         </header>
 
-        <main class="content-area">
+        <main class="content-area relative">
             
-            <div class="hero-banner mb-8 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 p-8 md:p-12">
-                <div class="hero-banner-pattern"></div>
-                <div class="relative z-10">
-                    <span class="inline-block border border-white/50 text-white text-xs font-bold uppercase tracking-widest px-3 py-1 rounded mb-4">Project Active</span>
-                    <h1 class="text-3xl md:text-4xl font-black mb-2 tracking-tight text-white">The Midnight Paradox</h1>
-                    <p class="text-gray-300 text-base max-w-xl font-medium">Your manuscript is currently in <strong class="text-white">Phase 2: Line Editing</strong>. Sarah Jenkins has left new notes on Chapter 4.</p>
-                </div>
-                <div class="flex flex-col sm:flex-row gap-4 w-full lg:w-auto relative z-10">
-                    <button class="w-full sm:w-auto bg-transparent border-2 border-white/30 text-white hover:bg-white hover:text-black px-6 py-3 font-bold text-sm uppercase tracking-wide transition-all rounded-md">Upload Revision</button>
-                    <button class="w-full sm:w-auto bg-[var(--accent-color)] hover:bg-[var(--accent-dark)] text-white border-2 border-[var(--accent-color)] hover:border-[var(--accent-dark)] px-6 py-3 font-bold text-sm uppercase tracking-wide shadow-lg transition-all flex items-center justify-center gap-2 rounded-md">
-                        <i class="fas fa-pen-nib"></i> Resume Review
-                    </button>
-                </div>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-8">
-                
-                <div class="dash-card p-6 flex flex-col justify-center">
-                    <div class="flex justify-between items-start mb-2">
-                        <p class="text-xs font-bold uppercase tracking-widest text-[var(--text-muted)]">Overall Progress</p>
-                        <i class="fas fa-tasks text-[var(--text-muted)]"></i>
+            <section id="sec-overview" class="content-section">
+                <div class="hero-banner mb-8 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 p-8 md:p-12">
+                    <div class="hero-banner-pattern"></div>
+                    <div class="relative z-10">
+                        <span class="inline-block border border-white/50 text-white text-xs font-bold uppercase tracking-widest px-3 py-1 rounded mb-4">Project Active</span>
+                        <h1 class="text-3xl md:text-4xl font-black mb-2 tracking-tight text-white">The Midnight Paradox</h1>
+                        <p class="text-gray-300 text-base max-w-xl font-medium">Your manuscript is currently in <strong class="text-white">Phase 2: Line Editing</strong>. Sarah Jenkins has left new notes on Chapter 4.</p>
                     </div>
-                    <h3 class="text-3xl font-black text-[var(--text-main)] mt-1">45%</h3>
-                    <div class="mt-3">
-                        <div class="progress-bg"><div class="progress-fill" style="width: 45%;"></div></div>
-                        <p class="text-xs text-[var(--text-muted)] mt-2 font-medium">Estimated completion: Nov 12</p>
+                    <div class="flex flex-col sm:flex-row gap-4 w-full lg:w-auto relative z-10">
+                        <button class="w-full sm:w-auto bg-transparent border-2 border-white/30 text-white hover:bg-white hover:text-black px-6 py-3 font-bold text-sm uppercase tracking-wide transition-all rounded-md">Upload Revision</button>
+                        <button class="w-full sm:w-auto bg-[var(--accent-color)] hover:bg-[var(--accent-dark)] text-white border-2 border-[var(--accent-color)] hover:border-[var(--accent-dark)] px-6 py-3 font-bold text-sm uppercase tracking-wide shadow-lg transition-all flex items-center justify-center gap-2 rounded-md tab-trigger" data-target="sec-chapters">
+                            <i class="fas fa-pen-nib"></i> Resume Review
+                        </button>
                     </div>
                 </div>
 
-                <div class="dash-card p-6 flex flex-col justify-center">
-                    <div class="flex justify-between items-start mb-2">
-                        <p class="text-xs font-bold uppercase tracking-widest text-[var(--text-muted)]">Word Count</p>
-                        <i class="fas fa-file-word text-[var(--text-muted)]"></i>
+                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-8">
+                    <div class="dash-card p-6 flex flex-col justify-center">
+                        <div class="flex justify-between items-start mb-2">
+                            <p class="text-xs font-bold uppercase tracking-widest text-[var(--text-muted)]">Overall Progress</p>
+                            <i class="fas fa-tasks text-[var(--text-muted)]"></i>
+                        </div>
+                        <h3 class="text-3xl font-black text-[var(--text-main)] mt-1">45%</h3>
+                        <div class="mt-3">
+                            <div class="progress-bg"><div class="progress-fill" style="width: 45%;"></div></div>
+                            <p class="text-xs text-[var(--text-muted)] mt-2 font-medium">Estimated completion: Nov 12</p>
+                        </div>
                     </div>
-                    <h3 class="text-3xl font-black text-[var(--text-main)] mt-1">36k <span class="text-lg text-[var(--text-muted)]">/ 80k</span></h3>
-                    <div class="mt-3">
-                        <div class="progress-bg"><div class="progress-fill" style="width: 45%; background-color: var(--text-main);"></div></div>
-                        <p class="text-xs text-[var(--text-muted)] mt-2 font-medium">Words edited so far.</p>
+                    <div class="dash-card p-6 flex flex-col justify-center">
+                        <div class="flex justify-between items-start mb-2">
+                            <p class="text-xs font-bold uppercase tracking-widest text-[var(--text-muted)]">Word Count</p>
+                            <i class="fas fa-file-word text-[var(--text-muted)]"></i>
+                        </div>
+                        <h3 class="text-3xl font-black text-[var(--text-main)] mt-1">36k <span class="text-lg text-[var(--text-muted)]">/ 80k</span></h3>
+                        <div class="mt-3">
+                            <div class="progress-bg"><div class="progress-fill" style="width: 45%; background-color: var(--text-main);"></div></div>
+                            <p class="text-xs text-[var(--text-muted)] mt-2 font-medium">Words edited so far.</p>
+                        </div>
+                    </div>
+                    <div class="dash-card p-6 flex flex-col justify-between border-l-4 border-l-[var(--accent-color)]">
+                        <div class="flex justify-between items-start mb-2">
+                            <p class="text-xs font-bold uppercase tracking-widest text-[var(--text-muted)]">Pending Action</p>
+                            <span class="text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider" style="background: rgba(220, 38, 38, 0.1); color: var(--accent-color);">Required</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-[var(--text-main)] mt-1">Phase 3 Agreement</h3>
+                        <p class="text-sm text-[var(--text-muted)] mt-1 line-clamp-1">Please sign the updated scope of work for the final proofreading phase.</p>
+                        <button class="text-[var(--accent-color)] font-bold text-sm mt-3 hover:underline flex items-center gap-1 bg-transparent border-none p-0 tab-trigger" data-target="sec-contracts">Review & Sign <i class="fas fa-arrow-right text-xs"></i></button>
+                    </div>
+                    <div class="dash-card p-6 flex items-center gap-4 cursor-pointer hover:border-[var(--text-main)] transition-colors tab-trigger" data-target="sec-messages">
+                        <img src="images/pexels-girlvsglobe86-300284270-14805379.jpg" alt="Editor" class="w-16 h-16 rounded-full object-cover border-2 border-[var(--border-color)]" onerror="this.src='https://ui-avatars.com/api/?name=Sarah+Jenkins&background=dc2626&color=fff'">
+                        <div>
+                            <p class="text-xs font-bold uppercase tracking-widest text-[var(--text-muted)] mb-1">Lead Editor</p>
+                            <h3 class="text-lg font-bold text-[var(--text-main)] leading-tight">Sarah Jenkins</h3>
+                            <p class="text-xs text-[#10b981] font-bold mt-1 flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-[#10b981]"></span> Online Now</p>
+                        </div>
                     </div>
                 </div>
 
-                <div class="dash-card p-6 flex flex-col justify-between border-l-4 border-l-[var(--accent-color)]">
-                    <div class="flex justify-between items-start mb-2">
-                        <p class="text-xs font-bold uppercase tracking-widest text-[var(--text-muted)]">Pending Action</p>
-                        <span class="text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider" style="background: rgba(220, 38, 38, 0.1); color: var(--accent-color);">Required</span>
-                    </div>
-                    <h3 class="text-xl font-bold text-[var(--text-main)] mt-1">Phase 3 Agreement</h3>
-                    <p class="text-sm text-[var(--text-muted)] mt-1 line-clamp-1">Please sign the updated scope of work for the final proofreading phase.</p>
-                    <a href="#" class="text-[var(--accent-color)] font-bold text-sm mt-3 hover:underline flex items-center gap-1">Review & Sign <i class="fas fa-arrow-right text-xs"></i></a>
-                </div>
-
-                <div class="dash-card p-6 flex items-center gap-4">
-                    <img src="images/pexels-girlvsglobe86-300284270-14805379.jpg" alt="Editor" class="w-16 h-16 rounded-full object-cover border-2 border-[var(--border-color)]">
-                    <div>
-                        <p class="text-xs font-bold uppercase tracking-widest text-[var(--text-muted)] mb-1">Lead Editor</p>
-                        <h3 class="text-lg font-bold text-[var(--text-main)] leading-tight">Sarah Jenkins</h3>
-                        <p class="text-xs text-[#10b981] font-bold mt-1 flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-[#10b981]"></span> Online Now</p>
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                
-                <div class="lg:col-span-2 dash-card flex flex-col min-w-0">
+                <div class="dash-card flex flex-col min-w-0">
                     <div class="p-6 border-b border-[var(--border-color)] flex justify-between items-center">
                         <div>
-                            <h3 class="text-lg font-bold text-[var(--text-main)]">Manuscript Review</h3>
-                            <p class="text-xs font-medium text-[var(--text-muted)] mt-1">Review editor markups and approve chapters.</p>
+                            <h3 class="text-lg font-bold text-[var(--text-main)]">Recent Chapters</h3>
+                            <p class="text-xs font-medium text-[var(--text-muted)] mt-1">Quick glance at your latest chapter statuses.</p>
                         </div>
-                        <button class="btn-sm btn-outline-table w-auto min-w-0 !px-4"><i class="fas fa-download mr-1"></i> Download</button>
+                        <button class="btn-sm btn-outline-table w-auto min-w-0 !px-4 tab-trigger" data-target="sec-chapters">View All</button>
                     </div>
-                    
                     <div class="overflow-x-auto flex-grow w-full">
                         <table class="clean-table min-w-[700px]">
                             <thead>
                                 <tr>
                                     <th>Chapter</th>
+                                    <th>Word Count</th>
+                                    <th>Status</th>
+                                    <th style="text-align: center; width: 160px;">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="background: rgba(220, 38, 38, 0.05);">
+                                    <td><span class="font-bold text-[var(--text-main)]">Chapter 3: The Discovery</span></td>
+                                    <td>5,100</td>
+                                    <td><span class="status-badge badge-warning">Awaiting Review</span></td>
+                                    <td align="center"><button class="btn-sm btn-action tab-trigger" data-target="sec-chapters">Review Draft</button></td>
+                                </tr>
+                                <tr>
+                                    <td><span class="font-bold text-[var(--text-main)]">Chapter 4: Shadows</span></td>
+                                    <td>4,600</td>
+                                    <td><span class="status-badge badge-info">Editing in Progress</span></td>
+                                    <td align="center"><button class="btn-sm btn-disabled" disabled><i class="fas fa-lock mr-2"></i> Locked</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <section id="sec-contracts" class="content-section hidden">
+                <div class="flex justify-between items-center mb-8 border-b border-[var(--border-color)] pb-6">
+                    <div>
+                        <h2 class="text-3xl font-black text-[var(--text-main)] tracking-tight">Agreements & Contracts</h2>
+                        <p class="text-sm font-medium text-[var(--text-muted)] mt-1">Review, sign, and download your official documents.</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="dash-card p-6 flex flex-col justify-between h-full border-l-4 border-l-[var(--accent-color)] relative overflow-hidden">
+                        <div class="absolute -right-4 -top-4 opacity-[0.03] pointer-events-none">
+                            <i class="fas fa-file-signature" style="font-size: 120px;"></i>
+                        </div>
+                        <div>
+                            <div class="flex justify-between items-start mb-4">
+                                <span class="text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider bg-[rgba(220,38,38,0.1)] text-[var(--accent-color)]">Requires Signature</span>
+                            </div>
+                            <h3 class="text-xl font-bold text-[var(--text-main)] mb-2 relative z-10">Phase 3 SOW</h3>
+                            <p class="text-sm text-[var(--text-muted)] mb-6 relative z-10">Scope of work for final proofreading and formatting.</p>
+                        </div>
+                        <div class="flex gap-3 relative z-10">
+                            <button class="btn-sm btn-action flex-1">Sign Now</button>
+                            <button class="btn-sm btn-outline-table !min-w-0 !w-12 !px-0"><i class="fas fa-eye"></i></button>
+                        </div>
+                    </div>
+
+                    <div class="dash-card p-6 flex flex-col justify-between h-full relative overflow-hidden">
+                        <div class="absolute -right-4 -top-4 opacity-[0.02] pointer-events-none">
+                            <i class="fas fa-file-contract" style="font-size: 120px;"></i>
+                        </div>
+                        <div>
+                            <div class="flex justify-between items-start mb-4">
+                                <span class="text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider bg-[rgba(16,185,129,0.1)] text-[#10b981]">Signed • Oct 01</span>
+                            </div>
+                            <h3 class="text-xl font-bold text-[var(--text-main)] mb-2 relative z-10">Mutual NDA</h3>
+                            <p class="text-sm text-[var(--text-muted)] mb-6 relative z-10">Standard non-disclosure agreement protecting your IP.</p>
+                        </div>
+                        <button class="btn-sm btn-outline-table w-full relative z-10"><i class="fas fa-download mr-2"></i> Download PDF</button>
+                    </div>
+
+                    <div class="dash-card p-6 flex flex-col justify-between h-full relative overflow-hidden">
+                        <div class="absolute -right-4 -top-4 opacity-[0.02] pointer-events-none">
+                            <i class="fas fa-file-invoice" style="font-size: 120px;"></i>
+                        </div>
+                        <div>
+                            <div class="flex justify-between items-start mb-4">
+                                <span class="text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider bg-[rgba(16,185,129,0.1)] text-[#10b981]">Paid • Oct 05</span>
+                            </div>
+                            <h3 class="text-xl font-bold text-[var(--text-main)] mb-2 relative z-10">Invoice #001</h3>
+                            <p class="text-sm text-[var(--text-muted)] mb-6 relative z-10">50% upfront deposit for Developmental Editing.</p>
+                        </div>
+                        <button class="btn-sm btn-outline-table w-full relative z-10"><i class="fas fa-download mr-2"></i> Receipt PDF</button>
+                    </div>
+                </div>
+            </section>
+
+            <section id="sec-chapters" class="content-section hidden">
+                <div class="flex justify-between items-center mb-8 border-b border-[var(--border-color)] pb-6">
+                    <div>
+                        <h2 class="text-3xl font-black text-[var(--text-main)] tracking-tight">Chapter Review</h2>
+                        <p class="text-sm font-medium text-[var(--text-muted)] mt-1">Review editor markups and approve your manuscript sections.</p>
+                    </div>
+                    <button class="btn-sm btn-outline-table shadow-sm"><i class="fas fa-upload mr-2"></i> Upload File</button>
+                </div>
+
+                <div class="dash-card flex flex-col min-w-0">
+                    <div class="overflow-x-auto w-full">
+                        <table class="clean-table w-full min-w-[800px]">
+                            <thead>
+                                <tr>
+                                    <th>Chapter Name</th>
                                     <th>Word Count</th>
                                     <th>Editor Notes</th>
                                     <th>Status</th>
@@ -449,6 +552,7 @@
                                     <td><span class="status-badge badge-success">Approved</span></td>
                                     <td align="center"><button class="btn-sm btn-outline-table">View Final</button></td>
                                 </tr>
+                                
                                 <tr style="background: rgba(220, 38, 38, 0.05);">
                                     <td><span class="font-bold text-[var(--text-main)]">Chapter 3: The Discovery</span></td>
                                     <td>5,100</td>
@@ -456,6 +560,7 @@
                                     <td><span class="status-badge badge-warning">Awaiting Review</span></td>
                                     <td align="center"><button class="btn-sm btn-action">Review Draft</button></td>
                                 </tr>
+                                
                                 <tr>
                                     <td><span class="font-bold text-[var(--text-main)]">Chapter 4: Shadows</span></td>
                                     <td>4,600</td>
@@ -463,90 +568,202 @@
                                     <td><span class="status-badge badge-info">Editing in Progress</span></td>
                                     <td align="center"><button class="btn-sm btn-disabled" disabled><i class="fas fa-lock mr-2"></i> Locked</button></td>
                                 </tr>
+                                
                                 <tr>
                                     <td><span class="font-bold text-[var(--text-main)]">Chapter 5: The Escape</span></td>
                                     <td>4,900</td>
                                     <td><span class="text-[var(--text-muted)] text-sm">--</span></td>
-                                    <td><span class="text-[var(--text-muted)] text-xs font-bold uppercase tracking-wider">Pending</span></td>
-                                    <td align="center"><button class="btn-sm btn-disabled" disabled><i class="fas fa-lock mr-2"></i> Locked</button></td>
+                                    <td><span class="text-[var(--text-muted)] text-xs font-bold uppercase tracking-wider">Pending Queue</span></td>
+                                    <td align="center"><button class="btn-sm btn-disabled" disabled><i class="fas fa-clock mr-2"></i> Queued</button></td>
+                                </tr>
+                                <tr>
+                                    <td><span class="font-bold text-[var(--text-main)]">Chapter 6: Betrayal</span></td>
+                                    <td>5,200</td>
+                                    <td><span class="text-[var(--text-muted)] text-sm">--</span></td>
+                                    <td><span class="text-[var(--text-muted)] text-xs font-bold uppercase tracking-wider">Pending Queue</span></td>
+                                    <td align="center"><button class="btn-sm btn-disabled" disabled><i class="fas fa-clock mr-2"></i> Queued</button></td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
+            </section>
 
-                <div class="flex flex-col gap-8">
+            <section id="sec-messages" class="content-section hidden h-full">
+                <div class="flex justify-between items-center mb-6 border-b border-[var(--border-color)] pb-6">
+                    <div>
+                        <h2 class="text-3xl font-black text-[var(--text-main)] tracking-tight">Messages</h2>
+                        <p class="text-sm font-medium text-[var(--text-muted)] mt-1">Communicate directly with your editorial team.</p>
+                    </div>
+                </div>
+
+                <div class="flex flex-col lg:flex-row h-[650px] dash-card overflow-hidden">
+                    <div class="w-full lg:w-1/3 border-r border-[var(--border-color)] flex flex-col bg-[var(--card-bg)] hidden md:flex">
+                        <div class="p-4 border-b border-[var(--border-color)]">
+                            <div class="flex items-center rounded-lg px-3 py-2 bg-[var(--dash-bg)] border border-[var(--border-color)]">
+                                <i class="fas fa-search text-[var(--text-muted)] mr-2 text-sm"></i>
+                                <input type="text" placeholder="Search chats..." class="bg-transparent border-none outline-none w-full text-sm text-[var(--text-main)]">
+                            </div>
+                        </div>
+                        <div class="flex-grow overflow-y-auto p-2">
+                            <div class="p-3 mb-1 border-l-4 border-l-[var(--accent-color)] bg-[rgba(220,38,38,0.05)] rounded flex items-center gap-3 cursor-pointer">
+                                <img src="images/pexels-girlvsglobe86-300284270-14805379.jpg" class="w-10 h-10 rounded-full object-cover" alt="Sarah" onerror="this.src='https://ui-avatars.com/api/?name=Sarah+Jenkins&background=dc2626&color=fff'">
+                                <div class="flex-grow min-w-0">
+                                    <div class="flex justify-between items-baseline mb-0.5">
+                                        <h4 class="font-bold text-[var(--text-main)] text-sm truncate">Sarah Jenkins</h4>
+                                        <span class="text-[10px] font-bold text-[var(--accent-color)]">10:15 AM</span>
+                                    </div>
+                                    <p class="text-xs text-[var(--text-main)] font-semibold truncate">Hey! I just finished the mark...</p>
+                                </div>
+                            </div>
+                            <div class="p-3 mb-1 border-l-4 border-transparent hover:bg-[var(--dash-bg)] rounded flex items-center gap-3 cursor-pointer transition-colors">
+                                <div class="w-10 h-10 rounded-full bg-[var(--text-main)] text-[var(--bg-color)] flex items-center justify-center font-bold text-sm">SP</div>
+                                <div class="flex-grow min-w-0">
+                                    <div class="flex justify-between items-baseline mb-0.5">
+                                        <h4 class="font-bold text-[var(--text-main)] text-sm truncate">Billing Support</h4>
+                                        <span class="text-[10px] text-[var(--text-muted)]">Oct 05</span>
+                                    </div>
+                                    <p class="text-xs text-[var(--text-muted)] truncate">Your invoice has been proc...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     
-                    <div class="dash-card flex flex-col h-[400px]">
-                        <div class="p-4 border-b border-[var(--border-color)] flex justify-between items-center bg-[var(--dash-bg)] rounded-t-[15px]">
-                            <h3 class="font-bold text-[var(--text-main)] flex items-center gap-2">
-                                <i class="fas fa-comment-alt text-[var(--accent-color)]"></i> Editor Chat
-                            </h3>
-                            <i class="fas fa-ellipsis-h text-[var(--text-muted)] cursor-pointer hover:text-[var(--text-main)] transition-colors"></i>
+                    <div class="w-full lg:w-2/3 flex flex-col bg-[var(--card-bg)]">
+                        <div class="p-4 border-b border-[var(--border-color)] flex justify-between items-center bg-[var(--dash-bg)]">
+                            <div class="flex items-center gap-3">
+                                <img src="images/pexels-girlvsglobe86-300284270-14805379.jpg" class="w-10 h-10 rounded-full object-cover" alt="Sarah" onerror="this.src='https://ui-avatars.com/api/?name=Sarah+Jenkins&background=dc2626&color=fff'">
+                                <div>
+                                    <h3 class="font-bold text-[var(--text-main)] leading-tight">Sarah Jenkins</h3>
+                                    <p class="text-xs text-[var(--text-muted)]">Lead Editor • Online</p>
+                                </div>
+                            </div>
+                            <button class="icon-btn border-none bg-transparent shadow-none"><i class="fas fa-ellipsis-v"></i></button>
                         </div>
                         
-                        <div class="flex-grow p-4 overflow-y-auto space-y-4 bg-[var(--bg-color)]">
-                            <p class="text-center text-[10px] uppercase tracking-widest text-[var(--text-muted)] font-bold">Today</p>
+                        <div class="flex-grow p-6 overflow-y-auto flex flex-col gap-4" style="background-image: radial-gradient(var(--border-color) 1px, transparent 1px); background-size: 20px 20px;">
+                            <div class="text-center"><span class="text-[10px] font-bold text-[var(--text-muted)] uppercase tracking-widest bg-[var(--card-bg)] border border-[var(--border-color)] px-3 py-1 rounded-full">Today</span></div>
                             
                             <div class="flex flex-col items-start">
-                                <span class="text-[10px] text-[var(--text-muted)] mb-1 ml-1 font-bold">Sarah (Editor) • 10:15 AM</span>
-                                <div class="chat-bubble chat-editor border border-[var(--border-color)]">
+                                <span class="text-[10px] text-[var(--text-muted)] mb-1 ml-1 font-bold">Sarah Jenkins • 10:15 AM</span>
+                                <div class="chat-bubble chat-editor border border-[var(--border-color)] shadow-sm">
                                     Hey! I just finished the markup on Chapter 3. The pacing is much better now, but we need to address the dialogue on page 42. It feels a bit clunky. Thoughts?
                                 </div>
                             </div>
                             
                             <div class="flex flex-col items-end mt-2">
                                 <span class="text-[10px] text-[var(--text-muted)] mb-1 mr-1 font-bold">You • 10:30 AM</span>
-                                <div class="chat-bubble chat-author">
+                                <div class="chat-bubble chat-author shadow-sm">
                                     I agree. I'll review your suggestions and rewrite that scene tonight. Thanks for catching that!
                                 </div>
                             </div>
                         </div>
 
-                        <div class="p-3 border-t border-[var(--border-color)] bg-[var(--card-bg)] rounded-b-[15px] flex items-center gap-2">
-                            <button class="text-[var(--text-muted)] hover:text-[var(--text-main)] p-2 transition-colors"><i class="fas fa-paperclip"></i></button>
-                            <input type="text" placeholder="Type a message..." class="flex-grow bg-[var(--dash-bg)] border border-[var(--border-color)] rounded-full px-4 py-2 text-sm text-[var(--text-main)] outline-none focus:border-[var(--accent-color)] transition-colors">
-                            <button class="bg-[var(--text-main)] text-[var(--bg-color)] w-9 h-9 rounded-full flex items-center justify-center hover:bg-[var(--accent-color)] hover:text-white transition-colors"><i class="fas fa-paper-plane text-xs"></i></button>
-                        </div>
-                    </div>
-
-                    <div class="dash-card p-6">
-                        <h3 class="text-lg font-bold text-[var(--text-main)] mb-4 border-b border-[var(--border-color)] pb-3">Agreements & NDAs</h3>
-                        
-                        <div class="space-y-4">
-                            <div class="flex items-center justify-between">
-                                <div class="flex items-center gap-3">
-                                    <i class="fas fa-file-contract text-[var(--text-muted)] text-xl"></i>
-                                    <div>
-                                        <p class="text-sm font-bold text-[var(--text-main)]">Mutual NDA</p>
-                                        <p class="text-[10px] text-[var(--text-muted)] uppercase tracking-wider">Signed Oct 01</p>
-                                    </div>
-                                </div>
-                                <i class="fas fa-check-circle text-[#10b981]"></i>
-                            </div>
-
-                            <div class="flex items-center justify-between">
-                                <div class="flex items-center gap-3">
-                                    <i class="fas fa-file-signature text-[var(--accent-color)] text-xl"></i>
-                                    <div>
-                                        <p class="text-sm font-bold text-[var(--text-main)]">Phase 3 Scope</p>
-                                        <p class="text-[10px] text-[var(--accent-color)] uppercase tracking-wider font-bold">Signature Required</p>
-                                    </div>
-                                </div>
-                                <button class="btn-sm btn-outline-table" style="min-width: auto; padding: 4px 12px; height: auto;">Sign</button>
+                        <div class="p-4 border-t border-[var(--border-color)] bg-[var(--card-bg)]">
+                            <div class="flex items-center gap-3">
+                                <button class="text-[var(--text-muted)] hover:text-[var(--text-main)] p-2 transition-colors"><i class="fas fa-paperclip text-lg"></i></button>
+                                <input type="text" placeholder="Type your message to Sarah..." class="flex-grow bg-[var(--dash-bg)] border border-[var(--border-color)] rounded-full px-4 py-2.5 text-sm text-[var(--text-main)] outline-none focus:border-[var(--accent-color)] transition-colors">
+                                <button class="bg-[var(--accent-color)] text-white w-10 h-10 rounded-full flex items-center justify-center hover:bg-[var(--accent-dark)] transition-colors shadow-md"><i class="fas fa-paper-plane"></i></button>
                             </div>
                         </div>
                     </div>
+                </div>
+            </section>
 
+            <section id="sec-settings" class="content-section hidden">
+                <div class="flex justify-between items-center mb-8 border-b border-[var(--border-color)] pb-6">
+                    <div>
+                        <h2 class="text-3xl font-black text-[var(--text-main)] tracking-tight">Profile & Settings</h2>
+                        <p class="text-sm font-medium text-[var(--text-muted)] mt-1">Manage your author profile, pen names, and notifications.</p>
+                    </div>
+                    <button class="btn-sm btn-action shadow-lg">Save Changes</button>
                 </div>
 
-            </div>
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div class="lg:col-span-1">
+                        <div class="dash-card p-6 flex flex-col items-center text-center">
+                            <div class="relative mb-4 group cursor-pointer">
+                                <img src="https://ui-avatars.com/api/?name=Author+Smith&background=000&color=fff&bold=true&size=128" alt="Profile" class="w-32 h-32 rounded-full border-4 border-[var(--dash-bg)] shadow-lg">
+                                <div class="absolute inset-0 bg-black/50 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <i class="fas fa-camera text-white text-xl"></i>
+                                </div>
+                            </div>
+                            <h3 class="text-xl font-bold text-[var(--text-main)]">J.K. Smith</h3>
+                            <p class="text-sm text-[var(--text-muted)] mb-4">Fantasy / Sci-Fi Author</p>
+                            <span class="px-3 py-1 bg-[var(--dash-bg)] text-[var(--text-main)] border border-[var(--border-color)] text-xs font-bold rounded-full uppercase tracking-wide">Pro Member</span>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-2 space-y-6">
+                        <div class="dash-card p-6">
+                            <h4 class="text-lg font-bold text-[var(--text-main)] mb-4 border-b border-[var(--border-color)] pb-2">Author Information</h4>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                                <div>
+                                    <label class="block text-xs font-bold text-[var(--text-muted)] uppercase tracking-wide mb-2">Legal First Name</label>
+                                    <input type="text" value="Jonathan" class="w-full bg-[var(--dash-bg)] border border-[var(--border-color)] text-[var(--text-main)] rounded-lg px-4 py-2.5 outline-none focus:border-[var(--accent-color)] text-sm font-medium">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-[var(--text-muted)] uppercase tracking-wide mb-2">Legal Last Name</label>
+                                    <input type="text" value="Smith" class="w-full bg-[var(--dash-bg)] border border-[var(--border-color)] text-[var(--text-main)] rounded-lg px-4 py-2.5 outline-none focus:border-[var(--accent-color)] text-sm font-medium">
+                                </div>
+                                <div class="md:col-span-2">
+                                    <label class="block text-xs font-bold text-[var(--text-muted)] uppercase tracking-wide mb-2">Pen Name (Public)</label>
+                                    <input type="text" value="J.K. Smith" class="w-full bg-[var(--dash-bg)] border border-[var(--border-color)] text-[var(--text-main)] rounded-lg px-4 py-2.5 outline-none focus:border-[var(--accent-color)] text-sm font-medium">
+                                </div>
+                                <div class="md:col-span-2">
+                                    <label class="block text-xs font-bold text-[var(--text-muted)] uppercase tracking-wide mb-2">Email Address</label>
+                                    <input type="email" value="author.smith@gmail.com" class="w-full bg-[var(--dash-bg)] border border-[var(--border-color)] text-[var(--text-main)] rounded-lg px-4 py-2.5 outline-none focus:border-[var(--accent-color)] text-sm font-medium">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="dash-card p-6">
+                            <h4 class="text-lg font-bold text-[var(--text-main)] mb-4 border-b border-[var(--border-color)] pb-2">Notifications</h4>
+                            <div class="space-y-4">
+                                <label class="flex items-center justify-between cursor-pointer">
+                                    <div>
+                                        <p class="font-bold text-[var(--text-main)] text-sm">Editor Messages</p>
+                                        <p class="text-xs text-[var(--text-muted)] mt-0.5">Receive email when your editor sends a message.</p>
+                                    </div>
+                                    <div class="relative">
+                                        <input type="checkbox" class="sr-only" checked>
+                                        <div class="w-10 h-6 bg-[var(--accent-color)] rounded-full shadow-inner"></div>
+                                        <div class="absolute w-4 h-4 bg-white rounded-full shadow right-1 top-1 transition"></div>
+                                    </div>
+                                </label>
+                                <label class="flex items-center justify-between cursor-pointer">
+                                    <div>
+                                        <p class="font-bold text-[var(--text-main)] text-sm">Chapter Approvals</p>
+                                        <p class="text-xs text-[var(--text-muted)] mt-0.5">Notify me when a chapter is ready for my review.</p>
+                                    </div>
+                                    <div class="relative">
+                                        <input type="checkbox" class="sr-only" checked>
+                                        <div class="w-10 h-6 bg-[var(--accent-color)] rounded-full shadow-inner"></div>
+                                        <div class="absolute w-4 h-4 bg-white rounded-full shadow right-1 top-1 transition"></div>
+                                    </div>
+                                </label>
+                                <label class="flex items-center justify-between cursor-pointer">
+                                    <div>
+                                        <p class="font-bold text-[var(--text-main)] text-sm">Marketing Emails</p>
+                                        <p class="text-xs text-[var(--text-muted)] mt-0.5">Tips, tricks, and discounts from BooksToday.</p>
+                                    </div>
+                                    <div class="relative">
+                                        <input type="checkbox" class="sr-only">
+                                        <div class="w-10 h-6 bg-[var(--border-color)] rounded-full shadow-inner"></div>
+                                        <div class="absolute w-4 h-4 bg-white rounded-full shadow left-1 top-1 transition"></div>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
         </main>
     </div>
 
     <script>
-        // Sidebar Toggle Logic
+        // Sidebar Mobile Toggle
         const sidebar = document.getElementById('sidebar');
         const sidebarOverlay = document.getElementById('sidebar-overlay');
         const toggleBtn = document.getElementById('sidebar-toggle');
@@ -555,9 +772,61 @@
             sidebar.classList.toggle('active');
             sidebarOverlay.classList.toggle('active');
         }
+        if(toggleBtn) toggleBtn.addEventListener('click', toggleSidebar);
+        if(sidebarOverlay) sidebarOverlay.addEventListener('click', toggleSidebar);
 
-        toggleBtn.addEventListener('click', toggleSidebar);
-        sidebarOverlay.addEventListener('click', toggleSidebar);
+        // --- SINGLE PAGE APP TABS LOGIC ---
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const contentSections = document.querySelectorAll('.content-section');
+        const tabTriggers = document.querySelectorAll('.tab-trigger'); // Quick links inside the page
+
+        function switchTab(targetId) {
+            // Update active state on sidebar nav items
+            tabBtns.forEach(btn => {
+                if(btn.getAttribute('data-target') === targetId) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+
+            // Show/Hide Sections
+            contentSections.forEach(section => {
+                if (section.id === targetId) {
+                    section.classList.remove('hidden');
+                    // Tiny timeout to allow display:block to apply before animating opacity
+                    setTimeout(() => { section.style.opacity = '1'; }, 10);
+                } else {
+                    section.style.opacity = '0';
+                    section.classList.add('hidden');
+                }
+            });
+
+            // Close sidebar on mobile after clicking
+            if (window.innerWidth <= 1024 && sidebar.classList.contains('active')) {
+                toggleSidebar();
+            }
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Attach click events to the sidebar tabs
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const target = btn.getAttribute('data-target');
+                switchTab(target);
+            });
+        });
+
+        // Attach click events to any in-page quick links
+        tabTriggers.forEach(trigger => {
+            trigger.addEventListener('click', (e) => {
+                e.preventDefault();
+                const target = trigger.getAttribute('data-target');
+                switchTab(target);
+            });
+        });
 
         // Theme Toggle
         const themeBtn = document.getElementById('theme-toggle');
@@ -595,4 +864,4 @@
         });
     </script>
 </body>
-</html>
+</html> bro give me home page which directs to home.html only 1 is needed no need of home 1 and 2 just make it Home thats all give me the home.html

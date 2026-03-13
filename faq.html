@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FAQ | Growwbooks - Professional Book Editing Services</title>
+    <title>FAQ | BooksToday - Professional Book Editing Services</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="icon" type="image/jpeg" href="images/growwpark_logo.jpg">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -124,6 +124,9 @@
         .social-link-circle { width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--border-color); display: flex; align-items: center; justify-content: center; transition: all 0.3s; color: var(--text-main); background: var(--bg-card); }
         .social-link-circle:hover { background: var(--accent-color); color: white; border-color: var(--accent-color); transform: translateY(-3px); }
         .footer-bottom { border-top: 1px solid var(--border-color); padding: 24px 0; margin-top: 60px; }
+        
+        /* FAQ TRANSITION */
+        .faq-section { transition: opacity 0.4s ease-in-out; }
     </style>
 </head>
 <body>
@@ -131,7 +134,7 @@
     <nav class="navbar">
         <div class="max-w-7xl mx-auto px-6 w-full flex items-center justify-between">
             <a href="index.html" class="text-2xl font-black tracking-tighter" style="color: var(--text-main); text-decoration: none;">
-                Growwbooks
+                BooksToday
             </a>
             
             <div class="hidden xl:flex items-center gap-8">
@@ -162,8 +165,7 @@
             </div>
 
             <div class="hidden xl:flex items-center gap-5">
-                <a href="login.html" class="text-xs font-bold uppercase tracking-wide text-[var(--text-muted)] hover:text-[var(--accent-color)] transition-colors">Login</a>
-                <a href="register.html" class="btn btn-solid !py-2 !px-5 !text-xs">Register</a>
+                <a href="register.html" class="btn btn-solid !py-2 !px-5 !text-xs">Register</a> <a href="login.html" class="text-xs font-bold uppercase tracking-wide text-[var(--text-muted)] hover:text-[var(--accent-color)] transition-colors">Login</a>
                 <div class="w-px h-5 bg-[var(--border-color)]"></div>
                 <button id="rtl-btn" class="text-xs font-bold text-[var(--text-muted)] hover:text-[var(--accent-color)] uppercase tracking-widest">RTL</button>
                 <div id="theme-toggle-desktop" class="theme-toggle-pill" title="Toggle Dark Mode">
@@ -226,7 +228,6 @@
                         Frequently Asked<br>
                         <span class="text-[var(--accent-color)] relative inline-block mt-2">
                             Questions.
-                            
                         </span>
                     </h1>
                     
@@ -242,7 +243,7 @@
 
                 <div class="lg:col-span-5 relative hidden lg:block group">
                     <div class="absolute inset-0 bg-[var(--text-main)] translate-x-4 translate-y-4 transition-transform duration-500 group-hover:translate-x-6 group-hover:translate-y-6"></div>
-                    <img src="images/pexels-suzyhazelwood-1204743.jpg" alt="FAQ and Support" class="relative z-10 w-full h-[500px] object-cover border border-[var(--border-color)] transition-all duration-700">
+                    <img src="images/pexels-suzyhazelwood-1204743.jpg" alt="FAQ and Support" class="relative z-10 w-full h-[500px] object-cover border border-[var(--border-color)] transition-all duration-700" onerror="this.src='https://images.unsplash.com/photo-1455390582262-044cdead27d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'">
                     
                     <div class="absolute -left-10 bottom-10 z-20 bg-[var(--bg-card)] p-4 border border-[var(--border-color)] shadow-xl flex items-center gap-4">
                         <div class="w-12 h-12 bg-[var(--accent-color)] flex items-center justify-center text-white text-xl">
@@ -259,7 +260,17 @@
         </div>
     </section>
 
-    <section id="faq-general" class="py-24 bg-[var(--bg-secondary)] border-b border-[var(--border-color)]">
+    <section class="py-10 bg-[var(--bg-card)] border-b border-[var(--border-color)] sticky top-[73px] z-40 shadow-sm">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex flex-wrap justify-center gap-3 md:gap-4">
+                <button class="filter-btn btn btn-solid !py-3 !px-6" data-target="faq-general">General & Pricing</button>
+                <button class="filter-btn btn btn-outline !py-3 !px-6" data-target="faq-process">Process & Logistics</button>
+                <button class="filter-btn btn btn-outline !py-3 !px-6" data-target="faq-publishing">Publishing & Rights</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="faq-general" class="faq-section py-24 bg-[var(--bg-secondary)] border-b border-[var(--border-color)]">
         <div class="max-w-4xl mx-auto px-6">
             
             <div class="text-center mb-16">
@@ -269,7 +280,6 @@
             </div>
 
             <div class="space-y-4">
-                
                 <div class="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-xl overflow-hidden transition-all hover:border-[var(--accent-color)] group">
                     <button class="w-full text-left p-6 md:p-8 flex justify-between items-center focus:outline-none faq-btn">
                         <h4 class="text-lg md:text-xl font-bold text-[var(--text-main)] pr-4">How are your editing rates calculated?</h4>
@@ -311,26 +321,11 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-xl overflow-hidden transition-all hover:border-[var(--accent-color)] group">
-                    <button class="w-full text-left p-6 md:p-8 flex justify-between items-center focus:outline-none faq-btn">
-                        <h4 class="text-lg md:text-xl font-bold text-[var(--text-main)] pr-4">Will my intellectual property be protected?</h4>
-                        <div class="w-10 h-10 rounded-full bg-[var(--bg-secondary)] flex items-center justify-center flex-shrink-0 group-hover:bg-[var(--accent-color)] transition-colors">
-                            <i class="fas fa-plus text-[var(--text-main)] group-hover:text-white transition-transform duration-300 faq-icon"></i>
-                        </div>
-                    </button>
-                    <div class="faq-content overflow-hidden max-h-0 transition-all duration-300 ease-in-out">
-                        <div class="p-6 md:p-8 pt-0 text-[var(--text-muted)] text-base leading-relaxed border-t border-[var(--border-color)] mt-2">
-                            Your ideas are your own, and we fiercely protect them. Before any manuscript is uploaded to our secure dashboard, both parties sign a legally binding Non-Disclosure Agreement (NDA). You retain 100% of your copyright and future royalties.
-                        </div>
-                    </div>
-                </div>
-
             </div>
         </div>
     </section>
 
-    <section id="faq-process" class="py-24 bg-[var(--bg-color)]">
+    <section id="faq-process" class="faq-section py-24 bg-[var(--bg-color)] border-b border-[var(--border-color)] hidden" style="opacity: 0;">
         <div class="max-w-4xl mx-auto px-6">
             
             <div class="text-center mb-16">
@@ -340,7 +335,6 @@
             </div>
 
             <div class="space-y-4">
-                
                 <div class="bg-[var(--bg-secondary)] border border-[var(--border-color)] rounded-xl overflow-hidden transition-all hover:border-[var(--accent-color)] group">
                     <button class="w-full text-left p-6 md:p-8 flex justify-between items-center focus:outline-none faq-btn">
                         <h4 class="text-lg md:text-xl font-bold text-[var(--text-main)] pr-4">What file formats do you accept?</h4>
@@ -382,21 +376,47 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </section>
 
-                <div class="bg-[var(--bg-secondary)] border border-[var(--border-color)] rounded-xl overflow-hidden transition-all hover:border-[var(--accent-color)] group">
+    <section id="faq-publishing" class="faq-section py-24 bg-[var(--bg-secondary)] hidden" style="opacity: 0;">
+        <div class="max-w-4xl mx-auto px-6">
+            
+            <div class="text-center mb-16">
+                <span class="text-[var(--accent-color)] font-bold text-sm tracking-widest uppercase mb-2 block">Part 03</span>
+                <h2 class="text-3xl md:text-5xl font-black text-[var(--text-main)] tracking-tighter mb-4">Publishing & Rights</h2>
+                <p class="text-[var(--text-muted)] text-lg">Questions regarding ownership, confidentiality, and post-editing steps.</p>
+            </div>
+
+            <div class="space-y-4">
+                <div class="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-xl overflow-hidden transition-all hover:border-[var(--accent-color)] group">
                     <button class="w-full text-left p-6 md:p-8 flex justify-between items-center focus:outline-none faq-btn">
-                        <h4 class="text-lg md:text-xl font-bold text-[var(--text-main)] pr-4">Can I communicate directly with my editor?</h4>
-                        <div class="w-10 h-10 rounded-full bg-[var(--bg-card)] border border-[var(--border-color)] flex items-center justify-center flex-shrink-0 group-hover:bg-[var(--accent-color)] transition-colors">
+                        <h4 class="text-lg md:text-xl font-bold text-[var(--text-main)] pr-4">Will my intellectual property be protected?</h4>
+                        <div class="w-10 h-10 rounded-full bg-[var(--bg-secondary)] flex items-center justify-center flex-shrink-0 group-hover:bg-[var(--accent-color)] transition-colors">
                             <i class="fas fa-plus text-[var(--text-main)] group-hover:text-white transition-transform duration-300 faq-icon"></i>
                         </div>
                     </button>
                     <div class="faq-content overflow-hidden max-h-0 transition-all duration-300 ease-in-out">
                         <div class="p-6 md:p-8 pt-0 text-[var(--text-muted)] text-base leading-relaxed border-t border-[var(--border-color)] mt-2">
-                            Yes. We believe strong communication produces the best books. Once you are paired with an editor, you will be able to message them directly through your client dashboard to ask questions, seek clarification on notes, or brainstorm plot solutions.
+                            Your ideas are your own, and we fiercely protect them. Before any manuscript is uploaded to our secure dashboard, both parties sign a legally binding Non-Disclosure Agreement (NDA). You retain 100% of your copyright and future royalties.
                         </div>
                     </div>
                 </div>
 
+                <div class="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-xl overflow-hidden transition-all hover:border-[var(--accent-color)] group">
+                    <button class="w-full text-left p-6 md:p-8 flex justify-between items-center focus:outline-none faq-btn">
+                        <h4 class="text-lg md:text-xl font-bold text-[var(--text-main)] pr-4">Do you guarantee traditional publishing?</h4>
+                        <div class="w-10 h-10 rounded-full bg-[var(--bg-secondary)] flex items-center justify-center flex-shrink-0 group-hover:bg-[var(--accent-color)] transition-colors">
+                            <i class="fas fa-plus text-[var(--text-main)] group-hover:text-white transition-transform duration-300 faq-icon"></i>
+                        </div>
+                    </button>
+                    <div class="faq-content overflow-hidden max-h-0 transition-all duration-300 ease-in-out">
+                        <div class="p-6 md:p-8 pt-0 text-[var(--text-muted)] text-base leading-relaxed border-t border-[var(--border-color)] mt-2">
+                            No editing service can guarantee a traditional publishing deal, as the market is highly subjective. However, our rigorous editing processes are designed to elevate your manuscript to industry standards, significantly increasing your chances of landing an agent or succeeding in self-publishing.
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -406,7 +426,7 @@
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-10 pt-4">
                 <div class="lg:col-span-4">
                     <a href="index.html" class="text-2xl font-black tracking-tighter mb-6 block" style="color: var(--text-main); text-decoration: none;">
-                        Growwbooks
+                        BooksToday
                     </a>
                     <p class="opacity-80 leading-relaxed text-sm mb-6 max-w-sm" style="color: var(--text-muted);">Dedicated to perfecting the written word. We provide comprehensive editing, formatting, and manuscript development for authors across all genres.</p>
                     <div class="flex space-x-3">
@@ -443,7 +463,7 @@
                             <ul class="space-y-3 text-[var(--text-muted)] text-sm">
                                 <li class="flex items-start"><i class="fas fa-map-marker-alt mt-1 mr-3 shrink-0" style="color: var(--accent-color);"></i><span>100 Publishing Row<br>New York, NY 10012</span></li>
                                 <li class="flex items-center"><i class="fas fa-phone mr-3 shrink-0" style="color: var(--accent-color);"></i><a href="tel:+15551234567" class="break-all">+1 (555) 123-4567</a></li>
-                                <li class="flex items-center"><i class="fas fa-envelope mr-3 shrink-0" style="color: var(--accent-color);"></i><a href="mailto:hello@Growwbooks.com" class="break-all">hello@Growwbooks.com</a></li>
+                                <li class="flex items-center"><i class="fas fa-envelope mr-3 shrink-0" style="color: var(--accent-color);"></i><a href="mailto:hello@BooksToday.com" class="break-all">hello@BooksToday.com</a></li>
                             </ul>
                         </div>
                     </div>
@@ -451,7 +471,7 @@
             </div>
 
             <div class="footer-bottom flex flex-col md:flex-row justify-between items-center text-sm gap-4">
-                <p style="color: var(--text-muted);">&copy; 2026 Growwbooks Services. All rights reserved.</p>
+                <p style="color: var(--text-muted);">&copy; 2026 BooksToday Services. All rights reserved.</p>
                 <div class="flex flex-wrap justify-center gap-4 sm:gap-6">
                     <a href="#">Privacy Policy</a>
                     <a href="#">Terms of Service</a>
@@ -550,6 +570,36 @@
                     icon.classList.remove('fa-plus');
                     icon.classList.add('fa-minus', 'rotate-180');
                 }
+            });
+        });
+
+        // --- NEW: FAQ Category Filtering Logic (Updated to Tab-Style) ---
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const faqSections = document.querySelectorAll('.faq-section');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // 1. Update button styling
+                filterBtns.forEach(b => {
+                    b.classList.remove('btn-solid');
+                    b.classList.add('btn-outline');
+                });
+                btn.classList.remove('btn-outline');
+                btn.classList.add('btn-solid');
+
+                // 2. Filter sections (Show only the targeted section)
+                const target = btn.getAttribute('data-target');
+
+                faqSections.forEach(section => {
+                    if (section.id === target) {
+                        section.classList.remove('hidden');
+                        // Small timeout to allow the browser to process display removal before fading in
+                        setTimeout(() => section.style.opacity = '1', 10);
+                    } else {
+                        section.style.opacity = '0';
+                        section.classList.add('hidden');
+                    }
+                });
             });
         });
     </script>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Author Registration | Growwbooks</title>
+    <title>Author Registration | BooksToday</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="icon" type="image/jpeg" href="images/growwpark_logo.jpg">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -25,7 +25,7 @@
             padding: 0;
         }
 
-        /* === GROWWBOOKS THEME VARIABLES === */
+        /* === BooksToday THEME VARIABLES === */
         :root {
             --bg-color: #f8f8f9;
             --text-main: #000000;
@@ -110,6 +110,12 @@
             display: flex;
             flex-direction: column;
             gap: clamp(2px, 1vh, 6px);
+        }
+
+        .split-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: clamp(8px, 1.5vh, 14px);
         }
         
         .form-group label { font-size: 0.85rem; font-weight: 700; color: var(--text-main); margin: 0; }
@@ -200,21 +206,17 @@
 
         /* =========================================
            📱 ULTRA-COMPACT MOBILE OPTIMIZATIONS 
-           (For iPhone SE / 360px width or 1024x600 screens)
-           Ensures NO overflow on tight displays
            ========================================= */
         @media (max-width: 400px), (max-height: 750px) {
             .login-card { padding: 1rem 1.5rem !important; gap: 12px !important; width: 92%; }
             .auth-logo { margin-bottom: 0 !important; }
-            
-            /* Shrink logo but maintain exact HTML structure styling */
             .auth-logo a { font-size: 1.25rem !important; line-height: 1.2 !important; }
-            
             .auth-header h2 { font-size: 1.1rem !important; margin-bottom: 0 !important; }
-            .auth-header p { display: none !important; } /* Hide subtitle to save vertical space */
+            .auth-header p { display: none !important; } 
             
             form { gap: 10px !important; }
             .form-group { gap: 4px !important; }
+            .split-row { gap: 8px !important; }
             .form-group label { font-size: 0.75rem !important; margin: 0 !important; }
             
             .input-field { padding: 8px 12px 8px 36px !important; font-size: 0.85rem !important; border-radius: 6px !important; height: 38px !important; }
@@ -248,14 +250,13 @@
             .login-card { gap: 8px !important; padding: 12px 20px !important; }
             form { gap: 8px !important; }
             .form-group { gap: 2px !important; }
+            .split-row { gap: 6px !important; }
             .input-field { padding: 6px 10px 6px 32px !important; font-size: 0.8rem !important; height: 34px !important; }
             .input-icon { left: 10px !important; font-size: 0.8rem !important; }
             [dir="rtl"] .input-field { padding: 6px 32px 6px 10px !important; }
             [dir="rtl"] .input-icon { right: 10px !important; left: auto !important; }
             .auth-btn { height: 34px !important; }
             .social-btn { height: 34px !important; }
-            
-            /* Hide bottom controls to guarantee the registration form fits without scrolling */
             .bottom-controls { display: none !important; } 
         }
     </style>
@@ -266,13 +267,13 @@
 
         <div class="auth-logo">
             <a href="index.html" class="text-2xl font-black tracking-tighter" style="color: var(--text-main); text-decoration: none;">
-                Growwbooks
+                BooksToday
             </a>
         </div>
 
         <div class="auth-header">
             <h2>Create an Account</h2>
-            <p>Join Growwbooks and start your journey.</p>
+            <p>Join BooksToday and start your journey.</p>
         </div>
 
         <form id="register-form">
@@ -292,11 +293,21 @@
                 </div>
             </div>
 
-            <div class="form-group">
-                <label for="password">Password</label>
-                <div class="input-wrapper">
-                    <input type="password" id="password" class="input-field" placeholder="Create a strong password" required>
-                    <i class="fas fa-lock input-icon"></i>
+            <div class="split-row">
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="input-wrapper">
+                        <input type="password" id="password" class="input-field" placeholder="Password" required>
+                        <i class="fas fa-lock input-icon"></i>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="confirm-password">Confirm</label>
+                    <div class="input-wrapper">
+                        <input type="password" id="confirm-password" class="input-field" placeholder="Confirm" required>
+                        <i class="fas fa-lock input-icon"></i>
+                    </div>
                 </div>
             </div>
 
@@ -366,9 +377,18 @@
             rtlToggle.innerText = isRTL ? 'RTL MODE' : 'LTR MODE';
         };
 
-        // --- FORM SUBMISSION ---
+        // --- FORM SUBMISSION & PASSWORD MATCH LOGIC ---
         document.getElementById('register-form').addEventListener('submit', (e) => {
             e.preventDefault();
+            
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+            
+            if(password !== confirmPassword) {
+                alert('Passwords do not match. Please try again.');
+                return; // Stop form submission
+            }
+            
             // Redirects to user dashboard after successful registration
             window.location.href = 'user.html';
         });

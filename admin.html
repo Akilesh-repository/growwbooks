@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editor Dashboard | Growwbooks</title>
+    <title>Editor Dashboard | BooksToday</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="icon" type="image/jpeg" href="images/growwpark_logo.jpg">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -72,7 +72,7 @@
         }
 
         /* === CUSTOM LOGO STYLES === */
-        .growwbooks-logo {
+        .BooksToday-logo {
             font-size: 24px;   
             font-weight: 900;  
             text-transform: uppercase;
@@ -80,12 +80,6 @@
             color: var(--text-main);
             text-decoration: none;
             display: block;
-        }
-        .growwbooks-logo span {
-            background-color: var(--text-main);
-            color: var(--bg-color); 
-            padding: 2px 8px;
-            margin-right: 2px;
         }
 
         /* RTL SUPPORT */
@@ -151,6 +145,16 @@
             flex-grow: 1;
         }
 
+        /* SECTION TOGGLE ANIMATION */
+        .content-section {
+            transition: opacity 0.3s ease-in-out;
+            opacity: 1;
+        }
+        .content-section.hidden {
+            display: none;
+            opacity: 0;
+        }
+
         /* RESPONSIVE */
         @media (max-width: 1024px) {
             .sidebar { transform: translateX(-100%); }
@@ -179,6 +183,7 @@
 
         /* SIDEBAR NAVIGATION */
         .nav-item {
+            width: 100%;
             display: flex;
             align-items: center;
             padding: 14px 20px;
@@ -189,6 +194,10 @@
             border-radius: 8px; 
             margin-bottom: 4px;
             transition: all 0.2s;
+            cursor: pointer;
+            border: none;
+            background: transparent;
+            text-align: left;
         }
         
         .nav-item i { width: 24px; font-size: 1.1rem; text-align: center; margin-right: 14px; transition: transform 0.2s; }
@@ -219,7 +228,7 @@
         }
         .icon-btn:hover { background: var(--text-main); color: var(--bg-color); border-color: var(--text-main); }
 
-        /* HERO BANNER - ALWAYS DEEP EDITORIAL DARK */
+        /* HERO BANNER */
         .hero-banner {
             background-color: #09090b; 
             color: #ffffff; 
@@ -269,10 +278,6 @@
         .btn-outline-table { background: transparent; color: var(--text-main); border: 1px solid var(--border-color); }
         .btn-outline-table:hover { border-color: var(--text-main); background: var(--dash-bg); }
 
-        /* CHAT UI */
-        .chat-bubble { padding: 12px 16px; border-radius: 12px; font-size: 0.9rem; line-height: 1.5; max-width: 85%; }
-        .chat-editor { background: var(--dash-bg); color: var(--text-main); border-bottom-left-radius: 2px; }
-        .chat-author { background: var(--accent-color); color: white; border-bottom-right-radius: 2px; margin-left: auto; }
     </style>
 </head>
 <body>
@@ -282,30 +287,30 @@
     <aside class="sidebar" id="sidebar">
         <div class="mb-12 px-4">
             <a href="index.html" class="text-2xl font-black tracking-tighter block" style="color: var(--text-main); text-decoration: none;">
-                Growwbooks
+                BooksToday
             </a>
         </div>
         
         <nav class="flex-grow">
-            <p class="text-xs font-bold uppercase tracking-widest mb-3 px-4" style="color: var(--text-muted);">Editorial Desk</p>
-            <a href="admin.html" class="nav-item active"><i class="fas fa-columns"></i> Overview</a>
+            <p class="text-xs font-bold uppercase tracking-widest mb-3 px-4" style="color: var(--text-muted);">Main Menu</p>
             
-            <a href="#" class="nav-item">
+            <button class="nav-item active tab-btn" data-target="sec-overview"><i class="fas fa-columns"></i> Overview</button>
+            
+            <button class="nav-item tab-btn" data-target="sec-tasks">
                 <i class="fas fa-tasks"></i> Task Queue 
                 <span class="ml-auto bg-[var(--accent-color)] text-white text-[10px] px-2 py-0.5 rounded-full">4</span>
-            </a>
-            <a href="#" class="nav-item"><i class="fas fa-book"></i> Active Projects</a>
-            <a href="#" class="nav-item">
-                <i class="fas fa-inbox"></i> Client Messages 
+            </button>
+            
+            <button class="nav-item tab-btn" data-target="sec-projects"><i class="fas fa-book"></i> Active Projects</button>
+            
+            <button class="nav-item tab-btn" data-target="sec-messages">
+                <i class="fas fa-inbox"></i> Messages 
                 <span class="ml-auto bg-[var(--border-color)] text-[var(--text-main)] text-[10px] px-2 py-0.5 rounded-full font-bold">2</span>
-            </a>
+            </button>
+
+            <button class="nav-item tab-btn" data-target="sec-settings"><i class="fas fa-cog"></i> Settings</button>
             
-            <p class="text-xs font-bold uppercase tracking-widest mt-10 mb-3 px-4" style="color: var(--text-muted);">Management</p>
-            <a href="#" class="nav-item"><i class="fas fa-users"></i> Authors Directory</a>
-            <a href="#" class="nav-item"><i class="fas fa-file-invoice-dollar"></i> Invoices & Revenue</a>
-            <a href="#" class="nav-item"><i class="fas fa-cog"></i> Settings</a>
-            
-            <a href="login.html" class="nav-item mt-10 text-[var(--accent-color)] hover:bg-[var(--dash-bg)]">
+            <a href="login.html" class="nav-item mt-10 text-[var(--accent-color)] hover:bg-[var(--dash-bg)] !border-none" style="text-decoration: none;">
                 <i class="fas fa-sign-out-alt text-[var(--accent-color)]"></i> Log Out
             </a>
         </nav>
@@ -336,7 +341,7 @@
                 <div class="w-px h-8 mx-1 bg-[var(--border-color)]"></div>
                 
                 <div class="flex items-center gap-3 cursor-pointer bg-[var(--card-bg)] border border-[var(--border-color)] pl-2 pr-4 py-1.5 rounded-full hover:border-[var(--text-main)] transition-colors">
-                    <img src="images/pexels-girlvsglobe86-300284270-14805379.jpg" alt="Editor" class="w-8 h-8 rounded-full border border-[var(--border-color)] object-cover">
+                    <img src="images/pexels-girlvsglobe86-300284270-14805379.jpg" alt="Editor" class="w-8 h-8 rounded-full border border-[var(--border-color)] object-cover" onerror="this.src='https://ui-avatars.com/api/?name=Sarah+Jenkins&background=dc2626&color=fff'">
                     <div class="hidden md:block text-left">
                         <p class="text-sm font-bold text-[var(--text-main)] leading-tight">Sarah Jenkins</p>
                     </div>
@@ -345,269 +350,453 @@
             </div>
         </header>
 
-        <main class="content-area">
+        <main class="content-area relative">
             
-            <div class="hero-banner mb-8 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 p-8 md:p-12">
-                <div class="hero-banner-pattern"></div>
-                <div class="relative z-10">
-                    <span class="inline-block border border-[var(--accent-color)] text-[var(--accent-color)] text-xs font-bold uppercase tracking-widest px-3 py-1 rounded mb-4 bg-black/50">Editor Dashboard</span>
-                    <h1 class="text-3xl md:text-4xl font-black mb-2 tracking-tight text-white">Welcome back, Sarah.</h1>
-                    <p class="text-gray-300 text-base max-w-2xl font-medium">You have <strong class="text-white">4 pending tasks</strong> in your queue, and 2 unread messages from your authors.</p>
-                </div>
-                <div class="flex flex-col sm:flex-row gap-4 w-full lg:w-auto relative z-10">
-                    <button class="w-full sm:w-auto bg-transparent border-2 border-white/30 text-white hover:bg-white hover:text-black px-6 py-3 font-bold text-sm uppercase tracking-wide transition-all rounded-md">New Project</button>
-                    <button class="w-full sm:w-auto bg-[var(--accent-color)] hover:bg-[var(--accent-dark)] text-white border-2 border-[var(--accent-color)] hover:border-[var(--accent-dark)] px-6 py-3 font-bold text-sm uppercase tracking-wide shadow-lg transition-all flex items-center justify-center gap-2 rounded-md">
-                        <i class="fas fa-tasks"></i> Review Queue
-                    </button>
-                </div>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-8">
-                
-                <div class="dash-card p-6 flex flex-col justify-center">
-                    <div class="flex justify-between items-start mb-2">
-                        <p class="text-xs font-bold uppercase tracking-widest text-[var(--text-muted)]">Active Projects</p>
-                        <i class="fas fa-book-open text-[var(--text-muted)]"></i>
+            <section id="sec-overview" class="content-section">
+                <div class="hero-banner mb-8 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 p-8 md:p-12">
+                    <div class="hero-banner-pattern"></div>
+                    <div class="relative z-10">
+                        <span class="inline-block border border-[var(--accent-color)] text-[var(--accent-color)] text-xs font-bold uppercase tracking-widest px-3 py-1 rounded mb-4 bg-black/50">Editor Dashboard</span>
+                        <h1 class="text-3xl md:text-4xl font-black mb-2 tracking-tight text-white">Welcome back, Sarah.</h1>
+                        <p class="text-gray-300 text-base max-w-2xl font-medium">You have <strong class="text-white">4 pending tasks</strong> in your queue, and 2 unread messages from your authors.</p>
                     </div>
-                    <h3 class="text-3xl font-black text-[var(--text-main)] mt-1">12</h3>
-                    <div class="mt-3">
-                        <div class="progress-bg"><div class="progress-fill" style="width: 75%;"></div></div>
-                        <p class="text-xs text-[var(--text-muted)] mt-2 font-medium">3 approaching deadline</p>
+                    <div class="flex flex-col sm:flex-row gap-4 w-full lg:w-auto relative z-10">
+                        <button class="w-full sm:w-auto bg-transparent border-2 border-white/30 text-white hover:bg-white hover:text-black px-6 py-3 font-bold text-sm uppercase tracking-wide transition-all rounded-md">New Project</button>
+                        <button class="w-full sm:w-auto bg-[var(--accent-color)] hover:bg-[var(--accent-dark)] text-white border-2 border-[var(--accent-color)] hover:border-[var(--accent-dark)] px-6 py-3 font-bold text-sm uppercase tracking-wide shadow-lg transition-all flex items-center justify-center gap-2 rounded-md">
+                            <i class="fas fa-tasks"></i> Review Queue
+                        </button>
                     </div>
                 </div>
 
-                <div class="dash-card p-6 flex flex-col justify-center">
-                    <div class="flex justify-between items-start mb-2">
-                        <p class="text-xs font-bold uppercase tracking-widest text-[var(--text-muted)]">Words Pending</p>
-                        <i class="fas fa-hourglass-half text-[var(--text-muted)]"></i>
-                    </div>
-                    <h3 class="text-3xl font-black text-[var(--text-main)] mt-1">45,200</h3>
-                    <div class="mt-3">
-                        <div class="progress-bg"><div class="progress-fill" style="width: 40%; background-color: #f59e0b;"></div></div>
-                        <p class="text-xs text-[var(--text-muted)] mt-2 font-medium">In your immediate queue.</p>
-                    </div>
-                </div>
-
-                <div class="dash-card p-6 flex flex-col justify-center">
-                    <div class="flex justify-between items-start mb-2">
-                        <p class="text-xs font-bold uppercase tracking-widest text-[var(--text-muted)]">Completed (Month)</p>
-                        <i class="fas fa-check-double text-[var(--text-muted)]"></i>
-                    </div>
-                    <h3 class="text-3xl font-black text-[var(--text-main)] mt-1">320k</h3>
-                    <div class="mt-3">
-                        <div class="progress-bg"><div class="progress-fill" style="width: 90%; background-color: #10b981;"></div></div>
-                        <p class="text-xs text-[var(--text-muted)] mt-2 font-medium">+15% from last month.</p>
-                    </div>
-                </div>
-
-                <div class="dash-card p-6 flex flex-col justify-center">
-                    <div class="flex justify-between items-start mb-2">
-                        <p class="text-xs font-bold uppercase tracking-widest text-[var(--text-muted)]">Pending Revenue</p>
-                        <i class="fas fa-wallet text-[var(--text-muted)]"></i>
-                    </div>
-                    <h3 class="text-3xl font-black text-[var(--text-main)] mt-1">$4,250</h3>
-                    <div class="mt-3">
-                        <div class="progress-bg"><div class="progress-fill" style="width: 60%; background-color: var(--text-main);"></div></div>
-                        <p class="text-xs text-[var(--text-muted)] mt-2 font-medium">To be cleared upon delivery.</p>
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                
-                <div class="lg:col-span-2 flex flex-col min-w-0">
-                    
-                    <div class="flex justify-between items-center mb-6 px-1">
-                        <div>
-                            <h3 class="text-xl font-black text-[var(--text-main)] tracking-tight">Priority Task Queue</h3>
-                            <p class="text-sm font-medium text-[var(--text-muted)] mt-1">Your most urgent editorial actions and deadlines.</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-8">
+                    <div class="dash-card p-6 flex flex-col justify-center">
+                        <div class="flex justify-between items-start mb-2">
+                            <p class="text-xs font-bold uppercase tracking-widest text-[var(--text-muted)]">Active Projects</p>
+                            <i class="fas fa-book-open text-[var(--text-muted)]"></i>
                         </div>
-                        <button class="btn-sm btn-outline-table w-auto min-w-0 !px-4 bg-[var(--card-bg)] shadow-sm"><i class="fas fa-sort-amount-down mr-1"></i> Sort By</button>
+                        <h3 class="text-3xl font-black text-[var(--text-main)] mt-1">12</h3>
+                        <div class="mt-3">
+                            <div class="progress-bg"><div class="progress-fill" style="width: 75%;"></div></div>
+                            <p class="text-xs text-[var(--text-muted)] mt-2 font-medium">3 approaching deadline</p>
+                        </div>
                     </div>
-                    
-                    <div class="flex flex-col gap-4">
-                        
-                        <div class="bg-[var(--card-bg)] border-l-4 border-l-[var(--accent-color)] border-y border-r border-[var(--border-color)] rounded-xl p-5 flex flex-col md:flex-row md:items-center justify-between gap-5 shadow-sm hover:shadow-md transition-all">
-                            <div class="flex items-start gap-4 w-full md:w-5/12">
-                                <div class="w-12 h-12 rounded-lg bg-[rgba(220,38,38,0.1)] text-[var(--accent-color)] flex items-center justify-center flex-shrink-0 text-xl">
-                                    <i class="fas fa-pen-nib"></i>
-                                </div>
-                                <div>
-                                    <h4 class="font-bold text-[var(--text-main)] text-base leading-tight mb-1">Line Edit: Chapter 4</h4>
-                                    <p class="text-xs text-[var(--text-muted)] font-medium">The Midnight Paradox • J.K. Smith</p>
-                                    <span class="inline-block mt-2 text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider bg-[rgba(220,38,38,0.1)] text-[var(--accent-color)]">Due Today</span>
-                                </div>
-                            </div>
-                            
-                            <div class="w-full md:w-4/12 px-0 md:px-2">
-                                <div class="flex justify-between text-xs font-bold text-[var(--text-muted)] mb-1.5 uppercase tracking-wider">
-                                    <span>Progress</span>
-                                    <span>80%</span>
-                                </div>
-                                <div class="w-full bg-[var(--dash-bg)] rounded-full h-2">
-                                    <div class="bg-[var(--text-main)] h-2 rounded-full" style="width: 80%"></div>
-                                </div>
-                            </div>
-                            
-                            <div class="w-full md:w-3/12 flex justify-end">
-                                <button class="btn-sm btn-action w-full md:w-auto">Resume</button>
-                            </div>
+                    <div class="dash-card p-6 flex flex-col justify-center">
+                        <div class="flex justify-between items-start mb-2">
+                            <p class="text-xs font-bold uppercase tracking-widest text-[var(--text-muted)]">Words Pending</p>
+                            <i class="fas fa-hourglass-half text-[var(--text-muted)]"></i>
                         </div>
-
-                        <div class="bg-[var(--card-bg)] border border-[var(--border-color)] rounded-xl p-5 flex flex-col md:flex-row md:items-center justify-between gap-5 shadow-sm hover:shadow-md transition-all hover:border-[var(--text-main)]">
-                            <div class="flex items-start gap-4 w-full md:w-5/12">
-                                <div class="w-12 h-12 rounded-lg bg-[var(--dash-bg)] text-[var(--text-main)] flex items-center justify-center flex-shrink-0 text-xl">
-                                    <i class="fas fa-sitemap"></i>
-                                </div>
-                                <div>
-                                    <h4 class="font-bold text-[var(--text-main)] text-base leading-tight mb-1">Dev Edit: Act 1</h4>
-                                    <p class="text-xs text-[var(--text-muted)] font-medium">Echoes of the Past • Maria Gonzales</p>
-                                    <span class="inline-block mt-2 text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider bg-[var(--dash-bg)] text-[var(--text-muted)]">Due Nov 18</span>
-                                </div>
-                            </div>
-                            
-                            <div class="w-full md:w-4/12 px-0 md:px-2">
-                                <div class="flex justify-between text-xs font-bold text-[var(--text-muted)] mb-1.5 uppercase tracking-wider">
-                                    <span>Progress</span>
-                                    <span>25%</span>
-                                </div>
-                                <div class="w-full bg-[var(--dash-bg)] rounded-full h-2">
-                                    <div class="bg-[#3b82f6] h-2 rounded-full" style="width: 25%"></div>
-                                </div>
-                            </div>
-                            
-                            <div class="w-full md:w-3/12 flex justify-end">
-                                <button class="btn-sm btn-outline-table w-full md:w-auto">Continue</button>
-                            </div>
+                        <h3 class="text-3xl font-black text-[var(--text-main)] mt-1">45,200</h3>
+                        <div class="mt-3">
+                            <div class="progress-bg"><div class="progress-fill" style="width: 40%; background-color: #f59e0b;"></div></div>
+                            <p class="text-xs text-[var(--text-muted)] mt-2 font-medium">In your immediate queue.</p>
                         </div>
-
-                        <div class="bg-[var(--card-bg)] border border-[var(--border-color)] rounded-xl p-5 flex flex-col md:flex-row md:items-center justify-between gap-5 shadow-sm hover:shadow-md transition-all hover:border-[var(--text-main)]">
-                            <div class="flex items-start gap-4 w-full md:w-5/12">
-                                <div class="w-12 h-12 rounded-lg bg-[var(--dash-bg)] text-[var(--text-main)] flex items-center justify-center flex-shrink-0 text-xl">
-                                    <i class="fas fa-search-plus"></i>
-                                </div>
-                                <div>
-                                    <h4 class="font-bold text-[var(--text-main)] text-base leading-tight mb-1">Final Proofread Pass</h4>
-                                    <p class="text-xs text-[var(--text-muted)] font-medium">Corporate Warfare • David Chen</p>
-                                    <span class="inline-block mt-2 text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider bg-[var(--dash-bg)] text-[var(--text-muted)]">Due Nov 22</span>
-                                </div>
-                            </div>
-                            
-                            <div class="w-full md:w-4/12 px-0 md:px-2">
-                                <div class="flex justify-between text-xs font-bold text-[var(--text-muted)] mb-1.5 uppercase tracking-wider">
-                                    <span>Progress</span>
-                                    <span>0%</span>
-                                </div>
-                                <div class="w-full bg-[var(--dash-bg)] rounded-full h-2">
-                                    <div class="bg-[#f59e0b] h-2 rounded-full" style="width: 0%"></div>
-                                </div>
-                            </div>
-                            
-                            <div class="w-full md:w-3/12 flex justify-end">
-                                <button class="btn-sm btn-outline-table w-full md:w-auto">Start</button>
-                            </div>
+                    </div>
+                    <div class="dash-card p-6 flex flex-col justify-center">
+                        <div class="flex justify-between items-start mb-2">
+                            <p class="text-xs font-bold uppercase tracking-widest text-[var(--text-muted)]">Completed (Month)</p>
+                            <i class="fas fa-check-double text-[var(--text-muted)]"></i>
                         </div>
-
-                        <div class="bg-[var(--card-bg)] border border-[var(--border-color)] rounded-xl p-5 flex flex-col md:flex-row md:items-center justify-between gap-5 shadow-sm hover:shadow-md transition-all hover:border-[var(--text-main)] border-dashed">
-                            <div class="flex items-start gap-4 w-full md:w-5/12">
-                                <div class="w-12 h-12 rounded-lg bg-[var(--dash-bg)] text-[#10b981] flex items-center justify-center flex-shrink-0 text-xl">
-                                    <i class="fas fa-file-import"></i>
-                                </div>
-                                <div>
-                                    <h4 class="font-bold text-[var(--text-main)] text-base leading-tight mb-1">New Pitch Review</h4>
-                                    <p class="text-xs text-[var(--text-muted)] font-medium">The Last Queen • Eleanor Vance</p>
-                                    <span class="inline-block mt-2 text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider bg-[rgba(16,185,129,0.1)] text-[#10b981]">Needs Approval</span>
-                                </div>
-                            </div>
-                            
-                            <div class="w-full md:w-4/12 px-0 md:px-2">
-                                <p class="text-xs text-[var(--text-muted)] leading-relaxed italic line-clamp-2">"Epic fantasy involving deep political intrigue and dragons. Looking for full dev edit..."</p>
-                            </div>
-                            
-                            <div class="w-full md:w-3/12 flex justify-end">
-                                <button class="btn-sm btn-outline-table w-full md:w-auto">Evaluate</button>
-                            </div>
+                        <h3 class="text-3xl font-black text-[var(--text-main)] mt-1">320k</h3>
+                        <div class="mt-3">
+                            <div class="progress-bg"><div class="progress-fill" style="width: 90%; background-color: #10b981;"></div></div>
+                            <p class="text-xs text-[var(--text-muted)] mt-2 font-medium">+15% from last month.</p>
                         </div>
-
+                    </div>
+                    <div class="dash-card p-6 flex flex-col justify-center">
+                        <div class="flex justify-between items-start mb-2">
+                            <p class="text-xs font-bold uppercase tracking-widest text-[var(--text-muted)]">Pending Revenue</p>
+                            <i class="fas fa-wallet text-[var(--text-muted)]"></i>
+                        </div>
+                        <h3 class="text-3xl font-black text-[var(--text-main)] mt-1">$4,250</h3>
+                        <div class="mt-3">
+                            <div class="progress-bg"><div class="progress-fill" style="width: 60%; background-color: var(--text-main);"></div></div>
+                            <p class="text-xs text-[var(--text-muted)] mt-2 font-medium">To be cleared upon delivery.</p>
+                        </div>
                     </div>
                 </div>
 
-                <div class="flex flex-col gap-8">
-                    
-                    <div class="dash-card flex flex-col">
-                        <div class="p-6 border-b border-[var(--border-color)] flex justify-between items-center bg-[var(--dash-bg)] rounded-t-[15px]">
-                            <h3 class="font-bold text-[var(--text-main)] flex items-center gap-2">
-                                <i class="fas fa-inbox text-[var(--accent-color)]"></i> Urgent Messages
-                            </h3>
-                            <span class="bg-[var(--accent-color)] text-white text-[10px] px-2 py-0.5 rounded-full">2 New</span>
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div class="lg:col-span-2 flex flex-col min-w-0">
+                        <div class="flex justify-between items-center mb-6 px-1">
+                            <div>
+                                <h3 class="text-xl font-black text-[var(--text-main)] tracking-tight">Priority Task Queue</h3>
+                                <p class="text-sm font-medium text-[var(--text-muted)] mt-1">Your most urgent editorial actions and deadlines.</p>
+                            </div>
+                            <button class="btn-sm btn-outline-table w-auto min-w-0 !px-4 bg-[var(--card-bg)] shadow-sm"><i class="fas fa-sort-amount-down mr-1"></i> Sort By</button>
                         </div>
                         
-                        <div class="p-4 space-y-4">
-                            
-                            <div class="p-3 border border-[var(--accent-color)] rounded-lg bg-[rgba(220,38,38,0.03)] cursor-pointer hover:bg-[rgba(220,38,38,0.06)] transition-colors">
-                                <div class="flex justify-between items-start mb-1">
-                                    <p class="font-bold text-sm text-[var(--text-main)]">J.K. Smith</p>
-                                    <p class="text-[10px] text-[var(--accent-color)] font-bold">10:30 AM</p>
+                        <div class="flex flex-col gap-4">
+                            <div class="bg-[var(--card-bg)] border-l-4 border-l-[var(--accent-color)] border-y border-r border-[var(--border-color)] rounded-xl p-5 flex flex-col md:flex-row md:items-center justify-between gap-5 shadow-sm hover:shadow-md transition-all">
+                                <div class="flex items-start gap-4 w-full md:w-5/12">
+                                    <div class="w-12 h-12 rounded-lg bg-[rgba(220,38,38,0.1)] text-[var(--accent-color)] flex items-center justify-center flex-shrink-0 text-xl">
+                                        <i class="fas fa-pen-nib"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-[var(--text-main)] text-base leading-tight mb-1">Line Edit: Chapter 4</h4>
+                                        <p class="text-xs text-[var(--text-muted)] font-medium">The Midnight Paradox • J.K. Smith</p>
+                                        <span class="inline-block mt-2 text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider bg-[rgba(220,38,38,0.1)] text-[var(--accent-color)]">Due Today</span>
+                                    </div>
                                 </div>
-                                <p class="text-xs text-[var(--text-muted)] line-clamp-2">"I agree. I'll review your suggestions and rewrite that scene tonight. Thanks for catching that!"</p>
-                            </div>
-
-                            <div class="p-3 border border-[var(--accent-color)] rounded-lg bg-[rgba(220,38,38,0.03)] cursor-pointer hover:bg-[rgba(220,38,38,0.06)] transition-colors">
-                                <div class="flex justify-between items-start mb-1">
-                                    <p class="font-bold text-sm text-[var(--text-main)]">David Chen</p>
-                                    <p class="text-[10px] text-[var(--accent-color)] font-bold">Yesterday</p>
+                                <div class="w-full md:w-4/12 px-0 md:px-2">
+                                    <div class="flex justify-between text-xs font-bold text-[var(--text-muted)] mb-1.5 uppercase tracking-wider">
+                                        <span>Progress</span>
+                                        <span>80%</span>
+                                    </div>
+                                    <div class="w-full bg-[var(--dash-bg)] rounded-full h-2">
+                                        <div class="bg-[var(--text-main)] h-2 rounded-full" style="width: 80%"></div>
+                                    </div>
                                 </div>
-                                <p class="text-xs text-[var(--text-muted)] line-clamp-2">"Can we schedule a quick call to discuss the ending of chapter 12? I'm not sure about the pacing."</p>
-                            </div>
-
-                            <div class="p-3 border border-[var(--border-color)] rounded-lg bg-[var(--card-bg)] cursor-pointer hover:bg-[var(--dash-bg)] transition-colors">
-                                <div class="flex justify-between items-start mb-1">
-                                    <p class="font-bold text-sm text-[var(--text-main)]">Maria Gonzales</p>
-                                    <p class="text-[10px] text-[var(--text-muted)]">Monday</p>
+                                <div class="w-full md:w-3/12 flex justify-end">
+                                    <button class="btn-sm btn-action w-full md:w-auto">Resume</button>
                                 </div>
-                                <p class="text-xs text-[var(--text-muted)] line-clamp-2">"Here is the revised draft of the prologue. Let me know if this drops them into the action better."</p>
                             </div>
-
-                        </div>
-                        <div class="p-4 border-t border-[var(--border-color)] text-center">
-                            <a href="#" class="text-xs font-bold text-[var(--text-main)] hover:text-[var(--accent-color)] transition-colors uppercase tracking-widest">View All Messages</a>
                         </div>
                     </div>
-
-                    <div class="dash-card p-6">
-                        <h3 class="text-lg font-bold text-[var(--text-main)] mb-4 border-b border-[var(--border-color)] pb-3">Quick Actions</h3>
-                        
-                        <div class="space-y-3">
-                            <button class="w-full flex items-center gap-3 p-3 rounded-lg border border-[var(--border-color)] hover:border-[var(--accent-color)] hover:bg-[rgba(220,38,38,0.05)] transition-all text-left group">
-                                <div class="w-8 h-8 rounded bg-[var(--dash-bg)] group-hover:bg-[var(--accent-color)] flex items-center justify-center transition-colors">
-                                    <i class="fas fa-file-contract text-[var(--text-muted)] group-hover:text-white text-sm"></i>
+                    
+                    <div class="flex flex-col gap-8">
+                        <div class="dash-card flex flex-col">
+                            <div class="p-6 border-b border-[var(--border-color)] flex justify-between items-center bg-[var(--dash-bg)] rounded-t-[15px]">
+                                <h3 class="font-bold text-[var(--text-main)] flex items-center gap-2">
+                                    <i class="fas fa-inbox text-[var(--accent-color)]"></i> Urgent Messages
+                                </h3>
+                                <span class="bg-[var(--accent-color)] text-white text-[10px] px-2 py-0.5 rounded-full">2 New</span>
+                            </div>
+                            <div class="p-4 space-y-4">
+                                <div class="p-3 border border-[var(--accent-color)] rounded-lg bg-[rgba(220,38,38,0.03)] cursor-pointer hover:bg-[rgba(220,38,38,0.06)] transition-colors">
+                                    <div class="flex justify-between items-start mb-1">
+                                        <p class="font-bold text-sm text-[var(--text-main)]">J.K. Smith</p>
+                                        <p class="text-[10px] text-[var(--accent-color)] font-bold">10:30 AM</p>
+                                    </div>
+                                    <p class="text-xs text-[var(--text-muted)] line-clamp-2">"I agree. I'll review your suggestions and rewrite that scene tonight. Thanks for catching that!"</p>
                                 </div>
-                                <div>
-                                    <p class="text-sm font-bold text-[var(--text-main)]">Send New NDA</p>
-                                </div>
-                            </button>
-
-                            <button class="w-full flex items-center gap-3 p-3 rounded-lg border border-[var(--border-color)] hover:border-[var(--accent-color)] hover:bg-[rgba(220,38,38,0.05)] transition-all text-left group">
-                                <div class="w-8 h-8 rounded bg-[var(--dash-bg)] group-hover:bg-[var(--accent-color)] flex items-center justify-center transition-colors">
-                                    <i class="fas fa-file-invoice text-[var(--text-muted)] group-hover:text-white text-sm"></i>
-                                </div>
-                                <div>
-                                    <p class="text-sm font-bold text-[var(--text-main)]">Generate Invoice</p>
-                                </div>
-                            </button>
+                            </div>
+                            <div class="p-4 border-t border-[var(--border-color)] text-center">
+                                <button class="text-xs font-bold text-[var(--text-main)] hover:text-[var(--accent-color)] transition-colors uppercase tracking-widest tab-trigger" data-target="sec-messages">View All Messages</button>
+                            </div>
+                        </div>
+                        <div class="dash-card p-6">
+                            <h3 class="text-lg font-bold text-[var(--text-main)] mb-4 border-b border-[var(--border-color)] pb-3">Quick Actions</h3>
+                            <div class="space-y-3">
+                                <button class="w-full flex items-center gap-3 p-3 rounded-lg border border-[var(--border-color)] hover:border-[var(--accent-color)] hover:bg-[rgba(220,38,38,0.05)] transition-all text-left group">
+                                    <div class="w-8 h-8 rounded bg-[var(--dash-bg)] group-hover:bg-[var(--accent-color)] flex items-center justify-center transition-colors">
+                                        <i class="fas fa-file-contract text-[var(--text-muted)] group-hover:text-white text-sm"></i>
+                                    </div>
+                                    <div><p class="text-sm font-bold text-[var(--text-main)]">Send New NDA</p></div>
+                                </button>
+                            </div>
                         </div>
                     </div>
+                </div>
+            </section>
 
+            <section id="sec-tasks" class="content-section hidden">
+                <div class="flex justify-between items-center mb-8 border-b border-[var(--border-color)] pb-6">
+                    <div>
+                        <h2 class="text-3xl font-black text-[var(--text-main)] tracking-tight">Task Queue</h2>
+                        <p class="text-sm font-medium text-[var(--text-muted)] mt-1">Manage and execute your daily editorial assignments.</p>
+                    </div>
+                    <button class="btn-sm btn-action shadow-lg"><i class="fas fa-plus mr-2"></i> Add Task</button>
                 </div>
 
-            </div>
+                <div class="grid gap-4">
+                    <div class="bg-[var(--card-bg)] border-l-4 border-l-[var(--accent-color)] border-y border-r border-[var(--border-color)] rounded-xl p-5 flex flex-col md:flex-row md:items-center justify-between gap-5 shadow-sm hover:shadow-md transition-all">
+                        <div class="flex items-start gap-4 w-full md:w-5/12">
+                            <div class="w-12 h-12 rounded-lg bg-[rgba(220,38,38,0.1)] text-[var(--accent-color)] flex items-center justify-center flex-shrink-0 text-xl">
+                                <i class="fas fa-pen-nib"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-[var(--text-main)] text-base leading-tight mb-1">Line Edit: Chapter 4</h4>
+                                <p class="text-xs text-[var(--text-muted)] font-medium">The Midnight Paradox • J.K. Smith</p>
+                                <span class="inline-block mt-2 text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider bg-[rgba(220,38,38,0.1)] text-[var(--accent-color)]">Due Today</span>
+                            </div>
+                        </div>
+                        <div class="w-full md:w-4/12 px-0 md:px-2">
+                            <div class="flex justify-between text-xs font-bold text-[var(--text-muted)] mb-1.5 uppercase tracking-wider">
+                                <span>Progress</span>
+                                <span>80%</span>
+                            </div>
+                            <div class="w-full bg-[var(--dash-bg)] rounded-full h-2">
+                                <div class="bg-[var(--text-main)] h-2 rounded-full" style="width: 80%"></div>
+                            </div>
+                        </div>
+                        <div class="w-full md:w-3/12 flex justify-end">
+                            <button class="btn-sm btn-action w-full md:w-auto">Resume</button>
+                        </div>
+                    </div>
+                    <div class="bg-[var(--card-bg)] border border-[var(--border-color)] rounded-xl p-5 flex flex-col md:flex-row md:items-center justify-between gap-5 shadow-sm hover:shadow-md transition-all hover:border-[var(--text-main)]">
+                        <div class="flex items-start gap-4 w-full md:w-5/12">
+                            <div class="w-12 h-12 rounded-lg bg-[var(--dash-bg)] text-[var(--text-main)] flex items-center justify-center flex-shrink-0 text-xl">
+                                <i class="fas fa-sitemap"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-[var(--text-main)] text-base leading-tight mb-1">Dev Edit: Act 1</h4>
+                                <p class="text-xs text-[var(--text-muted)] font-medium">Echoes of the Past • Maria Gonzales</p>
+                                <span class="inline-block mt-2 text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider bg-[var(--dash-bg)] text-[var(--text-muted)]">Due Nov 18</span>
+                            </div>
+                        </div>
+                        <div class="w-full md:w-4/12 px-0 md:px-2">
+                            <div class="flex justify-between text-xs font-bold text-[var(--text-muted)] mb-1.5 uppercase tracking-wider">
+                                <span>Progress</span>
+                                <span>25%</span>
+                            </div>
+                            <div class="w-full bg-[var(--dash-bg)] rounded-full h-2">
+                                <div class="bg-[#3b82f6] h-2 rounded-full" style="width: 25%"></div>
+                            </div>
+                        </div>
+                        <div class="w-full md:w-3/12 flex justify-end">
+                            <button class="btn-sm btn-outline-table w-full md:w-auto">Continue</button>
+                        </div>
+                    </div>
+                    <div class="bg-[var(--card-bg)] border border-[var(--border-color)] rounded-xl p-5 flex flex-col md:flex-row md:items-center justify-between gap-5 shadow-sm hover:shadow-md transition-all hover:border-[var(--text-main)]">
+                        <div class="flex items-start gap-4 w-full md:w-5/12">
+                            <div class="w-12 h-12 rounded-lg bg-[var(--dash-bg)] text-[var(--text-main)] flex items-center justify-center flex-shrink-0 text-xl">
+                                <i class="fas fa-search-plus"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-[var(--text-main)] text-base leading-tight mb-1">Final Proofread Pass</h4>
+                                <p class="text-xs text-[var(--text-muted)] font-medium">Corporate Warfare • David Chen</p>
+                                <span class="inline-block mt-2 text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider bg-[var(--dash-bg)] text-[var(--text-muted)]">Due Nov 22</span>
+                            </div>
+                        </div>
+                        <div class="w-full md:w-4/12 px-0 md:px-2">
+                            <div class="flex justify-between text-xs font-bold text-[var(--text-muted)] mb-1.5 uppercase tracking-wider">
+                                <span>Progress</span>
+                                <span>0%</span>
+                            </div>
+                            <div class="w-full bg-[var(--dash-bg)] rounded-full h-2">
+                                <div class="bg-[#f59e0b] h-2 rounded-full" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        <div class="w-full md:w-3/12 flex justify-end">
+                            <button class="btn-sm btn-outline-table w-full md:w-auto">Start</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="sec-projects" class="content-section hidden">
+                <div class="flex justify-between items-center mb-8 border-b border-[var(--border-color)] pb-6">
+                    <div>
+                        <h2 class="text-3xl font-black text-[var(--text-main)] tracking-tight">Active Projects</h2>
+                        <p class="text-sm font-medium text-[var(--text-muted)] mt-1">Manuscripts currently undergoing editorial review.</p>
+                    </div>
+                    <div class="flex gap-2">
+                        <button class="icon-btn" title="Grid View"><i class="fas fa-th"></i></button>
+                        <button class="icon-btn" title="List View"><i class="fas fa-list"></i></button>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="dash-card flex flex-col p-6 cursor-pointer">
+                        <div class="flex justify-between items-start mb-4">
+                            <span class="px-3 py-1 bg-[rgba(220,38,38,0.1)] text-[var(--accent-color)] text-xs font-bold rounded uppercase tracking-wide">Line Edit</span>
+                            <i class="fas fa-ellipsis-v text-[var(--text-muted)] hover:text-[var(--text-main)]"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-[var(--text-main)] leading-tight mb-1">The Midnight Paradox</h3>
+                        <p class="text-sm text-[var(--text-muted)] font-medium mb-6">J.K. Smith</p>
+                        
+                        <div class="mt-auto">
+                            <div class="flex justify-between text-xs font-bold text-[var(--text-muted)] mb-2 uppercase tracking-wide">
+                                <span>Word Count: 85K</span>
+                                <span>80%</span>
+                            </div>
+                            <div class="w-full bg-[var(--dash-bg)] rounded-full h-2 mb-4">
+                                <div class="bg-[var(--text-main)] h-2 rounded-full" style="width: 80%"></div>
+                            </div>
+                            <button class="w-full btn-sm btn-outline-table">View Details</button>
+                        </div>
+                    </div>
+
+                    <div class="dash-card flex flex-col p-6 cursor-pointer">
+                        <div class="flex justify-between items-start mb-4">
+                            <span class="px-3 py-1 bg-[var(--dash-bg)] text-[var(--text-main)] text-xs font-bold rounded uppercase tracking-wide">Dev Edit</span>
+                            <i class="fas fa-ellipsis-v text-[var(--text-muted)] hover:text-[var(--text-main)]"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-[var(--text-main)] leading-tight mb-1">Echoes of the Past</h3>
+                        <p class="text-sm text-[var(--text-muted)] font-medium mb-6">Maria Gonzales</p>
+                        
+                        <div class="mt-auto">
+                            <div class="flex justify-between text-xs font-bold text-[var(--text-muted)] mb-2 uppercase tracking-wide">
+                                <span>Word Count: 120K</span>
+                                <span>25%</span>
+                            </div>
+                            <div class="w-full bg-[var(--dash-bg)] rounded-full h-2 mb-4">
+                                <div class="bg-[#3b82f6] h-2 rounded-full" style="width: 25%"></div>
+                            </div>
+                            <button class="w-full btn-sm btn-outline-table">View Details</button>
+                        </div>
+                    </div>
+
+                    <div class="dash-card flex flex-col p-6 cursor-pointer border-dashed border-2 hover:border-[var(--accent-color)] hover:bg-[var(--card-hover)] justify-center items-center opacity-70">
+                        <div class="w-16 h-16 rounded-full bg-[var(--dash-bg)] text-[var(--text-muted)] flex items-center justify-center text-2xl mb-4">
+                            <i class="fas fa-plus"></i>
+                        </div>
+                        <p class="font-bold text-[var(--text-main)]">Add New Project</p>
+                        <p class="text-xs text-[var(--text-muted)] mt-1">Import from Client Portal</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="sec-messages" class="content-section hidden h-full">
+                <div class="flex justify-between items-center mb-6 border-b border-[var(--border-color)] pb-6">
+                    <div>
+                        <h2 class="text-3xl font-black text-[var(--text-main)] tracking-tight">Messages</h2>
+                        <p class="text-sm font-medium text-[var(--text-muted)] mt-1">Communicate directly with your authors.</p>
+                    </div>
+                </div>
+
+                <div class="flex flex-col lg:flex-row h-[600px] dash-card overflow-hidden">
+                    <div class="w-full lg:w-1/3 border-r border-[var(--border-color)] flex flex-col bg-[var(--card-bg)]">
+                        <div class="p-4 border-b border-[var(--border-color)]">
+                            <div class="flex items-center rounded-lg px-3 py-2 bg-[var(--dash-bg)]">
+                                <i class="fas fa-search text-[var(--text-muted)] mr-2 text-sm"></i>
+                                <input type="text" placeholder="Search chats..." class="bg-transparent border-none outline-none w-full text-sm">
+                            </div>
+                        </div>
+                        <div class="flex-grow overflow-y-auto p-2">
+                            <div class="p-3 mb-1 border-l-4 border-l-[var(--accent-color)] bg-[rgba(220,38,38,0.05)] rounded flex items-center gap-3 cursor-pointer">
+                                <div class="w-10 h-10 rounded-full bg-[var(--text-main)] text-[var(--card-bg)] flex items-center justify-center font-bold text-sm">JK</div>
+                                <div class="flex-grow min-w-0">
+                                    <div class="flex justify-between items-baseline mb-0.5">
+                                        <h4 class="font-bold text-[var(--text-main)] text-sm truncate">J.K. Smith</h4>
+                                        <span class="text-[10px] font-bold text-[var(--accent-color)]">10:30 AM</span>
+                                    </div>
+                                    <p class="text-xs text-[var(--text-muted)] truncate">I agree. I'll review your sug...</p>
+                                </div>
+                            </div>
+                            <div class="p-3 mb-1 border-l-4 border-transparent hover:bg-[var(--dash-bg)] rounded flex items-center gap-3 cursor-pointer transition-colors">
+                                <div class="w-10 h-10 rounded-full bg-gray-500 text-white flex items-center justify-center font-bold text-sm">DC</div>
+                                <div class="flex-grow min-w-0">
+                                    <div class="flex justify-between items-baseline mb-0.5">
+                                        <h4 class="font-bold text-[var(--text-main)] text-sm truncate">David Chen</h4>
+                                        <span class="text-[10px] text-[var(--text-muted)]">Yesterday</span>
+                                    </div>
+                                    <p class="text-xs text-[var(--text-muted)] truncate">Can we schedule a quick call...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="w-full lg:w-2/3 flex flex-col bg-[var(--card-bg)]">
+                        <div class="p-4 border-b border-[var(--border-color)] flex justify-between items-center">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-full bg-[var(--text-main)] text-[var(--card-bg)] flex items-center justify-center font-bold">JK</div>
+                                <div>
+                                    <h3 class="font-bold text-[var(--text-main)] leading-tight">J.K. Smith</h3>
+                                    <p class="text-xs text-[var(--text-muted)]">The Midnight Paradox • Line Edit</p>
+                                </div>
+                            </div>
+                            <button class="icon-btn border-none hover:bg-[var(--dash-bg)] hover:text-[var(--text-main)]"><i class="fas fa-ellipsis-v"></i></button>
+                        </div>
+                        
+                        <div class="flex-grow p-6 overflow-y-auto flex flex-col gap-4 bg-[var(--card-hover)]">
+                            <div class="text-center"><span class="text-[10px] font-bold text-[var(--text-muted)] uppercase tracking-widest bg-[var(--dash-bg)] px-3 py-1 rounded-full">Today</span></div>
+                            
+                            <div class="flex flex-col items-end">
+                                <div class="chat-bubble chat-author shadow-sm">
+                                    Hi J.K., I've just uploaded the revisions for Chapter 4. Pay close attention to the pacing in the final scene; I think it needs to be slightly faster.
+                                </div>
+                                <span class="text-[10px] text-[var(--text-muted)] mt-1 mr-1">09:15 AM</span>
+                            </div>
+                            
+                            <div class="flex flex-col items-start">
+                                <div class="chat-bubble chat-editor shadow-sm border border-[var(--border-color)]">
+                                    I agree. I'll review your suggestions and rewrite that scene tonight. Thanks for catching that!
+                                </div>
+                                <span class="text-[10px] text-[var(--text-muted)] mt-1 ml-1">10:30 AM</span>
+                            </div>
+                        </div>
+
+                        <div class="p-4 border-t border-[var(--border-color)] bg-[var(--card-bg)]">
+                            <div class="flex items-center gap-3">
+                                <button class="text-[var(--text-muted)] hover:text-[var(--accent-color)] transition-colors p-2"><i class="fas fa-paperclip"></i></button>
+                                <input type="text" placeholder="Type your message..." class="flex-grow bg-[var(--dash-bg)] border border-[var(--border-color)] rounded-full px-4 py-2 text-sm outline-none focus:border-[var(--accent-color)]">
+                                <button class="w-10 h-10 rounded-full bg-[var(--accent-color)] text-white flex items-center justify-center hover:bg-[var(--accent-dark)] transition-colors shadow-md shadow-red-900/20"><i class="fas fa-paper-plane"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="sec-settings" class="content-section hidden">
+                <div class="flex justify-between items-center mb-8 border-b border-[var(--border-color)] pb-6">
+                    <div>
+                        <h2 class="text-3xl font-black text-[var(--text-main)] tracking-tight">Settings</h2>
+                        <p class="text-sm font-medium text-[var(--text-muted)] mt-1">Manage your editor profile and system preferences.</p>
+                    </div>
+                    <button class="btn-sm btn-action shadow-lg">Save Changes</button>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div class="lg:col-span-1">
+                        <div class="dash-card p-6 flex flex-col items-center text-center">
+                            <div class="relative mb-4 group cursor-pointer">
+                                <img src="images/pexels-girlvsglobe86-300284270-14805379.jpg" alt="Profile" class="w-32 h-32 rounded-full border-4 border-[var(--dash-bg)] object-cover shadow-lg" onerror="this.src='https://ui-avatars.com/api/?name=Sarah+Jenkins&size=128&background=dc2626&color=fff'">
+                                <div class="absolute inset-0 bg-black/50 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <i class="fas fa-camera text-white text-xl"></i>
+                                </div>
+                            </div>
+                            <h3 class="text-xl font-bold text-[var(--text-main)]">Sarah Jenkins</h3>
+                            <p class="text-sm text-[var(--text-muted)] mb-4">Senior Developmental Editor</p>
+                            <span class="px-3 py-1 bg-[rgba(16,185,129,0.1)] text-[#10b981] text-xs font-bold rounded-full uppercase tracking-wide">Available for Work</span>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-2 space-y-6">
+                        <div class="dash-card p-6">
+                            <h4 class="text-lg font-bold text-[var(--text-main)] mb-4 border-b border-[var(--border-color)] pb-2">Profile Information</h4>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                                <div>
+                                    <label class="block text-xs font-bold text-[var(--text-muted)] uppercase tracking-wide mb-2">First Name</label>
+                                    <input type="text" value="Sarah" class="w-full bg-[var(--dash-bg)] border border-[var(--border-color)] text-[var(--text-main)] rounded-lg px-4 py-2.5 outline-none focus:border-[var(--accent-color)] text-sm font-medium">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-[var(--text-muted)] uppercase tracking-wide mb-2">Last Name</label>
+                                    <input type="text" value="Jenkins" class="w-full bg-[var(--dash-bg)] border border-[var(--border-color)] text-[var(--text-main)] rounded-lg px-4 py-2.5 outline-none focus:border-[var(--accent-color)] text-sm font-medium">
+                                </div>
+                                <div class="md:col-span-2">
+                                    <label class="block text-xs font-bold text-[var(--text-muted)] uppercase tracking-wide mb-2">Email Address</label>
+                                    <input type="email" value="sarah.j@bookstoday.com" class="w-full bg-[var(--dash-bg)] border border-[var(--border-color)] text-[var(--text-main)] rounded-lg px-4 py-2.5 outline-none focus:border-[var(--accent-color)] text-sm font-medium">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="dash-card p-6">
+                            <h4 class="text-lg font-bold text-[var(--text-main)] mb-4 border-b border-[var(--border-color)] pb-2">Notifications</h4>
+                            <div class="space-y-4">
+                                <label class="flex items-center justify-between cursor-pointer">
+                                    <div>
+                                        <p class="font-bold text-[var(--text-main)] text-sm">New Message Alerts</p>
+                                        <p class="text-xs text-[var(--text-muted)] mt-0.5">Receive email when a client sends a message.</p>
+                                    </div>
+                                    <div class="relative">
+                                        <input type="checkbox" class="sr-only" checked>
+                                        <div class="w-10 h-6 bg-[var(--accent-color)] rounded-full shadow-inner"></div>
+                                        <div class="absolute w-4 h-4 bg-white rounded-full shadow right-1 top-1 transition"></div>
+                                    </div>
+                                </label>
+                                <label class="flex items-center justify-between cursor-pointer">
+                                    <div>
+                                        <p class="font-bold text-[var(--text-main)] text-sm">Project Deadlines</p>
+                                        <p class="text-xs text-[var(--text-muted)] mt-0.5">Receive warnings 48 hours before due date.</p>
+                                    </div>
+                                    <div class="relative">
+                                        <input type="checkbox" class="sr-only" checked>
+                                        <div class="w-10 h-6 bg-[var(--accent-color)] rounded-full shadow-inner"></div>
+                                        <div class="absolute w-4 h-4 bg-white rounded-full shadow right-1 top-1 transition"></div>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
         </main>
     </div>
 
     <script>
-        // Sidebar Toggle Logic
+        // Sidebar Mobile Toggle
         const sidebar = document.getElementById('sidebar');
         const sidebarOverlay = document.getElementById('sidebar-overlay');
         const toggleBtn = document.getElementById('sidebar-toggle');
@@ -616,9 +805,64 @@
             sidebar.classList.toggle('active');
             sidebarOverlay.classList.toggle('active');
         }
+        if(toggleBtn) toggleBtn.addEventListener('click', toggleSidebar);
+        if(sidebarOverlay) sidebarOverlay.addEventListener('click', toggleSidebar);
 
-        toggleBtn.addEventListener('click', toggleSidebar);
-        sidebarOverlay.addEventListener('click', toggleSidebar);
+        // --- SINGLE PAGE APP TABS LOGIC ---
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const contentSections = document.querySelectorAll('.content-section');
+        
+        // Extra feature: Allow quick links to trigger tabs (like "View All Messages")
+        const tabTriggers = document.querySelectorAll('.tab-trigger');
+
+        function switchTab(targetId) {
+            // Update active state on sidebar nav items
+            tabBtns.forEach(btn => {
+                if(btn.getAttribute('data-target') === targetId) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+
+            // Show/Hide Sections
+            contentSections.forEach(section => {
+                if (section.id === targetId) {
+                    section.classList.remove('hidden');
+                    // Tiny timeout to allow display:block to apply before animating opacity
+                    setTimeout(() => { section.style.opacity = '1'; }, 10);
+                } else {
+                    section.style.opacity = '0';
+                    section.classList.add('hidden');
+                }
+            });
+
+            // Close sidebar on mobile after clicking
+            if (window.innerWidth <= 1024 && sidebar.classList.contains('active')) {
+                toggleSidebar();
+            }
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Attach click events to the 5 sidebar tabs
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const target = btn.getAttribute('data-target');
+                switchTab(target);
+            });
+        });
+
+        // Attach click events to any in-page quick links
+        tabTriggers.forEach(trigger => {
+            trigger.addEventListener('click', (e) => {
+                e.preventDefault();
+                const target = trigger.getAttribute('data-target');
+                switchTab(target);
+            });
+        });
+
 
         // Theme Toggle
         const themeBtn = document.getElementById('theme-toggle');
